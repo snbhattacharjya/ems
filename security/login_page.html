@@ -1,0 +1,144 @@
+<script type="text/javascript">
+function SecureLogin(UserID, Password)
+{
+	$.ajax({
+		mimeType: 'text/html; charset=utf-8', // ! Need set mimeType only when run from local file
+		url: 'security/login_secure.php',
+		type: 'POST',
+		data: {
+			UserID: UserID,
+			Password: Password
+		},
+		success: function(data) {
+			var retObj = JSON.parse(JSON.stringify(data));
+			if(retObj.Status=='Success')
+			{
+				
+				$('#page-login').hide('fold',4000);
+				loadUserProfile(retObj.UserID);
+					
+				//alert(retObj.Session);
+			}
+			else
+				alert(retObj.Status);
+		},
+		error: function (jqXHR, textStatus, errorThrown) {
+			//alert(errorThrown);
+			alert("Secure Login Error");
+		},
+		dataType: "json",
+		async: false
+	});
+}
+
+function loadUserProfile(UserID)
+{
+	$.ajax({
+		mimeType: 'text/html; charset=utf-8', // ! Need set mimeType only when run from local file
+		url: 'json/user_details.php',
+		type: 'POST',
+		data: {
+			UserID: UserID,
+		},
+		success: function(data) {
+			var retObj = JSON.parse(JSON.stringify(data));
+			$('#UserType').html('Welcome, ' + retObj.UserType);
+			loadUserTypeMenu(retObj.Menu);
+			loadUserTypeDashBoard(retObj.DashBoard);
+		},
+		error: function (jqXHR, textStatus, errorThrown) {
+			alert(errorThrown);
+		},
+		dataType: "json",
+		async: false
+	});
+}
+
+function loadUserTypeMenu(Menu)
+{
+	$.ajax({
+		mimeType: 'text/html; charset=utf-8', // ! Need set mimeType only when run from local file
+		url: Menu,
+		type: 'POST',
+		success: function(data) {
+			$('#sidebar-left').html(data);
+		},
+		error: function (jqXHR, textStatus, errorThrown) {
+			alert(errorThrown);
+		},
+		dataType: "html",
+		async: false
+	});
+}
+
+function loadUserTypeDashBoard(DashBoard)
+{
+	$.ajax({
+		mimeType: 'text/html; charset=utf-8', // ! Need set mimeType only when run from local file
+		url: DashBoard,
+		type: 'POST',
+		success: function(data) {
+			$('#ajax-content').html(data);
+		},
+		error: function (jqXHR, textStatus, errorThrown) {
+			alert(errorThrown);
+		},
+		dataType: "html",
+		async: false
+	});
+}
+$('document').ready(function(){
+$('#login').on('click', function(e){
+		e.preventDefault();
+		//$('#content').removeClass('full-content');
+		//ajax_url='ajax/page_404.html';
+		var UserID=$('#userid').val();
+		var Password=$('#password').val();
+		if(UserID=='')
+		{
+			alert('UserID Cannot be Blank!');
+			return false;
+		}
+		if(Password=='')
+		{
+			alert('Password Cannot be Blank!');
+			return false;
+		}
+		
+		SecureLogin(UserID, Password);
+	});
+});
+</script>
+<div class="row">
+	<div id="breadcrumb" class="col-xs-12">
+		<ol class="breadcrumb">
+			<li><a href="index.html">Home</a></li>
+			<li><a href="#">Login</a></li>
+		</ol>
+	</div>
+</div>
+<div class="container-fluid">
+	<div id="page-login" class="row">
+		<div class="col-xs-12 col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3">
+			<div class="box">
+				<div class="box-content">
+					<div class="text-center">
+						<h3 class="page-header">EMS Login Page</h3>
+					</div>
+					<div class="form-group">
+						<label class="control-label">User ID</label>
+						<input type="text" class="form-control" name="userid" id="userid"/>
+					</div>
+					<div class="form-group">
+						<label class="control-label">Password</label>
+						<input type="password" class="form-control" name="password" id="password"/>
+					</div>
+					<div class="text-center">
+						<button type="button" class="btn btn-primary" id="login">Sign in
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
