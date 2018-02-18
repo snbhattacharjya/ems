@@ -14,9 +14,9 @@ header("Content-Type: application/json; charset=UTF-8");
 require("../config/config.php");
 
 $subdivision_details_query="SELECT subdivisioncd AS SubdivCode, subdivision AS SubdivName FROM subdivision WHERE subdivisioncd NOT IN ('9999','$subdiv') ORDER BY subdivisioncd";
-$subdivision_details_result=mysql_query($subdivision_details_query,$DBLink) or die(mysql_error());
+$subdivision_details_result=mysqli_query($DBLink,$subdivision_details_query) or die(mysqli_error());
 $return=array();
-while($row=mysql_fetch_assoc($subdivision_details_result))
+while($row=mysqli_fetch_assoc($subdivision_details_result))
 {
 	$return[]=$row;
 }	

@@ -5,9 +5,9 @@ header("Content-Type: application/json; charset=UTF-8");
 require("../config/config.php");
 
 $qualification_query="SELECT qualificationcd AS QualificationCode, qualification AS QualificationName FROM qualification ORDER BY qualificationcd";
-$qualification_result=mysql_query($qualification_query,$DBLink) or die(mysql_error());
+$qualification_result=mysqli_query($DBLink,$qualification_query) or die(mysqli_error());
 $return=array();
-while($row=mysql_fetch_assoc($qualification_result))
+while($row=mysqli_fetch_assoc($qualification_result))
 {
 	$return[]=$row;
 }

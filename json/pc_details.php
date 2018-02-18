@@ -8,9 +8,9 @@ require("../config/config.php");
 $pc_details_query="SELECT DISTINCT(assembly.pccd), pc.pcname FROM assembly INNER JOIN pc ON assembly.pccd=pc.pccd WHERE assembly.subdivisioncd='$subdiv'";
 
 
-$pc_details_result=mysql_query($pc_details_query,$DBLink) or die(mysql_error());
+$pc_details_result=mysqli_query($DBLink,$pc_details_query) or die(mysqli_error());
 $return=array();
-while($row=mysql_fetch_assoc($pc_details_result))
+while($row=mysqli_fetch_assoc($pc_details_result))
 {
 	$return[]=$row;
 }	

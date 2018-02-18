@@ -6,9 +6,9 @@ $UserID=$_SESSION['UserID'];
 
 $user_details_query="SELECT UserName,Designation FROM USERS WHERE UserID='$UserID'";
 
-$user_details_result=mysql_query($user_details_query,$DBLink) or die(mysql_error());
+$user_details_result=mysqli_query($DBLink,$user_details_query) or die(mysqli_error());
 
-$return=mysql_fetch_assoc($user_details_result);
+$return=mysqli_fetch_assoc($user_details_result);
 
 $username=$return["UserName"];
 $desg=$return['Designation'];

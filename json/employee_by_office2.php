@@ -14,9 +14,9 @@ require("../config/config.php");
 
 $emp_office_query="SELECT personcd AS PersonCode, officer_name AS OfficerName, off_desg AS Desg FROM personnel WHERE officecd='$office' ORDER BY personcd";
 
-$emp_office_result=mysql_query($emp_office_query,$DBLink) or die(mysql_error());
+$emp_office_result=mysqli_query($DBLink,$emp_office_query) or die(mysqli_error());
 $return=array();
-while($row=mysql_fetch_assoc($emp_office_result))
+while($row=mysqli_fetch_assoc($emp_office_result))
 {
 	$return[]=$row;
 }	

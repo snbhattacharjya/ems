@@ -8,9 +8,9 @@ require("../config/config.php");
 
 $language_details_query="SELECT language_cd AS LanguageCode, language AS Language FROM language ORDER BY language_cd";
 
-$language_details_result=mysql_query($language_details_query,$DBLink) or die(mysql_error());
+$language_details_result=mysqli_query($DBLink,$language_details_query) or die(mysqli_error());
 $return=array();
-while($row=mysql_fetch_assoc($language_details_result))
+while($row=mysqli_fetch_assoc($language_details_result))
 {
 	$return[]=$row;
 }	

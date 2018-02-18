@@ -7,9 +7,9 @@ header("Content-Type: application/json; charset=UTF-8");
 require("../config/config.php");
 $PPCategory_details_query="SELECT id, parameter, query FROM categorizationpp ORDER BY id";
 
-$ppcategory_details_result=mysql_query($PPCategory_details_query,$DBLink) or die(mysql_error());
+$ppcategory_details_result=mysqli_query($DBLink,$PPCategory_details_query) or die(mysqli_error());
 $return=array();
-while($row=mysql_fetch_assoc($ppcategory_details_result))
+while($row=mysqli_fetch_assoc($ppcategory_details_result))
 {
 	$return[]=$row;
 }	

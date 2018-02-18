@@ -6,9 +6,9 @@ require("../config/config.php");
 
 $statusofoffice_details_query="SELECT govt AS CategoryCode, govt_description AS Category FROM govtcategory ORDER BY govt";
 
-$statusofoffice_details_result=mysql_query($statusofoffice_details_query,$DBLink) or die(mysql_error());
+$statusofoffice_details_result=mysqli_query($DBLink,$statusofoffice_details_query) or die(mysqli_error());
 $return=array();
-while($row=mysql_fetch_assoc($statusofoffice_details_result))
+while($row=mysqli_fetch_assoc($statusofoffice_details_result))
 {
 	$return[]=$row;
 }	

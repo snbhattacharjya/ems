@@ -5,9 +5,9 @@ header("Content-Type: application/json; charset=UTF-8");
 require("../config/config.php");
 $PPStat_details_query="SELECT post_stat,poststatus FROM poststat";
 
-$ppstat_details_result=mysql_query($PPStat_details_query,$DBLink) or die(mysql_error());
+$ppstat_details_result=mysqli_query($DBLink,$PPStat_details_query) or die(mysqli_error());
 $return=array();
-while($row=mysql_fetch_assoc($ppstat_details_result))
+while($row=mysqli_fetch_assoc($ppstat_details_result))
 {
 	$return[]=$row;
 }	

@@ -6,9 +6,9 @@ require("../config/config.php");
 
 $Nature_details_query="SELECT institutecd AS NatureCode, institute AS Nature FROM institute ORDER BY institutecd";
 
-$nature_details_result=mysql_query($Nature_details_query,$DBLink) or die(mysql_error());
+$nature_details_result=mysqli_query($DBLink,$Nature_details_query) or die(mysqli_error());
 $return=array();
-while($row=mysql_fetch_assoc($nature_details_result))
+while($row=mysqli_fetch_assoc($nature_details_result))
 {
 	$return[]=$row;
 }	
