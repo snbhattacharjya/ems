@@ -10,167 +10,7 @@ $district_details_query="SELECT dist_cd, distnm_cap FROM environment";
 $district_details_result=mysql_query($district_details_query,$DBLink) or die(mysql_error());
 $result=mysql_fetch_assoc($district_details_result);
 ?>
-<script src="js/OfficeSDO.js"></script>
-<script>
 
-$(document).ready(function(){
-	LoadOfficeDetailsSDOForm();
-				$('#pc_dtls').change(function(e) {
-            		LoadAssemblyDetailsBypc('Assembly_dtls',$('#pc_dtls').val());
-        });
-	$('.content').slideDown('slow');
-	
-	$('#District').select2();
-/*
-	LoadSubdivisionDetails('subdiv');
-	if(checkSubdivSession()=='FALSE')
-	{
-		$('#box_container').hide();
-		showSubdivModal();
-	}
-	
-	
-	//$('#District').prop('disabled', true);
-	$('#office_subdiv').html(getSubdivNamefromSession());
-	$('#District').select2();
-	LoadPoliceStationBySubdiv('PoliceStation');
-	LoadBlockMuniBySubdiv('Municipality');
-	
-	LoadGovtCattegoryDetails('StatusOfOffice');
-	LoadNatureDetails('NatureOfOffice');
-*/
-
-	$('.emp').change(function(e) {
-			var TotalMaleStaffs= $('#TotalMaleStaffs').val();
-			var TotalFemaleStaffs= $('#TotalFemaleStaffs').val();
-        $('#TotalNumberofStaffs').val(+TotalMaleStaffs + +TotalFemaleStaffs);
-    });
-	
-	//$('.content').slideDown('slow');
-	//$('#District').prop('disabled', true);
-	
-		$('#confirm').attr('data-toggle', 'modal');
-		$('#confirm').attr('data-target', '#pageModal');
-
-	$("#confirm").click(function(){
-		
-		if(validateForm('add_office_form'))
-		{
-			$('#pageModal').removeClass('modal-danger').removeClass('modal-success').addClass('modal-warning');
-			$('#warning_msg').show();
-			$('#error_msg').hide();
-			$('#success_msg').hide();
-			$('.modal-footer').show();
-		}
-		else
-		{
-			$('#pageModal').removeClass('modal-warning').removeClass('modal-success').addClass('modal-danger');
-			$('#warning_msg').hide();
-			$('#error_msg').show();
-			$('#success_msg').hide();
-			$('.modal-footer').hide();		
-		}
-	});
-	
-	
-	$("#ok").click(function(){
-
-	$.ajax({
-		mimeType: 'text/html; charset=utf-8', // ! Need set mimeType only when run from local file
-		url: 'php/office_update.php',
-		type: 'POST',
-		data: {
-			OfficeName: $('#OfficeName').val(),
-			OfficeId: $('#OfficeId').val(),
-			Designation: $('#Designation').val(),
-			Street: $('#Street').val(),
-			Town: $('#Town').val(), 
-			PostOffice: $('#PostOffice').val(),
-			PoliceStation: $('#PoliceStation').val(),
-			Municipality: $('#Municipality').val(),
-			District: $('#District').val(),
-			PinCode: $('#PinCode').val(),
-			pc_dtls:$('#pc_dtls').val(),
-			Assembly_dtls:$('#Assembly_dtls').val(),
-			Statusofoffice: $('#StatusOfOffice').val(),
-			NatureOfOffice: $('#NatureOfOffice').val(),
-			EmailId: $('#EmailId').val(),
-			PhoneNumber: $('#PhoneNumber').val(),
-			MobileNumber: $('#MobileNumber').val(),
-			FaxNo: $('#FaxNo').val(),
-			TotalMaleStaffs: $('#TotalMaleStaffs').val(),
-			TotalFemaleStaffs: $('#TotalFemaleStaffs').val(),
-			TotalNumberOfStaffs: $('#TotalNumberofStaffs').val(),
-				
-		},
-		
-		success: function(data) {
-			$('#pageModal').removeClass('modal-warning').addClass('modal-success');
-			$('.modal-footer').hide();
-			$('#warning_msg').hide();
-			$('#success_msg').show();
-			$('#success_msg').html(data);
-			//LoadSuccessModal(data);
-			//$('#box_container').show();
-			//alert(data);
-			//$('#box_container').empty();
-		  	//	LoadAjaxContent('forms/Add_office_form.php');
-		
-		},
-		error: function (jqXHR, textStatus, errorThrown) {
-			alert(jqXHR);
-			//alert(errorThrown);
-			alert("Secure update Error");
-		},
-		dataType: "html",
-		async: false
-	});
-	
-});
-
-
-
-}); 
-
-
-function showMessageModal(message)
-{
-	$('#messageModal').find('.modal-body').html(message);
-	$('#messageModal').modal('show');
-	//$('#content').load('forms/Add_office_form.php');
-}
-
-
-
-function showSubdivModal()
-{
-	$('#subdivModal').modal('show');
-	$('#box_container').hide();
-}
-/*	
-function setSubdivSession()
-{
-	$.ajax({
-	mimeType: 'text/html; charset=utf-8', // ! Need set mimeType only when run from local file
-	url: 'php/set_subdiv_session.php',
-	type: 'POST',
-	data: {subdiv: $('#subdiv').val()},
-	success: function(data) {
-		//$('#office_subdiv').html($('#subdiv').val());
-		$('#office_subdiv').html(getSubdivNamefromSession());
-		$('#box_container').show();
-		LoadPoliceStationBySubdiv('PoliceStation');
-		LoadBlockMuniBySubdiv('Municipality');
-	},
-		error: function (jqXHR, textStatus, errorThrown) {
-		alert(errorThrown);
-	},
-	dataType: "html",
-	async: false
-});
-}
-*/
-</script>
 <div class="row">
 	<div class="col-md-12">
     	<div class="box box-info">
@@ -413,3 +253,165 @@ function setSubdivSession()
   </div>
 </div>
 <!-- Message Modal Ends -->
+
+<script src="js/OfficeSDO.js"></script>
+<script>
+
+$(document).ready(function(){
+	LoadOfficeDetailsSDOForm();
+				$('#pc_dtls').change(function(e) {
+            		LoadAssemblyDetailsBypc('Assembly_dtls',$('#pc_dtls').val());
+        });
+	$('.content').slideDown('slow');
+	
+	$('#District').select2();
+/*
+	LoadSubdivisionDetails('subdiv');
+	if(checkSubdivSession()=='FALSE')
+	{
+		$('#box_container').hide();
+		showSubdivModal();
+	}
+	
+	
+	//$('#District').prop('disabled', true);
+	$('#office_subdiv').html(getSubdivNamefromSession());
+	$('#District').select2();
+	LoadPoliceStationBySubdiv('PoliceStation');
+	LoadBlockMuniBySubdiv('Municipality');
+	
+	LoadGovtCattegoryDetails('StatusOfOffice');
+	LoadNatureDetails('NatureOfOffice');
+*/
+
+	$('.emp').change(function(e) {
+			var TotalMaleStaffs= $('#TotalMaleStaffs').val();
+			var TotalFemaleStaffs= $('#TotalFemaleStaffs').val();
+        $('#TotalNumberofStaffs').val(+TotalMaleStaffs + +TotalFemaleStaffs);
+    });
+	
+	//$('.content').slideDown('slow');
+	//$('#District').prop('disabled', true);
+	
+		$('#confirm').attr('data-toggle', 'modal');
+		$('#confirm').attr('data-target', '#pageModal');
+
+	$("#confirm").click(function(){
+		
+		if(validateForm('add_office_form'))
+		{
+			$('#pageModal').removeClass('modal-danger').removeClass('modal-success').addClass('modal-warning');
+			$('#warning_msg').show();
+			$('#error_msg').hide();
+			$('#success_msg').hide();
+			$('.modal-footer').show();
+		}
+		else
+		{
+			$('#pageModal').removeClass('modal-warning').removeClass('modal-success').addClass('modal-danger');
+			$('#warning_msg').hide();
+			$('#error_msg').show();
+			$('#success_msg').hide();
+			$('.modal-footer').hide();		
+		}
+	});
+	
+	
+	$("#ok").click(function(){
+
+	$.ajax({
+		mimeType: 'text/html; charset=utf-8', // ! Need set mimeType only when run from local file
+		url: 'php/office_update.php',
+		type: 'POST',
+		data: {
+			OfficeName: $('#OfficeName').val(),
+			OfficeId: $('#OfficeId').val(),
+			Designation: $('#Designation').val(),
+			Street: $('#Street').val(),
+			Town: $('#Town').val(), 
+			PostOffice: $('#PostOffice').val(),
+			PoliceStation: $('#PoliceStation').val(),
+			Municipality: $('#Municipality').val(),
+			District: $('#District').val(),
+			PinCode: $('#PinCode').val(),
+			pc_dtls:$('#pc_dtls').val(),
+			Assembly_dtls:$('#Assembly_dtls').val(),
+			Statusofoffice: $('#StatusOfOffice').val(),
+			NatureOfOffice: $('#NatureOfOffice').val(),
+			EmailId: $('#EmailId').val(),
+			PhoneNumber: $('#PhoneNumber').val(),
+			MobileNumber: $('#MobileNumber').val(),
+			FaxNo: $('#FaxNo').val(),
+			TotalMaleStaffs: $('#TotalMaleStaffs').val(),
+			TotalFemaleStaffs: $('#TotalFemaleStaffs').val(),
+			TotalNumberOfStaffs: $('#TotalNumberofStaffs').val(),
+				
+		},
+		
+		success: function(data) {
+			$('#pageModal').removeClass('modal-warning').addClass('modal-success');
+			$('.modal-footer').hide();
+			$('#warning_msg').hide();
+			$('#success_msg').show();
+			$('#success_msg').html(data);
+			//LoadSuccessModal(data);
+			//$('#box_container').show();
+			//alert(data);
+			//$('#box_container').empty();
+		  	//	LoadAjaxContent('forms/Add_office_form.php');
+		
+		},
+		error: function (jqXHR, textStatus, errorThrown) {
+			alert(jqXHR);
+			//alert(errorThrown);
+			alert("Secure update Error");
+		},
+		dataType: "html",
+		async: false
+	});
+	
+});
+
+
+
+}); 
+
+
+function showMessageModal(message)
+{
+	$('#messageModal').find('.modal-body').html(message);
+	$('#messageModal').modal('show');
+	//$('#content').load('forms/Add_office_form.php');
+}
+
+
+
+function showSubdivModal()
+{
+	$('#subdivModal').modal('show');
+	$('#box_container').hide();
+}
+/*	
+function setSubdivSession()
+{
+	$.ajax({
+	mimeType: 'text/html; charset=utf-8', // ! Need set mimeType only when run from local file
+	url: 'php/set_subdiv_session.php',
+	type: 'POST',
+	data: {subdiv: $('#subdiv').val()},
+	success: function(data) {
+		//$('#office_subdiv').html($('#subdiv').val());
+		$('#office_subdiv').html(getSubdivNamefromSession());
+		$('#box_container').show();
+		LoadPoliceStationBySubdiv('PoliceStation');
+		LoadBlockMuniBySubdiv('Municipality');
+	},
+		error: function (jqXHR, textStatus, errorThrown) {
+		alert(errorThrown);
+	},
+	dataType: "html",
+	async: false
+});
+}
+*/
+</script>
