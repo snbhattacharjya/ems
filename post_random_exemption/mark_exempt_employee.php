@@ -6,7 +6,7 @@ header("Content-Type: application/json; charset=UTF-8");
 require("../config/config.php");
 date_default_timezone_set("Asia/Kolkata");
 
-//die(array("Status"=>"Fail"));
+die(array("Status"=>"Fail"));
 $personcd=$_POST['personcd'];
 $reason=$_POST['reason'];
 	

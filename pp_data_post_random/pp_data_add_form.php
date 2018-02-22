@@ -455,9 +455,9 @@ function loadAssemblyDetails(){
     });
     //assembly_combo="<select class='assembly_combo'>";
     for(var i=0; i<assembly.length; i++){
-            $('#Assembly_temp').append("<option value='"+assembly[i].AssemblyCode+"'>"+assembly[i].AssemblyName+"</option>");
-            $('#Assembly_perm').append("<option value='"+assembly[i].AssemblyCode+"'>"+assembly[i].AssemblyName+"</option>");
-            $('#Assembly_off').append("<option value='"+assembly[i].AssemblyCode+"'>"+assembly[i].AssemblyName+"</option>");
+            $('#Assembly_temp').append("<option value='"+assembly[i].AssemblyCode+"'>"+assembly[i].AssemblyCode+' - '+assembly[i].AssemblyName+"</option>");
+            $('#Assembly_perm').append("<option value='"+assembly[i].AssemblyCode+"'>"+assembly[i].AssemblyCode+' - '+assembly[i].AssemblyName+"</option>");
+            $('#Assembly_off').append("<option value='"+assembly[i].AssemblyCode+"'>"+assembly[i].AssemblyCode+' - '+assembly[i].AssemblyName+"</option>");
     }
     //assembly_combo+="</select>";
     $('#Assembly_temp').select2();

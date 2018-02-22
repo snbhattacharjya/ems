@@ -3,8 +3,8 @@
 	//$userid=$_GET["userid"];
 	//$_SESSION["UserID"]=$userid;	
 	include("config/config.php");
-	$select=mysql_query("SELECT distnm_sml FROM environment");
-	$fetch=mysql_fetch_assoc($select);
+	$select=mysqli_query("SELECT distnm_sml FROM environment",$DBLink);
+	$fetch=mysqli_fetch_assoc($select);
 ?>
 
     <!-- data table -->

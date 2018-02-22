@@ -5,7 +5,7 @@ if(!isset($_SESSION['UserID'])){
 }
 require("../config/config.php");
 
-$assembly_query=$mysqli->prepare("SELECT assembly.assemblycd, assembly.assemblyname, COUNT(personnel.personcd) FROM personnel INNER JOIN assembly ON personnel.acno = assembly.assemblycd WHERE personnel.personcd NOT IN (SELECT personcd FROM personnel_training_absent) GROUP BY assembly.assemblycd, assembly.assemblyname ORDER BY assembly.assemblycd") or die($mysqli->error);
+$assembly_query=$mysqli->prepare("SELECT assembly.assemblycd, assembly.assemblyname, COUNT(personnel.personcd) FROM personnel INNER JOIN assembly ON personnel.acno = assembly.assemblycd WHERE personnel.personcd NOT IN (SELECT personcd FROM personnel_training_absent) AND personnel.booked IN ('P','R') GROUP BY assembly.assemblycd, assembly.assemblyname ORDER BY assembly.assemblycd") or die($mysqli->error);
 
 $assembly_query->execute() or die($assembly_query->error);
 $assembly_query->bind_result($assembly_code,$assembly_name,$pp_count) or die($assembly_query->error);

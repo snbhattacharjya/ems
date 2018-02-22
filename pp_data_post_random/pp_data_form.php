@@ -30,7 +30,15 @@
                 </div>
             </div>
             <div class="col-md-2">
-                <button class="btn btn-primary btn-sm new-pp-summary">New PP Report &nbsp;&nbsp;<span class="fa fa-pie-chart"></span></button>
+                <button class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown">New PP Report &nbsp;&nbsp;<span class="fa fa-pie-chart"></span></button>
+                <ul class="dropdown-menu">
+                    <li><a href="#" class="new-pp-summary"><i class="fa fa-star"></i> Subdivision Wise</a></li>
+                    <li class="divider"></li>
+                    <li><a href="#" class="new-pp-office"><i class="fa fa-star"></i> Office wise</a></li>
+                </ul>
+            </div>
+            <div class="col-md-2">
+                <button class="btn btn-success btn-sm new-pp-appointment">Appointment Letter&nbsp;&nbsp;<span class="fa fa-certificate"></span></button>
             </div>
         </div><!-- /.row -->
         
@@ -42,7 +50,7 @@
         </div>
         
         <div class="row">
-            <div class="col-md-12 table-responsive" id="ajax-result">
+            <div class="col-md-12 table-responsive ajax-result">
                 
             </div>
         </div>
@@ -69,6 +77,16 @@
         loadPersonnelNewSummary();
     });
     
+    $('.new-pp-office').click(function(e){
+        e.preventDefault();
+        loadOfficePPNewSummary();
+    });
+    
+    $('.new-pp-appointment').click(function(e){
+        e.preventDefault();
+        loadPersonnelNewEntryDateForm();
+    });
+    
     function loadOffice(){
 	var office;
 	$('#office').select2({placeholder: 'Loading Office...'});
@@ -88,7 +106,7 @@
 	if(office.length > 0){
 		$('#office').empty();
 		$.each(office,function(i){
-			$('#office').append( "<option value='"+office[i].OfficeCode+"'>"+ office[i].OfficeCode + ' - ' +office[i].OfficeName + "</option>");
+			$('#office').append( "<option value='"+office[i].OfficeCode+"'>"+ office[i].OfficeCode + ' - ' +office[i].OfficeName + ', ' + office[i].Address + "</option>");
 		});
 		$('#office').select2({placeholder: 'Select Office'});
 	}
@@ -109,7 +127,7 @@
             },
             success: function(data) {
                 $('.ajax-loader').hide();
-                $('#ajax-result').html(data);
+                $('.ajax-result').html(data);
             },
             error: function (jqXHR, textStatus, errorThrown) {
                     alert(errorThrown);
@@ -131,7 +149,7 @@
             },
             success: function(data) {
                 $('.ajax-loader').hide();
-                $('#ajax-result').html(data);
+                $('.ajax-result').html(data);
             },
             error: function (jqXHR, textStatus, errorThrown) {
                     alert(errorThrown);
@@ -148,7 +166,41 @@
             url: 'pp_data_post_random/subdiv_new_pp_summary.php',
             success: function(data) {
                 $('.ajax-loader').hide();
-                $('#ajax-result').html(data);
+                $('.ajax-result').html(data);
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                    alert(errorThrown);
+            },
+            dataType: "html",
+            async: false
+	});
+    }
+    
+    function loadOfficePPNewSummary(){
+        $('.ajax-loader').show();
+	$.ajax({
+            mimeType: 'text/html; charset=utf-8', // ! Need set mimeType only when run from local file
+            url: 'pp_data_post_random/pp_training_new_office_summary.php',
+            success: function(data) {
+                $('.ajax-loader').hide();
+                $('.ajax-result').html(data);
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                    alert(errorThrown);
+            },
+            dataType: "html",
+            async: false
+	});
+    }
+    
+    function loadPersonnelNewEntryDateForm(){
+        $('.ajax-loader').show();
+	$.ajax({
+            mimeType: 'text/html; charset=utf-8', // ! Need set mimeType only when run from local file
+            url: 'pp_data_post_random/pp_new_entry_date_form.php',
+            success: function(data) {
+                $('.ajax-loader').hide();
+                $('.ajax-result').html(data);
             },
             error: function (jqXHR, textStatus, errorThrown) {
                     alert(errorThrown);

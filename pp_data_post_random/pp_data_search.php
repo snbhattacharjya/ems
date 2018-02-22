@@ -81,6 +81,7 @@ $officecd=$_POST['officecd'];
         <th class="assembly assembly_perm">PERMANENT ASSEMBLY</th>
         <th class="assembly assembly_off">POSTING ASSEMBLY</th>
         <th class="edit">EDIT EMPLOYEE</th>
+        <th class="print">1st Appointment</th>
       </tr>
     </thead>
     <tbody>
@@ -291,15 +292,22 @@ function LoadEmployeebyOffice()
 			var language_index=language.map(function(data) { return data.LanguageCode; }).indexOf(employees[i].Language);
 			var qualification_index=qualification.map(function(data) { return data.QualificationCode; }).indexOf(employees[i].Qualification);
                         var poststat_index=poststat.map(function(data) { return data.post_stat; }).indexOf(employees[i].PostStat);
+                        var appt1_link;
+                        if(employees[i].Status == 'OLD'){
+                            appt1_link="<a href='pp_training/first_appointment_letter_pp.php?person_code="+employees[i].PersonCode+"' class='btn btn-default text-red' target='_blank'><span class='fa fa-print'></span></a>";
+                        }
+                        else{
+                            appt1_link="<a href='pp_data_post_random/first_appt_letter_pp_new.php?person_code="+employees[i].PersonCode+"' class='btn btn-default text-red' target='_blank'><span class='fa fa-print'></span></a>";
+                        }
 			
-			$('#table_employee').find('tbody').append("<tr><td class='index empcode'>"+employees[i].PersonCode+"</td><td class='index name'>"+employees[i].OfficerName+"</td><td class='personal desg'>"+employees[i].Desg+"</td><td class='personal poststat'>"+poststat[poststat_index].poststatus+"</td><td class='personal gender'>"+employees[i].Gender+"</td><td class='personal dob'>"+employees[i].DOB+"</td><td class='address present_addr1'>"+employees[i].PresentAddress1+"</td><td class='address present_addr2'>"+employees[i].PresentAddress2+"</td><td class='address perm_addr1'>"+employees[i].PermanentAddress1+"</td><td class='address perm_addr2'>"+employees[i].PermanentAddress2+"</td><td class='contact email'>"+employees[i].Email+"</td><td class='contact resi_no'>"+employees[i].Phone+"</td><td class='contact mob_no'>"+employees[i].Mobile+"</td><td class='salary scale'>"+employees[i].Scale+"</td><td class='salary basic_pay'>"+employees[i].BasicPay+"</td><td class='salary grade_pay'>"+employees[i].GradePay+"</td><td class='additional qualificationcd'>"+qualification[qualification_index].QualificationName+"</td><td class='additional workingstatus'>"+employees[i].WorkingStatus+"</td><td class='additional languagecd'>"+language[language_index].Language+"</td><td class='additional remarks'>"+remarks[remarks_index].RemarksName+"</td><td class='bank bank_cd'>"+bank[bank_index].BankName+"</td><td class='bank branchname'>"+employees[i].Branch+"</td><td class='bank branchcd'>"+employees[i].IFSC+"</td><td class='bank bank_acc_no'>"+employees[i].AccountNo+"</td><td class='epic epic_no'>"+employees[i].EPIC+"</td><td class='epic partno'>"+employees[i].PartNo+"</td><td class='epic slno'>"+employees[i].SlNo+"</td><td class='assembly assembly_temp'>"+assembly[present_assembly_index].AssemblyName+"</td><td class='assembly assembly_perm'>"+assembly[permanent_assembly_index].AssemblyName+"</td><td class='assembly assembly_off'>"+assembly[posting_assembly_index].AssemblyName+"</td><td class='edit'>"+"<a href='#' class='edit-link'><span class='fa fa-edit'></span> Edit</a></td></tr>");
+			$('#table_employee').find('tbody').append("<tr><td class='index empcode'>"+employees[i].PersonCode+"</td><td class='index name'>"+employees[i].OfficerName+"</td><td class='personal desg'>"+employees[i].Desg+"</td><td class='personal poststat'>"+poststat[poststat_index].poststatus+"</td><td class='personal gender'>"+employees[i].Gender+"</td><td class='personal dob'>"+employees[i].DOB+"</td><td class='address present_addr1'>"+employees[i].PresentAddress1+"</td><td class='address present_addr2'>"+employees[i].PresentAddress2+"</td><td class='address perm_addr1'>"+employees[i].PermanentAddress1+"</td><td class='address perm_addr2'>"+employees[i].PermanentAddress2+"</td><td class='contact email'>"+employees[i].Email+"</td><td class='contact resi_no'>"+employees[i].Phone+"</td><td class='contact mob_no'>"+employees[i].Mobile+"</td><td class='salary scale'>"+employees[i].Scale+"</td><td class='salary basic_pay'>"+employees[i].BasicPay+"</td><td class='salary grade_pay'>"+employees[i].GradePay+"</td><td class='additional qualificationcd'>"+qualification[qualification_index].QualificationName+"</td><td class='additional workingstatus'>"+employees[i].WorkingStatus+"</td><td class='additional languagecd'>"+language[language_index].Language+"</td><td class='additional remarks'>"+remarks[remarks_index].RemarksName+"</td><td class='bank bank_cd'>"+bank[bank_index].BankName+"</td><td class='bank branchname'>"+employees[i].Branch+"</td><td class='bank branchcd'>"+employees[i].IFSC+"</td><td class='bank bank_acc_no'>"+employees[i].AccountNo+"</td><td class='epic epic_no'>"+employees[i].EPIC+"</td><td class='epic partno'>"+employees[i].PartNo+"</td><td class='epic slno'>"+employees[i].SlNo+"</td><td class='assembly assembly_temp'>"+assembly[present_assembly_index].AssemblyName+"</td><td class='assembly assembly_perm'>"+assembly[permanent_assembly_index].AssemblyName+"</td><td class='assembly assembly_off'>"+assembly[posting_assembly_index].AssemblyName+"</td><td class='edit'>"+"<a href='#' class='edit-link'><span class='fa fa-edit'></span> Edit</a></td><td class='print text-center'>"+appt1_link+"</td></tr>");
 			
 		}
 		$('.overlay').hide();
 		$('.address, .contact, .salary, .additional, .bank, .epic, .assembly').hide();
 		$('#table_employee').show();
 	},
-		error: function (jqXHR, textStatus, errorThrown) {
+        error: function (jqXHR, textStatus, errorThrown) {
 		alert(errorThrown);
 	},
 	dataType: "json",
@@ -380,6 +388,13 @@ function formatEditForm(DataTarget, Row){
                 $('.name_input').val(officer_name);
                 $(Row).find('.desg').html("<input type='text' class='desg_input'\>");
                 $('.desg_input').val(desg);
+                
+                $(Row).find('.poststat').html(poststat_combo);
+                $(Row).find('.poststat').find('select').addClass('poststat_input');
+                $('.poststat_input option').each(function() {
+                    if($(this).val() == poststat)
+                        $(this).attr('selected',true);
+                });
             }
             else if(employees[RecordIndex].Status == 'NEW'){
                 //Adding Input Feilds
@@ -596,7 +611,8 @@ function updateData(DataTarget, Row){
                 else if(status == 'OLD'){
                     var gender=employees[RecordIndex].Gender;
                     var dob=employees[RecordIndex].DOB;
-                    var post_stat=employees[RecordIndex].PostStat;
+                    //var post_stat=employees[RecordIndex].PostStat;
+                    var post_stat=$(Row).find('.poststat_input').val();
                 }
 		if(!checkString(officer_name)){
 			$(Row).find('.name').addClass('danger');
@@ -671,12 +687,12 @@ function updateData(DataTarget, Row){
 			$(Row).find('.mob_no').addClass('danger');
 			return false;
 		}
-		
+		/*
 		if(!emailaddresscheck(email)){
 			$(Row).find('.email').addClass('danger');
 			return false;
 		}
-		
+		*/
 		$(Row).find('.edit').html("<i class='fa fa-spinner fa-spin text-orange'></i>");
 		result=updateContactData(emp_code, email, phone, mobile, status);
 		$(Row).removeClass('warning').find('td').removeClass('danger');

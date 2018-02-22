@@ -18,18 +18,21 @@ require("../config/config.php");
             <div class="box-header">
                 <a class="btn btn-app populate-first-training">
                     <i class="fa fa-users icon"></i> Populate First Training Letter
-                </a>
+                </a><!--
                 <a class="btn btn-app training-summary">
                     <i class="fa fa-globe icon"></i> Training Appointment Summary
-                </a>
+                </a>--><!--
                 <a class="btn btn-app form12-summary">
                     <i class="fa fa-list icon"></i> Form 12 Summary
-                </a>
+                </a>-->
                 <a class="btn btn-app populate-first-training-extra">
                     <i class="fa fa-users icon"></i> Populate First Training Letter - Extra
-                </a>
+                </a><!--
                 <a class="btn btn-app training-summary-extra">
                     <i class="fa fa-users icon"></i> Training Summary for Extra PP
+                </a>-->
+                <a class="btn btn-app populate-first-training-new">
+                    <i class="fa fa-users icon"></i> Populate First Training Letter - New
                 </a>
             </div><!-- /.box-header -->
             <div class="row text-center ajax-loader" style="display: none">
@@ -70,6 +73,11 @@ $('.populate-first-training').click(function(e){
 $('.populate-first-training-extra').click(function(e){
     e.preventDefault();
     populate_first_rand_table_extra();
+});
+
+$('.populate-first-training-new').click(function(e){
+    e.preventDefault();
+    populate_first_rand_table_new();
 });
 
 $('.training-summary-extra').click(function(e){
@@ -154,6 +162,30 @@ function loadSubdivPPExtraBookedSummary(){
         $.ajax({
             mimeType: 'text/html; charset=utf-8', // ! Need set mimeType only when run from local file
             url: "pp_training_extra/first_rand_table_extra_populate.php",
+            success: function(data) {
+                $('.ajax-loader').hide();
+                var result=JSON.parse(JSON.stringify(data));
+                if(result.Status == 'Success'){
+                    $('.ajax-result').html("<div class='text-center'><i class='fa fa-thumbs-up fa-2x text-green'></i><p>Records Affected: "+result.RecordCount+"</p>");
+                }
+                else{
+                    $('.ajax-result').html("<div class='text-center'><i class='fa fa-thumbs-down fa-2x text-red'></i><p>Reason: "+result.Status+"</p>");
+                }
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert(errorThrown);
+            },
+            dataType: "json",
+            async: false
+	});
+    }
+    
+    function populate_first_rand_table_new(){
+        $('.ajax-result').empty();
+        $('.ajax-loader').show();
+        $.ajax({
+            mimeType: 'text/html; charset=utf-8', // ! Need set mimeType only when run from local file
+            url: "pp_data_post_random/first_rand_table_new_populate.php",
             success: function(data) {
                 $('.ajax-loader').hide();
                 var result=JSON.parse(JSON.stringify(data));

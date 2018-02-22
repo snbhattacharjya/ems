@@ -12,7 +12,7 @@ for($i = 0; $i < count($personcd); $i++){
 
 $personcd_clause=rtrim($personcd_clause,',');
 
-$emp_query="SELECT personcd, officer_name, off_desg, remarks.remarks, poststat, mob_no FROM personnel INNER JOIN remarks ON personnel.remarks = remarks.remarks_cd WHERE personnel.personcd IN ($personcd_clause) AND personnel.booked IN ('P','R') AND personnel.personcd NOT IN (SELECT personcd FROM personnel_exempt_post_random)";
+$emp_query="SELECT personcd, officer_name, off_desg, remarks.remarks, poststat, mob_no FROM personnel INNER JOIN remarks ON personnel.remarks = remarks.remarks_cd WHERE personnel.personcd IN ($personcd_clause) AND personnel.personcd NOT IN (SELECT personcd FROM personnel_exempt_post_random)";
 $emp_result=mysql_query($emp_query,$DBLink) or die(mysql_error());
 $return=array();
 while($row=mysql_fetch_assoc($emp_result))
