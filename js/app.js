@@ -733,8 +733,8 @@ $('.ajax_link').click(function (e) {
 
 			e.preventDefault();
 			var url = $(this).attr('href');
-      $('#page_content').load(url);
-			/*var timer=checkTimer(url);
+     
+			var timer=checkTimer(url);
 			//alert(timer.PermitFlag+timer.TimerFlag+timer.EndTime+timer.StartTime);
 			if(timer.PageTitle==null)
 			{
@@ -767,6 +767,6 @@ $('.ajax_link').click(function (e) {
 					showTimer(timer.StartTime, timer.EndTime, timer.ServerTime, 'time_left', 'progress-bar', 'box-container');
 					$('#timer_div').show();
 				}
-			}*/
+			}
 			
 });
