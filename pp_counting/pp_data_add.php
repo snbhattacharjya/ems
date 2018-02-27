@@ -21,10 +21,12 @@ $Sex=$_POST['Sex'];
 $ScaleOfPay=$_POST['ScaleOfPay'];
 $BasicPay=$_POST['BasicPay'];
 $GradePay=$_POST['GradePay'];
-$PresentAddress1=mysql_real_escape_string($_POST['PresentAddress1']);
-$PresentAddress2=mysql_real_escape_string($_POST['PresentAddress2']);
-$PermanentAddress1=mysql_real_escape_string($_POST['PermanentAddress1']);
-$PermanentAddress2=mysql_real_escape_string($_POST['PermanentAddress2']);
+$Group=$_POST['Group'];
+
+$PresentAddress1=mysqli_real_escape_string($DBLink,$_POST['PresentAddress1']);
+$PresentAddress2=mysqli_real_escape_string($DBLink,$_POST['PresentAddress2']);
+$PermanentAddress1=mysqli_real_escape_string($DBLink,$_POST['PermanentAddress1']);
+$PermanentAddress2=mysqli_real_escape_string($DBLink,$_POST['PermanentAddress2']);
 $EmailId=$_POST['EmailId'];
 $PhoneNumber=$_POST['PhoneNumber'];
 $MobileNumber=$_POST['MobileNumber'];
@@ -40,6 +42,11 @@ $SerialNo=$_POST['SerialNo'];
 $Assembly_perm=$_POST['Assembly_perm'];
 $Assembly_temp=$_POST['Assembly_temp'];
 $Assembly_off=$_POST['Assembly_off'];
+
+$BlockMuni_perm=$_POST['BlockMuni_perm'];
+$BlockMuni_temp=$_POST['BlockMuni_temp'];
+$BlockMuni_off=$_POST['BlockMuni_off'];
+
 $Qualification=$_POST['Qualification'];
 $LanguageKnown=$_POST['LanguageKnown'];
 $WorkExperience=$_POST['WorkExperience'];
@@ -47,8 +54,8 @@ $districtcd=substr($officecd,0,2);
 $subdivisioncd=substr($officecd,0,4);
 $poststat=$_POST['PostStatus'];
 
-$query_check_accno_exsist=mysql_query("SELECT bank_acc_no FROM personnel_org WHERE bank_acc_no='$BankAcNo'",$DBLink) or die(json_encode(array("Status"=>mysql_error())));
-if(mysql_num_rows($query_check_accno_exsist)){
+$query_check_accno_exsist=mysqli_query($DBLink,"SELECT bank_acc_no FROM personnel_org WHERE bank_acc_no='$BankAcNo'") or die(json_encode(array("Status"=>mysql_error())));
+if(mysqli_num_rows($query_check_accno_exsist)){
     die(json_encode(array("Status"=>"Error!! Employee already exists, with same Bank Account Number")));
 }
 /*
@@ -66,11 +73,11 @@ $pp1_query->close();
 	die("Error!! PP1 count is lower than PP2 count. Please increase your Total Staff Strength to add New PP. Contact District PP cell in this regard");
 */
 
-$person=mysql_query("SELECT MID(officecd,1,6) AS shortofficecd from office where officecd=$officecd",$DBLink);
+$person=mysqli_query($DBLink,"SELECT MID(officecd,1,6) AS shortofficecd from office where officecd=$officecd");
 $shortofficecd=mysql_fetch_assoc($person);
 $ofccd=substr($shortofficecd['shortofficecd'],0,4);
-$mxprsncd=mysql_query("SELECT max(MID(personcd,7,5)) as maxpersoncd from personnel_org where officecd like '$ofccd%'",$DBLink);
-$maxpersoncd=mysql_fetch_assoc($mxprsncd);
+$mxprsncd=mysqli_query($DBLink,"SELECT max(MID(personcd,7,5)) as maxpersoncd from personnel_org where officecd like '$ofccd%'");
+$maxpersoncd=mysqli_fetch_assoc($mxprsncd);
 
 if($maxpersoncd['maxpersoncd']==NULL){
     $personcd=$shortofficecd['shortofficecd']."00001";
@@ -80,20 +87,20 @@ else{
     $personcd=$shortofficecd['shortofficecd'].$personcode+1;
 }
 //Insert into personnel_org
-$insertQuery="INSERT INTO personnel_org (personcd ,officecd ,officer_name ,off_desg, adharno,present_addr1 ,present_addr2 ,perm_addr1 ,perm_addr2 ,dateofbirth ,gender ,scale ,basic_pay ,grade_pay ,workingstatus ,email ,resi_no ,mob_no ,qualificationcd ,languagecd ,epic ,acno ,slno ,partno ,assembly_temp ,assembly_off ,assembly_perm ,districtcd ,subdivisioncd ,bank_acc_no ,bank_cd ,branchname ,branchcd ,remarks ,poststat ,posted_date ,f_cd) VALUES ('$personcd', '$officecd', '$EmployeeName', '$Designation', '0', '$PresentAddress1', '$PresentAddress2', '$PermanentAddress1', '$PermanentAddress2', '$DateOfBirth', '$Sex', '$ScaleOfPay', '$BasicPay', '$GradePay', '$WorkExperience', '$EmailId', '$PhoneNumber', '$MobileNumber', '$Qualification', '$LanguageKnown', '$EpicNo', '$Assembly_perm', '$SerialNo', '$PartNo', '$Assembly_temp', '$Assembly_off', '$Assembly_perm', '$districtcd', '$subdivisioncd', '$BankAcNo', '$Bank', '$BranchName', '$BranchIFSCCode', '$Remarks', '$poststat', CURRENT_TIMESTAMP, '0');";
+$insertQuery="INSERT INTO personnel_org (personcd ,officecd ,officer_name ,off_desg, adharno,present_addr1 ,present_addr2 ,perm_addr1 ,perm_addr2 ,dateofbirth ,gender ,scale ,basic_pay ,grade_pay, group, workingstatus ,email ,resi_no ,mob_no ,qualificationcd ,languagecd ,epic ,acno ,slno ,partno ,assembly_temp ,assembly_off ,assembly_perm ,blockmuni_temp ,blockmuni_off ,blockmuni_perm, districtcd ,subdivisioncd ,bank_acc_no ,bank_cd ,branchname ,branchcd ,remarks ,poststat ,posted_date ,f_cd) VALUES ('$personcd', '$officecd', '$EmployeeName', '$Designation', '0', '$PresentAddress1', '$PresentAddress2', '$PermanentAddress1', '$PermanentAddress2', '$DateOfBirth', '$Sex', '$ScaleOfPay', '$BasicPay', '$GradePay', '$WorkExperience', '$EmailId', '$PhoneNumber', '$MobileNumber', '$Qualification', '$LanguageKnown', '$EpicNo', '$Assembly_perm', '$SerialNo', '$PartNo', '$Assembly_temp', '$Assembly_off', '$Assembly_perm', $BlockMuni_temp', '$BlockMuni_off', '$BlockMuni_perm', '$districtcd', '$subdivisioncd', '$BankAcNo', '$Bank', '$BranchName', '$BranchIFSCCode', '$Remarks', '$poststat', CURRENT_TIMESTAMP, '0');";
 /*
 //Insert into personnel_new
 $insertQuery.="INSERT INTO personnel_new (personcd ,officecd ,officer_name ,off_desg, adharno,present_addr1 ,present_addr2 ,perm_addr1 ,perm_addr2 ,dateofbirth ,gender ,scale ,basic_pay ,grade_pay ,workingstatus ,email ,resi_no ,mob_no ,qualificationcd ,languagecd ,epic ,acno ,slno ,partno ,assembly_temp ,assembly_off ,assembly_perm ,districtcd ,subdivisioncd ,bank_acc_no ,bank_cd ,branchname ,branchcd ,remarks ,poststat ,posted_date ,f_cd) VALUES ('$personcd', '$officecd', '$EmployeeName', '$Designation', '0', '$PresentAddress1', '$PresentAddress2', '$PermanentAddress1', '$PermanentAddress2', '$DateOfBirth', '$Sex', '$ScaleOfPay', '$BasicPay', '$GradePay', '$WorkExperience', '$EmailId', '$PhoneNumber', '$MobileNumber', '$Qualification', '$LanguageKnown', '$EpicNo', '$Assembly_perm', '$SerialNo', '$PartNo', '$Assembly_temp', '$Assembly_off', '$Assembly_perm', '$districtcd', '$subdivisioncd', '$BankAcNo', '$Bank', '$BranchName', '$BranchIFSCCode', '$Remarks', '$poststat', CURRENT_TIMESTAMP, '0');";
 
 //Insert into personnel_mopup
 $insertQuery.="INSERT INTO personnel_mopup (personcd ,officecd ,officer_name ,off_desg, adharno,present_addr1 ,present_addr2 ,perm_addr1 ,perm_addr2 ,dateofbirth ,gender ,scale ,basic_pay ,grade_pay ,workingstatus ,email ,resi_no ,mob_no ,qualificationcd ,languagecd ,epic ,acno ,slno ,partno ,assembly_temp ,assembly_off ,assembly_perm ,districtcd ,subdivisioncd ,bank_acc_no ,bank_cd ,branchname ,branchcd ,remarks ,poststat ,posted_date ,f_cd) VALUES ('$personcd', '$officecd', '$EmployeeName', '$Designation', '0', '$PresentAddress1', '$PresentAddress2', '$PermanentAddress1', '$PermanentAddress2', '$DateOfBirth', '$Sex', '$ScaleOfPay', '$BasicPay', '$GradePay', '$WorkExperience', '$EmailId', '$PhoneNumber', '$MobileNumber', '$Qualification', '$LanguageKnown', '$EpicNo', '$Assembly_perm', '$SerialNo', '$PartNo', '$Assembly_temp', '$Assembly_off', '$Assembly_perm', '$districtcd', '$subdivisioncd', '$BankAcNo', '$Bank', '$BranchName', '$BranchIFSCCode', '$Remarks', '$poststat', CURRENT_TIMESTAMP, '0');";
-*/
+
 //Insert into personnel_counting
-$insertQuery.="INSERT INTO personnel_counting (personcd ,officecd ,officer_name ,off_desg, adharno,present_addr1 ,present_addr2 ,perm_addr1 ,perm_addr2 ,dateofbirth ,gender ,scale ,basic_pay ,grade_pay ,workingstatus ,email ,resi_no ,mob_no ,qualificationcd ,languagecd ,epic ,acno ,slno ,partno ,assembly_temp ,assembly_off ,assembly_perm ,districtcd ,subdivisioncd ,bank_acc_no ,bank_cd ,branchname ,branchcd ,remarks ,poststat ,posted_date ,f_cd) VALUES ('$personcd', '$officecd', '$EmployeeName', '$Designation', '0', '$PresentAddress1', '$PresentAddress2', '$PermanentAddress1', '$PermanentAddress2', '$DateOfBirth', '$Sex', '$ScaleOfPay', '$BasicPay', '$GradePay', '$WorkExperience', '$EmailId', '$PhoneNumber', '$MobileNumber', '$Qualification', '$LanguageKnown', '$EpicNo', '$Assembly_perm', '$SerialNo', '$PartNo', '$Assembly_temp', '$Assembly_off', '$Assembly_perm', '$districtcd', '$subdivisioncd', '$BankAcNo', '$Bank', '$BranchName', '$BranchIFSCCode', '$Remarks', '$poststat', CURRENT_TIMESTAMP, '0');";
+//$insertQuery.="INSERT INTO personnel_counting (personcd ,officecd ,officer_name ,off_desg, adharno,present_addr1 ,present_addr2 ,perm_addr1 ,perm_addr2 ,dateofbirth ,gender ,scale ,basic_pay ,grade_pay ,workingstatus ,email ,resi_no ,mob_no ,qualificationcd ,languagecd ,epic ,acno ,slno ,partno ,assembly_temp ,assembly_off ,assembly_perm ,districtcd ,subdivisioncd ,bank_acc_no ,bank_cd ,branchname ,branchcd ,remarks ,poststat ,posted_date ,f_cd) VALUES ('$personcd', '$officecd', '$EmployeeName', '$Designation', '0', '$PresentAddress1', '$PresentAddress2', '$PermanentAddress1', '$PermanentAddress2', '$DateOfBirth', '$Sex', '$ScaleOfPay', '$BasicPay', '$GradePay', '$WorkExperience', '$EmailId', '$PhoneNumber', '$MobileNumber', '$Qualification', '$LanguageKnown', '$EpicNo', '$Assembly_perm', '$SerialNo', '$PartNo', '$Assembly_temp', '$Assembly_off', '$Assembly_perm', '$districtcd', '$subdivisioncd', '$BankAcNo', '$Bank', '$BranchName', '$BranchIFSCCode', '$Remarks', '$poststat', CURRENT_TIMESTAMP, '0');";
 
 //Query for Audit
-$insertQuery.="INSERT INTO application_audit(UserID, ObjectID, ObjectActivity, RequestIP, SessionID, ActivityTimeStamp) VALUES('$session_user_id','$personcd','ADD COUNTING EMPLOYEE','$session_ip','$session_id',CURRENT_TIMESTAMP)";
-
+//$insertQuery.="INSERT INTO application_audit(UserID, ObjectID, ObjectActivity, RequestIP, SessionID, ActivityTimeStamp) VALUES('$session_user_id','$personcd','ADD COUNTING EMPLOYEE','$session_ip','$session_id',CURRENT_TIMESTAMP)";
+*/
 $mysqli->multi_query($insertQuery) or die(json_encode(array("Status"=>$mysqli->error)));
 
 echo json_encode(array("Status"=>"Success","Report"=>"Newly added Employee with ID: ".$personcd));

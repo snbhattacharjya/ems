@@ -3,19 +3,19 @@ function AddEmployee()
 	var ret_empcode;
 		if (document.getElementById("Sexm").checked) {
         	var sex="M";
-		
+
     	}
     	if (document.getElementById("Sexf").checked) {
         	var sex="F";
     	}
-		
+
 		if (document.getElementById('WorkExperienceY').checked) {
         	var WorkExperience="YES";
     	}
     	if (document.getElementById('WorkExperienceN').checked) {
         	var WorkExperience="NO";
    	    }
-
+				
 	$.ajax({
 		url: 'php/insertpersonnel.php',
 		type: 'POST',
@@ -30,6 +30,7 @@ function AddEmployee()
 			ScaleOfPay: $('#ScaleOfPay').val(),
 			BasicPay: $('#BasicPay').val(),
 			GradePay: $('#GradePay').val(),
+			Group: $('#Group').val(),
 			Qualification: $('#Qualification').val(),
 			LanguageKnown: $('#LanguageKnown').val(),
 			WorkExperience: WorkExperience,
@@ -54,8 +55,12 @@ function AddEmployee()
 			Assembly_perm: $('#Assembly_perm').val(),
 			Assembly_temp: $('#Assembly_temp').val(),
 			Assembly_off: $('#Assembly_off').val(),
+
+			BlockMuni_perm: $('#BlockMuni_perm').val(),
+			BlockMuni_temp: $('#BlockMuni_temp').val(),
+			BlockMuni_off: $('#BlockMuni_off').val()
 			//Photo: $('#photo').val()
-			
+
 		},
 		success: function(data) {
 			//var retObj = JSON.parse(JSON.stringify(data));
@@ -76,7 +81,7 @@ function UpdateEmployee(empid)
 	{
 		if (document.getElementById("Sexm").checked) {
         	var sex="M";
-		
+
     	}
     	if (document.getElementById("Sexf").checked) {
         	var sex="F";
@@ -87,7 +92,7 @@ function UpdateEmployee(empid)
     	if (document.getElementById('WorkExperienceN').checked) {
         	var WorkExperience="NO";
    	    }
-		
+
 	$.ajax({
 		url: 'php/updatepersonnel.php',
 		type: 'POST',
