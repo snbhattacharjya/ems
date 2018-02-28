@@ -6,11 +6,11 @@ require("../config/config.php");
 
 $assembly_details_query="SELECT assemblycd AS AssemblyCode, assemblyname AS AssemblyName FROM assembly ORDER BY assemblycd";
 
-$assembly_details_result=mysqli_query($DBLink,$assembly_details_query) or die(mysqli_error());
+$assembly_details_result=mysqli_query($DBLink,$assembly_details_query) or die(mysqli_error($DBLink));
 $return=array();
 while($row=mysqli_fetch_assoc($assembly_details_result))
 {
 	$return[]=$row;
-}	
+}
 echo json_encode($return);
 ?>

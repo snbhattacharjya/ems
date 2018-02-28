@@ -6,7 +6,7 @@ require("../config/config.php");
 
 $blockmuni_details_query="SELECT blockminicd AS BlockMuniCode, blockmuni AS BlockMuniName FROM block_muni ORDER BY blockminicd";
 
-$blockmuni_details_result=mysqli_query($DBLink,$blockmuni_details_query) or die(mysqli_error());
+$blockmuni_details_result=mysqli_query($DBLink,$blockmuni_details_query) or die(mysqli_error($DBLink));
 $return=array();
 while($row=mysqli_fetch_assoc($blockmuni_details_result))
 {

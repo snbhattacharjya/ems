@@ -9,11 +9,11 @@ require("../config/config.php");
 $municipality_details_query="SELECT blockminicd AS BlockminiCode, blockmuni AS Blockmuni FROM block_muni WHERE subdivisioncd='$subdiv'";
 
 
-$municipality_details_result=mysqli_query($DBLink,$municipality_details_query) or die(mysqli_error());
+$municipality_details_result=mysqli_query($DBLink,$municipality_details_query) or die(mysqli_error($DBLink));
 $return=array();
 while($row=mysqli_fetch_assoc($municipality_details_result))
 {
 	$return[]=$row;
-}	
+}
 echo json_encode($return);
 ?>

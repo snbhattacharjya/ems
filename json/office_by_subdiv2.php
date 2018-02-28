@@ -7,11 +7,11 @@ require("../config/config.php");
 
 $office_subdiv_query="SELECT officecd AS OfficeCode, office AS OfficeName, office_unique_id AS UniqueID FROM office WHERE subdivisioncd='$subdiv' ORDER BY MID(officecd,7,4)";
 
-$office_subdiv_result=mysqli_query($DBLink,$office_subdiv_query) or die(mysqli_error());
+$office_subdiv_result=mysqli_query($DBLink,$office_subdiv_query) or die(mysqli_error($DBLink));
 $return=array();
 while($row=mysqli_fetch_assoc($office_subdiv_result))
 {
 	$return[]=$row;
-}	
+}
 echo json_encode($return);
 ?>

@@ -10,16 +10,16 @@ die();
 if($utype=="ADMIN")
 {
 $office_details_query="SELECT count(*) as total FROM office WHERE districtcd='13'";
-$office_details_result=mysqli_query($DBLink,$office_details_query) or die(mysqli_error());
-$return=array();	
-	
+$office_details_result=mysqli_query($DBLink,$office_details_query) or die(mysqli_error($DBLink));
+$return=array();
+
 }
 else if($utype=="SDO")
 {
 $subdiv=$_SESSION['Subdiv'];
 
 $office_details_query="SELECT count(*) as total FROM office WHERE subdivisioncd=".$subdiv;
-$office_details_result=mysqli_query($DBLink,$office_details_query) or die(mysqli_error());
+$office_details_result=mysqli_query($DBLink,$office_details_query) or die(mysqli_error($DBLink));
 $return=array();
 }
 else if($utype=="DEO")
@@ -27,17 +27,17 @@ else if($utype=="DEO")
 $subdiv=$_SESSION['Subdiv'];
 
 $office_details_query="SELECT count(*) as total FROM office WHERE subdivisioncd=".$subdiv;
-$office_details_result=mysqli_query($DBLink,$office_details_query) or die(mysqli_error());
+$office_details_result=mysqli_query($DBLink,$office_details_query) or die(mysqli_error($DBLink));
 $return=array();
 }
 else
 {
-die();		
+die();
 }
 
 while($row=mysqli_fetch_assoc($office_details_result))
 {
 	$return[]=$row;
-}	
+}
 echo json_encode($return);
 ?>

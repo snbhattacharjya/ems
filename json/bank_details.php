@@ -8,7 +8,7 @@ require("../config/config.php");
 
 $bank_details_query="SELECT bank_cd AS BankCode, bank_name AS BankName FROM bank ORDER BY bank_cd";
 
-$bank_details_result=mysqli_query($DBLink,$bank_details_query) or die(mysql_error());
+$bank_details_result=mysqli_query($DBLink,$bank_details_query) or die(mysqli_error($DBLink));
 $return=array();
 while($row=mysqli_fetch_assoc($bank_details_result))
 {

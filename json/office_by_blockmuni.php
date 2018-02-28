@@ -22,11 +22,11 @@ else if(substr($user_id,0,3) == 'BDO'){
 else {
 	$office_blockmuni_query="SELECT officecd AS OfficeCode, office AS OfficeName, office_unique_id AS UniqueID FROM office ORDER BY officecd";
 }
-$office_blockmuni_result=mysqli_query($DBLink,$office_blockmuni_query) or die(mysqli_error());
+$office_blockmuni_result=mysqli_query($DBLink,$office_blockmuni_query) or die(mysqli_error($DBLink));
 $return=array();
 while($row=mysqli_fetch_assoc($office_blockmuni_result))
 {
 	$return[]=$row;
-}	
+}
 echo json_encode($return);
 ?>
