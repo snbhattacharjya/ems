@@ -11,15 +11,15 @@ if(!isset($_POST['emp']))
 echo die(json_encode("Error!!"));
 $empid=$_POST['emp'];
 
-$copy_emp_query=mysql_query("INSERT INTO personnel_deleted SELECT * FROM personnel WHERE personcd='$empid'") or die(json_encode(mysql_error()));
+$copy_emp_query=mysqli_query($DBLink,"INSERT INTO personnel_deleted SELECT * FROM personnel WHERE personcd='$empid'") or die(json_encode(mysqli_error($DBLink,)));
 
 
-$update_time_query=mysql_query("UPDATE personnel_deleted SET posted_date=now() WHERE personcd='$empid'") or die(json_encode(mysql_error()));
+$update_time_query=mysqli_query($DBLink,"UPDATE personnel_deleted SET posted_date=now() WHERE personcd='$empid'") or die(json_encode(mysqli_error($DBLink,)));
 
 $del_emp_query="DELETE FROM personnel WHERE personcd='$empid'";
 
 
-mysql_query($del_emp_query,$DBLink) or die(json_encode(mysql_error()));	
-$insert_office_query=mysql_query("INSERT INTO application_audit(UserID, ObjectID, ObjectActivity, RequestIP, SessionID, ActivityTimeStamp) VALUES('$session_user_id','$empid','DELETE EMPLOYEE','$session_ip','$session_id',CURRENT_TIMESTAMP);")or die(json_encode(mysql_error()));
+mysqli_query($DBLink,$del_emp_query) or die(json_encode(mysqli_error()));
+$insert_office_query=mysqli_query($DBLink,"INSERT INTO application_audit(UserID, ObjectID, ObjectActivity, RequestIP, SessionID, ActivityTimeStamp) VALUES('$session_user_id','$empid','DELETE EMPLOYEE','$session_ip','$session_id',CURRENT_TIMESTAMP);")or die(json_encode(mysqli_error()));
 echo json_encode("Employee Successfully Removed...");
 ?>

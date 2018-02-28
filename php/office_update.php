@@ -13,18 +13,18 @@ $subdiv=$_SESSION['Subdiv'];
 }
 else
 {
-	die('Cannot Connect to Server');	
+	die('Cannot Connect to Server');
 }
 include("../config/config.php");
 
+$officename=mysqli_real_escape_string(strtoupper($DBLink,$_POST['OfficeName']));
 
-$officename=mysql_real_escape_string(strtoupper($_POST['OfficeName']));
 $designation=ucwords(strtolower($_POST['Designation']));
+$pts=mysqli_real_escape_string(strtoupper($_POST['Street']));
 $officeuniqueid=$_POST['OfficeId'];
-$pts=mysql_real_escape_string(strtoupper($_POST['Street']));
 $po=strtoupper($_POST['PostOffice']);
+$vtm=mysqli_real_escape_string(strtoupper($_POST['Town']));
 $polices=$_POST['PoliceStation'];
-$vtm=mysql_real_escape_string(strtoupper($_POST['Town']));
 $bm=$_POST['Municipality'];
 $pin=$_POST['PinCode'];
 $no=$_POST['NatureOfOffice'];
@@ -57,10 +57,10 @@ $update_office_query.="UPDATE users SET UserID='$newofficecd', Password='$newoff
 
 //Audit for Office Update
 $update_office_query.="INSERT INTO application_audit(UserID, ObjectID, ObjectActivity, RequestIP, SessionID, ActivityTimeStamp) VALUES('$session_user_id','$officecd','UPDATE OFFICE','$session_ip','$session_id',CURRENT_TIMESTAMP);";
-
 $mysqli->multi_query($update_office_query) or die(mysql_error());
 
-$timestampp=mysql_query("SELECT posted_date from office WHERE officecd='$newofficecd'",$DBLink);
+
+$timestampp=mysqli_query($DBLink,"SELECT posted_date from office WHERE officecd='$newofficecd'");
 $fetch=mysql_fetch_assoc($timestampp);
 
 $posteddate=$fetch['posted_date'];

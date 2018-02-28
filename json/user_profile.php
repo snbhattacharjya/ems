@@ -4,9 +4,9 @@ require("../config/config.php");
 
 $UserID=$_SESSION['UserID'];
 
-$user_details_query="SELECT UserName,Designation FROM USERS WHERE UserID='$UserID'";
+$user_details_query="SELECT UserName,Designation FROM users WHERE UserID='$UserID'";
 
-$user_details_result=mysqli_query($DBLink,$user_details_query) or die(mysqli_error());
+$user_details_result=mysqli_query($DBLink,$user_details_query) or die(mysqli_error($DBLink));
 
 $return=mysqli_fetch_assoc($user_details_result);
 
