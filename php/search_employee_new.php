@@ -84,6 +84,7 @@ include("../config/config.php");
                   <th class="salary scale">SCALE OF PAY</th>
                   <th class="salary basic_pay">BASIC PAY</th>
                   <th class="salary grade_pay">GRADE PAY</th>
+									<th class="salary group">GROUP</th>
                   <th class="additional qualificationcd">QUALIFICATION</th>
                   <th class="additional workingstatus">WORKING FOR 3 YEARS</th>
                   <th class="additional languagecd">LANGUAGE KNOWN</th>
@@ -147,6 +148,8 @@ include("../config/config.php");
     var assembly_combo;
     var blockmuni;
     var blockmuni_combo;
+		var group;
+    var group_combo;
     var bank;
     var bank_combo;
     var remarks;
@@ -226,6 +229,17 @@ include("../config/config.php");
         blockmuni_combo += "<option value='" + blockmuni[i].BlockMuniCode + "'>" + blockmuni[i].BlockMuniName + "</option>";
       }
       blockmuni_combo += "</select>";
+    }
+
+		function loadGroupDetails() {
+      $('.overlay').find('small').html(' Loading Group Data...');
+
+      group_combo =  "<select class='group_combo'>";
+      group_combo += "<option value='A'>A</option>";
+			group_combo += "<option value='B'>B</option>";
+			group_combo += "<option value='C'>C</option>";
+			group_combo += "<option value='D'>D</option>";
+      group_combo += "</select>";
     }
 
     function loadBankDetails() {
@@ -355,7 +369,7 @@ include("../config/config.php");
               return data.QualificationCode;
             }).indexOf(employees[i].Qualification);
 
-            $('#table_employee').find('tbody').append("<tr><td class='index empcode'>" + employees[i].PersonCode + "</td><td class='index name'>" + employees[i].OfficerName + "</td><td class='personal desg'>" + employees[i].Desg + "</td><td class='personal gender'>" + employees[i].Gender + "</td><td class='personal dob'>" + employees[i].DOB + "</td><td class='contact present_addr1'>" + employees[i].PresentAddress1 + "</td><td class='contact present_addr2'>" + employees[i].PresentAddress2 + "</td><td class='contact perm_addr1'>" + employees[i].PermanentAddress1 + "</td><td class='contact perm_addr2'>" + employees[i].PermanentAddress2 + "</td><td class='contact email'>" + employees[i].Email + "</td><td class='contact resi_no'>" + employees[i].Phone + "</td><td class='contact mob_no'>" + employees[i].Mobile + "</td><td class='salary scale'>" + employees[i].Scale + "</td><td class='salary basic_pay'>" + employees[i].BasicPay + "</td><td class='salary grade_pay'>" + employees[i].GradePay + "</td><td class='additional qualificationcd'>" + qualification[qualification_index].QualificationName + "</td><td class='additional workingstatus'>" + employees[i].WorkingStatus + "</td><td class='additional languagecd'>" + language[language_index].Language + "</td><td class='additional remarks'>" + remarks[remarks_index].RemarksName + "</td><td class='bank bank_cd'>" + bank[bank_index].BankName + "</td><td class='bank branchname'>" + employees[i].Branch + "</td><td class='bank branchcd'>" + employees[i].IFSC + "</td><td class='bank bank_acc_no'>" + employees[i].AccountNo + "</td><td class='epic epic_no'>" + employees[i].EPIC + "</td><td class='epic partno'>" + employees[i].PartNo + "</td><td class='epic slno'>" + employees[i].SlNo + "</td><td class='assembly assembly_temp'>" + assembly[present_assembly_index].AssemblyName + "</td><td class='assembly assembly_perm'>" + assembly[permanent_assembly_index].AssemblyName + "</td><td class='assembly assembly_off'>" + assembly[posting_assembly_index].AssemblyName + "</td><td class='blockmuni blockmuni_temp'>" + blockmuni[present_blockmuni_index].BlockMuniName + "</td><td class='blockmuni blockmuni_perm'>" + blockmuni[permanent_blockmuni_index].BlockMuniName + "</td><td class='blockmuni blockmuni_off'>" + blockmuni[posting_blockmuni_index].BlockMuniName + "</td><td class='edit'>" + "<a href='#' class='edit-link'><span class='fa fa-edit'></span> Edit</a></td></tr>");
+            $('#table_employee').find('tbody').append("<tr><td class='index empcode'>" + employees[i].PersonCode + "</td><td class='index name'>" + employees[i].OfficerName + "</td><td class='personal desg'>" + employees[i].Desg + "</td><td class='personal gender'>" + employees[i].Gender + "</td><td class='personal dob'>" + employees[i].DOB + "</td><td class='contact present_addr1'>" + employees[i].PresentAddress1 + "</td><td class='contact present_addr2'>" + employees[i].PresentAddress2 + "</td><td class='contact perm_addr1'>" + employees[i].PermanentAddress1 + "</td><td class='contact perm_addr2'>" + employees[i].PermanentAddress2 + "</td><td class='contact email'>" + employees[i].Email + "</td><td class='contact resi_no'>" + employees[i].Phone + "</td><td class='contact mob_no'>" + employees[i].Mobile + "</td><td class='salary scale'>" + employees[i].Scale + "</td><td class='salary basic_pay'>" + employees[i].BasicPay + "</td><td class='salary grade_pay'>" + employees[i].GradePay + "</td><td class='salary group'>" + employees[i].Group + "</td><td class='additional qualificationcd'>" + qualification[qualification_index].QualificationName + "</td><td class='additional workingstatus'>" + employees[i].WorkingStatus + "</td><td class='additional languagecd'>" + language[language_index].Language + "</td><td class='additional remarks'>" + remarks[remarks_index].RemarksName + "</td><td class='bank bank_cd'>" + bank[bank_index].BankName + "</td><td class='bank branchname'>" + employees[i].Branch + "</td><td class='bank branchcd'>" + employees[i].IFSC + "</td><td class='bank bank_acc_no'>" + employees[i].AccountNo + "</td><td class='epic epic_no'>" + employees[i].EPIC + "</td><td class='epic partno'>" + employees[i].PartNo + "</td><td class='epic slno'>" + employees[i].SlNo + "</td><td class='assembly assembly_temp'>" + assembly[present_assembly_index].AssemblyName + "</td><td class='assembly assembly_perm'>" + assembly[permanent_assembly_index].AssemblyName + "</td><td class='assembly assembly_off'>" + assembly[posting_assembly_index].AssemblyName + "</td><td class='blockmuni blockmuni_temp'>" + blockmuni[present_blockmuni_index].BlockMuniName + "</td><td class='blockmuni blockmuni_perm'>" + blockmuni[permanent_blockmuni_index].BlockMuniName + "</td><td class='blockmuni blockmuni_off'>" + blockmuni[posting_blockmuni_index].BlockMuniName + "</td><td class='edit'>" + "<a href='#' class='edit-link'><span class='fa fa-edit'></span> Edit</a></td></tr>");
 
           }
           $('.overlay').hide();

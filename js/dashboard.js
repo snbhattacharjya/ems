@@ -21,6 +21,27 @@ function show_number_of_office(UserType)
 }
 
 
+function show_pp1_number(UserType)
+{
+	$.ajax({
+		mimeType: 'text/html; charset=utf-8', // ! Need set mimeType only when run from local file
+		url: 'json/show_pp1_number.php',
+		data:{UserType:UserType},
+		type: 'POST',
+		success: function(data) {
+			var retObj = JSON.parse(JSON.stringify(data));
+			var a=retObj[0].total;
+			$("#pp1_count").html(a);
+
+		},
+			error: function (jqXHR, textStatus, errorThrown) {
+			alert(errorThrown);
+		},
+		dataType: "json",
+		async: false
+	});
+}
+
 function show_number_of_emp(UserType)
 {
 	$.ajax({
@@ -39,7 +60,7 @@ function show_number_of_emp(UserType)
 		},
 		dataType: "json",
 		async: false
-	});	
+	});
 }
 
 
@@ -61,7 +82,7 @@ function show_number_of_male_emp(UserType)
 		},
 		dataType: "json",
 		async: false
-	});	
+	});
 }
 
 
@@ -83,5 +104,5 @@ function show_number_of_female_emp(UserType)
 		},
 		dataType: "json",
 		async: false
-	});	
+	});
 }
