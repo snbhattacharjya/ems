@@ -17,13 +17,13 @@ else
 }
 include("../config/config.php");
 
-$officename=mysqli_real_escape_string(strtoupper($DBLink,$_POST['OfficeName']));
+$officename=mysqli_real_escape_string($DBLink,strtoupper($_POST['OfficeName']));
 
 $designation=ucwords(strtolower($_POST['Designation']));
-$pts=mysqli_real_escape_string(strtoupper($_POST['Street']));
+$pts=mysqli_real_escape_string($DBLink,strtoupper($_POST['Street']));
 $officeuniqueid=$_POST['OfficeId'];
 $po=strtoupper($_POST['PostOffice']);
-$vtm=mysqli_real_escape_string(strtoupper($_POST['Town']));
+$vtm=mysqli_real_escape_string($DBLink,strtoupper($_POST['Town']));
 $polices=$_POST['PoliceStation'];
 $bm=$_POST['Municipality'];
 $pin=$_POST['PinCode'];
@@ -57,11 +57,11 @@ $update_office_query.="UPDATE users SET UserID='$newofficecd', Password='$newoff
 
 //Audit for Office Update
 $update_office_query.="INSERT INTO application_audit(UserID, ObjectID, ObjectActivity, RequestIP, SessionID, ActivityTimeStamp) VALUES('$session_user_id','$officecd','UPDATE OFFICE','$session_ip','$session_id',CURRENT_TIMESTAMP);";
-$mysqli->multi_query($update_office_query) or die(mysql_error());
+$mysqli->multi_query($update_office_query) or die(mysqli_error($DBLink));
 
 
 $timestampp=mysqli_query($DBLink,"SELECT posted_date from office WHERE officecd='$newofficecd'");
-$fetch=mysql_fetch_assoc($timestampp);
+$fetch=mysqli_fetch_assoc($timestampp);
 
 $posteddate=$fetch['posted_date'];
 $_SESSION['Office']=$newofficecd;
