@@ -4,12 +4,12 @@ $userid=$_SESSION['UserID'];
 require("../config/config.php");
 
 $district_details_query="SELECT dist_cd, distnm_cap FROM environment";
-$district_details_result=mysql_query($district_details_query,$DBLink) or die(mysql_error());
-$result=mysql_fetch_assoc($district_details_result);
+$district_details_result=mysqli_query($DBLink,$district_details_query) or die(mysqli_error($DBLink));
+$result=mysqli_fetch_assoc($district_details_result);
 ?>
 <script>
 $(document).ready(function(e) {
-   
+
 			$('#pc_dtls').change(function(e) {
             		LoadAssemblyDetailsBypc('Assembly_dtls',$('#pc_dtls').val());
         });
@@ -37,21 +37,21 @@ $(document).ready(function(e) {
 		$('#add_office_form').hide();
 		$('#confirm').hide();
 	}
-	
+
 	$('.emp').change(function(e) {
 			var TotalMaleStaffs= $('#TotalMaleStaffs').val();
 			var TotalFemaleStaffs= $('#TotalFemaleStaffs').val();
         $('#TotalNumberofStaffs').val(+TotalMaleStaffs + +TotalFemaleStaffs);
     });
-	
+
 	//$('.content').slideDown('slow');
 	//$('#District').prop('disabled', true);
-	
+
 		$('#confirm').attr('data-toggle', 'modal');
 		$('#confirm').attr('data-target', '#pageModal');
 
 	$("#confirm").click(function(){
-		
+
 		if(validateForm('add_office_form'))
 		{
 			$('#pageModal').removeClass('modal-danger').removeClass('modal-success').addClass('modal-warning');
@@ -66,12 +66,12 @@ $(document).ready(function(e) {
 			$('#warning_msg').hide();
 			$('#error_msg').show();
 			$('#success_msg').hide();
-			$('.modal-footer').hide();		
+			$('.modal-footer').hide();
 		}
 	});
-	
-	
-	
+
+
+
 	$("#ok").click(function(){
 
 	$.ajax({
@@ -83,7 +83,7 @@ $(document).ready(function(e) {
 			OfficeId: $('#OfficeId').val(),
 			Designation: $('#Designation').val(),
 			Street: $('#Street').val(),
-			Town: $('#Town').val(), 
+			Town: $('#Town').val(),
 			PostOffice: $('#PostOffice').val(),
 			PoliceStation: $('#PoliceStation').val(),
 			Municipality: $('#Municipality').val(),
@@ -100,9 +100,9 @@ $(document).ready(function(e) {
 			TotalMaleStaffs: $('#TotalMaleStaffs').val(),
 			TotalFemaleStaffs: $('#TotalFemaleStaffs').val(),
 			TotalNumberOfStaffs: $('#TotalNumberofStaffs').val(),
-				
+
 		},
-		
+
 		success: function(data) {
 			$('#pageModal').removeClass('modal-warning').addClass('modal-success');
 			$('.modal-footer').hide();
@@ -117,7 +117,7 @@ $(document).ready(function(e) {
 			$(document).find('input').each(function() {
                 $(this).val("");
             });
-			$(".form-group").removeClass("has-success");		
+			$(".form-group").removeClass("has-success");
 		},
 		error: function (jqXHR, textStatus, errorThrown) {
 			alert(jqXHR);
@@ -127,7 +127,7 @@ $(document).ready(function(e) {
 		dataType: "html",
 		async: false
 	});
-	
+
 });
 
 
@@ -147,28 +147,28 @@ function showMessageModal(message)
 	<div class="col-sm-12">
     	<div class="box box-info">
         	<div class="box-header with-border">
-            	<h3 class="box-title">ADD OFFICE FORM   
+            	<h3 class="box-title">ADD OFFICE FORM
                 <span id="show_subdiv">
                 </span>
-        		<?PHP 
+        		<?PHP
 				if(isset($_SESSION['Subdiv']))
 				echo "(".$_SESSION['Subdiv'].")";
-				
+
 				?>
-                </h3>              
+                </h3>
                   <div class="box-tools pull-right">
                     <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>                 </div>
          	</div><!-- /.box-header -->
-            
+
 			<div class="box-body">
-            
-               	<div id="div_message" class="callout callout-danger" hidden="">												
+
+               	<div id="div_message" class="callout callout-danger" hidden="">
     			</div>
-          <form class="form-horizontal" role="form" id="add_office_form">            
+          <form class="form-horizontal" role="form" id="add_office_form">
             <div id="office_form">
-            	<div class="callout bg-success">												
+            	<div class="callout bg-success">
                 	<i class="fa fa-info"></i>&nbsp;&nbsp;&nbsp;BASIC DETAILS
-            	</div>        
+            	</div>
 
          <div class="form-group" id="div_OfficeName">
 						<label class="col-sm-4 control-label">Office Name</label>
@@ -176,14 +176,14 @@ function showMessageModal(message)
 							<input type="text" class="form-control check-required" placeholder="Office Name" data-toggle="tooltip" data-placement="bottom" title="Enter Office Name" id="OfficeName" name="OfficeName" maxlength="50">
 						</div>
            </div>
-           
+
            <div class="form-group" id="div_OfficeId">
 						<label class="col-sm-4 control-label">Unique ID for Office (eg. DDO code/IFSC (for Bank)/DISE Code for School/Kanyashree ID (for college)/Branch Code(for Insurance Company) etc.</label>
 						<div class="col-sm-5">
 							<input type="text" class="form-control check-required" placeholder="Office Id" data-toggle="tooltip" data-placement="bottom" title="Enter Office Id" id="OfficeId" name="OfficeId">
 						</div>
            </div>
-           
+
                         <div class="form-group" id="div_Designation">
 						<label class="col-sm-4 control-label">Designation of Officer-in-charge</label>
 						<div class="col-sm-5">
@@ -191,12 +191,12 @@ function showMessageModal(message)
                           </div>
 					</div>
 </div>
-          <div class="callout bg-success">												
+          <div class="callout bg-success">
             <i class="fa fa-info"></i>&nbsp;&nbsp;&nbsp;OFFICE ADDRESS
           </div>
 
 <div id="OfficeAddress">
-       
+
         	<div class="form-group" id="div_Street">
 			  <label class="col-sm-4 control-label">Para/Tola/Street</label>
 			  <div class="col-sm-5">
@@ -236,7 +236,7 @@ function showMessageModal(message)
 						<div class="col-sm-5">
 						  <select name="PoliceStation" id="PoliceStation" class="form-control" data-toggle="tooltip" data-placement="bottom" title="Enter Police Station">
             <option>Select Police Station</option>
-          </select> 
+          </select>
 			  </div>
           </div>
           <div class="form-group" id="div_PinCode">
@@ -280,9 +280,9 @@ function showMessageModal(message)
           	  </div>
 </div>
 </div>
-          <div class="callout bg-success">												
+          <div class="callout bg-success">
             <i class="fa fa-info"></i>&nbsp;&nbsp;&nbsp;CONTACT DETAILS
-          </div>               
+          </div>
 
 <div id="OfficeContactDetails">
 
@@ -311,7 +311,7 @@ function showMessageModal(message)
                         </div>
 </div>
 </div>
-          <div class="callout bg-success">												
+          <div class="callout bg-success">
             <i class="fa fa-info"></i>&nbsp;&nbsp;&nbsp;OFFICE PERSONNEL DETAILS
           </div>
 
@@ -338,7 +338,7 @@ function showMessageModal(message)
 </div>
 
 	   <div class="form-group col-sm-12">
-       <div class="callout callout-info">	
+       <div class="callout callout-info">
 			<i class="fa fa-star"></i><b style="color:#000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Certified that the detail information furnished earlier in PP-1 format and also PP-2 format are verified with office record and genuine. Names of all officials have been included in the PP-2 format and no information has been concealed.</b>
         </div>
       	</div>
@@ -396,9 +396,3 @@ function showMessageModal(message)
   </div>
 </div>
 <!-- Message Modal Ends -->
-
-
-
-
-
-
