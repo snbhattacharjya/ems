@@ -143,7 +143,7 @@ include("../config/config.php");
     var table;
     var data_on = "<span class='badge bg-green'><i class='fa fa-check'></i></span>";
     var data_target_on = 'personal';
-    var locked_data_target = ['personal', 'salary', 'additional'];
+    var locked_data_target /*= ['personal', 'salary', 'additional']*/;
     var assembly;
     var assembly_combo;
     var blockmuni;
@@ -172,6 +172,7 @@ include("../config/config.php");
 
           loadAssemblyDetails();
           loadBlockMuniDetails();
+          loadGroupDetails();
           loadBankDetails();
           loadRemarks();
           loadLanguageDetails();
@@ -369,7 +370,7 @@ include("../config/config.php");
               return data.QualificationCode;
             }).indexOf(employees[i].Qualification);
 
-            $('#table_employee').find('tbody').append("<tr><td class='index empcode'>" + employees[i].PersonCode + "</td><td class='index name'>" + employees[i].OfficerName + "</td><td class='personal desg'>" + employees[i].Desg + "</td><td class='personal gender'>" + employees[i].Gender + "</td><td class='personal dob'>" + employees[i].DOB + "</td><td class='contact present_addr1'>" + employees[i].PresentAddress1 + "</td><td class='contact present_addr2'>" + employees[i].PresentAddress2 + "</td><td class='contact perm_addr1'>" + employees[i].PermanentAddress1 + "</td><td class='contact perm_addr2'>" + employees[i].PermanentAddress2 + "</td><td class='contact email'>" + employees[i].Email + "</td><td class='contact resi_no'>" + employees[i].Phone + "</td><td class='contact mob_no'>" + employees[i].Mobile + "</td><td class='salary scale'>" + employees[i].Scale + "</td><td class='salary basic_pay'>" + employees[i].BasicPay + "</td><td class='salary grade_pay'>" + employees[i].GradePay + "</td><td class='salary group'>" + employees[i].Group + "</td><td class='additional qualificationcd'>" + qualification[qualification_index].QualificationName + "</td><td class='additional workingstatus'>" + employees[i].WorkingStatus + "</td><td class='additional languagecd'>" + language[language_index].Language + "</td><td class='additional remarks'>" + remarks[remarks_index].RemarksName + "</td><td class='bank bank_cd'>" + bank[bank_index].BankName + "</td><td class='bank branchname'>" + employees[i].Branch + "</td><td class='bank branchcd'>" + employees[i].IFSC + "</td><td class='bank bank_acc_no'>" + employees[i].AccountNo + "</td><td class='epic epic_no'>" + employees[i].EPIC + "</td><td class='epic partno'>" + employees[i].PartNo + "</td><td class='epic slno'>" + employees[i].SlNo + "</td><td class='assembly assembly_temp'>" + assembly[present_assembly_index].AssemblyName + "</td><td class='assembly assembly_perm'>" + assembly[permanent_assembly_index].AssemblyName + "</td><td class='assembly assembly_off'>" + assembly[posting_assembly_index].AssemblyName + "</td><td class='blockmuni blockmuni_temp'>" + blockmuni[present_blockmuni_index].BlockMuniName + "</td><td class='blockmuni blockmuni_perm'>" + blockmuni[permanent_blockmuni_index].BlockMuniName + "</td><td class='blockmuni blockmuni_off'>" + blockmuni[posting_blockmuni_index].BlockMuniName + "</td><td class='edit'>" + "<a href='#' class='edit-link'><span class='fa fa-edit'></span> Edit</a></td></tr>");
+            $('#table_employee').find('tbody').append("<tr><td class='index empcode'>" + employees[i].PersonCode + "</td><td class='index name'>" + employees[i].OfficerName + "</td><td class='personal desg'>" + employees[i].Desg + "</td><td class='personal gender'>" + employees[i].Gender + "</td><td class='personal dob'>" + employees[i].DOB + "</td><td class='contact present_addr1'>" + employees[i].PresentAddress1 + "</td><td class='contact present_addr2'>" + employees[i].PresentAddress2 + "</td><td class='contact perm_addr1'>" + employees[i].PermanentAddress1 + "</td><td class='contact perm_addr2'>" + employees[i].PermanentAddress2 + "</td><td class='contact email'>" + employees[i].Email + "</td><td class='contact resi_no'>" + employees[i].Phone + "</td><td class='contact mob_no'>" + employees[i].Mobile + "</td><td class='salary scale'>" + employees[i].Scale + "</td><td class='salary basic_pay'>" + employees[i].BasicPay + "</td><td class='salary grade_pay'>" + employees[i].GradePay + "</td><td class='salary group'>" + employees[i].EmpGroup + "</td><td class='additional qualificationcd'>" + qualification[qualification_index].QualificationName + "</td><td class='additional workingstatus'>" + employees[i].WorkingStatus + "</td><td class='additional languagecd'>" + language[language_index].Language + "</td><td class='additional remarks'>" + remarks[remarks_index].RemarksName + "</td><td class='bank bank_cd'>" + bank[bank_index].BankName + "</td><td class='bank branchname'>" + employees[i].Branch + "</td><td class='bank branchcd'>" + employees[i].IFSC + "</td><td class='bank bank_acc_no'>" + employees[i].AccountNo + "</td><td class='epic epic_no'>" + employees[i].EPIC + "</td><td class='epic partno'>" + employees[i].PartNo + "</td><td class='epic slno'>" + employees[i].SlNo + "</td><td class='assembly assembly_temp'>" + assembly[present_assembly_index].AssemblyName + "</td><td class='assembly assembly_perm'>" + assembly[permanent_assembly_index].AssemblyName + "</td><td class='assembly assembly_off'>" + assembly[posting_assembly_index].AssemblyName + "</td><td class='blockmuni blockmuni_temp'>" + blockmuni[present_blockmuni_index].BlockMuniName + "</td><td class='blockmuni blockmuni_perm'>" + blockmuni[permanent_blockmuni_index].BlockMuniName + "</td><td class='blockmuni blockmuni_off'>" + blockmuni[posting_blockmuni_index].BlockMuniName + "</td><td class='edit'>" + "<a href='#' class='edit-link'><span class='fa fa-edit'></span> Edit</a></td></tr>");
 
           }
           $('.overlay').hide();
@@ -436,10 +437,10 @@ include("../config/config.php");
             e.preventDefault();
             cancelDataUpdate(data_target_on, row);
           });
-        } else if (employees[RecordIndex].PostStat != '' && locked_data_target.indexOf(data_target_on) != -1) {
+        } /*else if (employees[RecordIndex].PostStat != '' && locked_data_target.indexOf(data_target_on) != -1) {
           $('#message-modal .modal-body h4').html("Data Update Locked for Employee <strong class='text-green'>" + employees[RecordIndex].OfficerName + "</strong> in <strong class='text-blue'>" + data_target_on.toUpperCase() + "</strong> Details");
           $('#message-modal').modal();
-        } else {
+        }*/ else {
           edit_lock = 'LOCK';
           row.addClass('warning');
           $(edit_cell).html("<a href='#' class='update-link text-green'><span class='fa fa-save'></span> Save</a> &nbsp;&nbsp; <a href='#' class='cancel-link text-red'><span class='fa fa-close'></span> Cancel</a>");
@@ -523,7 +524,7 @@ include("../config/config.php");
         var scale = $(Row).find('.scale').html().toString();
         var basic_pay = $(Row).find('.basic_pay').html().toString();
         var grade_pay = $(Row).find('.grade_pay').html().toString();
-
+        var group = employees[RecordIndex].EmpGroup;
         //Adding Input Feilds
         $(Row).find('.scale').html("<input type='text' class='scale_input'\>");
         $('.scale_input').val(scale);
@@ -531,6 +532,13 @@ include("../config/config.php");
         $('.basic_pay_input').val(basic_pay);
         $(Row).find('.grade_pay').html("<input type='text' class='grade_pay_input'\>");
         $('.grade_pay_input').val(grade_pay);
+
+        $(Row).find('.group').html(group_combo);
+        $(Row).find('.group').find('select').addClass('group_input');
+        $('.group_input option').each(function() {
+          if ($(this).val() == group)
+            $(this).attr('selected', true);
+        });
 
       }
 
@@ -794,6 +802,7 @@ include("../config/config.php");
         var scale = $(Row).find('.scale_input').val();
         var basic_pay = $(Row).find('.basic_pay_input').val();
         var grade_pay = $(Row).find('.grade_pay_input').val();
+        var group = $(Row).find('.group_input').val();
 
         if (!checkfornumber(basic_pay)) {
           $(Row).find('.basic_pay').addClass('danger');
@@ -806,21 +815,24 @@ include("../config/config.php");
         }
 
         $(Row).find('.edit').html("<i class='fa fa-spinner fa-spin text-orange'></i>");
-        result = updateSalaryData(emp_code, scale, basic_pay, grade_pay);
+        result = updateSalaryData(emp_code, scale, basic_pay, grade_pay, group);
         $(Row).removeClass('warning').find('td').removeClass('danger');
         if (result == 'Success') {
           //Adding Input Values
           $(Row).find('.scale').html(scale).addClass('success');
           $(Row).find('.basic_pay').html(basic_pay).addClass('success');
           $(Row).find('.grade_pay').html(grade_pay).addClass('success');
+          $(Row).find('.group').html(group).addClass('success');
           employees[RecordIndex].Scale = scale;
           employees[RecordIndex].BasicPay = basic_pay;
           employees[RecordIndex].GradePay = grade_pay;
+          employees[RecordIndex].EmpGroup = group;
         } else {
           //Adding Old Values
           $(Row).find('.scale').html(employees[RecordIndex].Scale).addClass('danger');
           $(Row).find('.basic_pay').html(employees[RecordIndex].BasicPay).addClass('danger');
           $(Row).find('.grade_pay').html(employees[RecordIndex].GradePay).addClass('danger');
+          $(Row).find('.group').html(employees[RecordIndex].EmpGroup).addClass('danger');
         }
       }
 
@@ -1075,6 +1087,7 @@ include("../config/config.php");
         $(Row).find('.scale').html(employees[RecordIndex].Scale);
         $(Row).find('.basic_pay').html(employees[RecordIndex].BasicPay);
         $(Row).find('.grade_pay').html(employees[RecordIndex].GradePay);
+        $(Row).find('.group').html(employees[RecordIndex].EmpGroup);
       }
 
       if (DataTarget == 'bank') {
@@ -1205,7 +1218,7 @@ include("../config/config.php");
       return result.Status;
     }
 
-    function updateSalaryData(EmpCode, Scale, BasicPay, GradePay) {
+    function updateSalaryData(EmpCode, Scale, BasicPay, GradePay, Group) {
       var result;
       $.ajax({
         mimeType: 'text/html; charset=utf-8', // ! Need set mimeType only when run from local file
@@ -1215,7 +1228,8 @@ include("../config/config.php");
           EmpCode: EmpCode,
           Scale: Scale,
           BasicPay: BasicPay,
-          GradePay: GradePay
+          GradePay: GradePay,
+          EmpGroup: Group
         },
         success: function(data) {
           result = JSON.parse(JSON.stringify(data));
