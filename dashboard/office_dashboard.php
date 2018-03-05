@@ -66,7 +66,8 @@
 </div>
 <div class="callout callout-success">
   <h3><i class="fa fa-star"></i>&nbsp;&nbsp;&nbsp;&nbsp;Please do not forget Tick the Declaration after completion of all your Employee Entry</h3></div>
-
+  <div class="callout callout-info">
+    <h3><i class="fa fa-star"></i>&nbsp;&nbsp;&nbsp;&nbsp;As per letter with  Memo No. 01(1600)/PPCELL Dated 23.02.2018, please fill up the office details (PP1). For employee details (PP2), you will receive a separate communication shortly.</h3></div>
 
 
 <!-- Modal -->
