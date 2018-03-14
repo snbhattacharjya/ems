@@ -12,7 +12,7 @@ $query_get_emp_frm_office=mysqli_query($DBLink,"SELECT tot_staff FROM office WHE
 $res=mysqli_fetch_assoc($query_get_emp_frm_office);
 $totalemp=$res['tot_staff'];
 
-$query_get_emp_frm_personel=mysqli_query($DBLink,"SELECT COUNT(personcd) AS total FROM personnel WHERE officecd='$ofccd'") or die(mysqli_error($DBLink));	
+$query_get_emp_frm_personel=mysqli_query($DBLink,"SELECT COUNT(personcd) AS total FROM personnel WHERE officecd='$ofccd'") or die(mysqli_error($DBLink));
 $res1=mysqli_fetch_assoc($query_get_emp_frm_personel);
 $totalemp1=$res1['total'];
 
@@ -31,5 +31,5 @@ else
 	$return="NOTELIGIBLE";
 }
 
-echo json_encode($return);
+echo json_encode('FALSE');
 ?>
