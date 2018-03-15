@@ -7,7 +7,7 @@ require("../config/config.php");
 
 $pccd=$_POST['pc'];
 
-$assembly_details_query="SELECT assemblycd AS AssemblyCode, assemblyname AS AssemblyName FROM assembly WHERE pccd='$pccd' AND subdivisioncd='$subdiv' ORDER BY assemblycd";
+$assembly_details_query="SELECT assemblycd AS AssemblyCode, assemblyname AS AssemblyName FROM assembly ORDER BY assemblycd";
 
 $assembly_details_result=mysqli_query($DBLink,$assembly_details_query) or die(mysqli_error($DBLink));
 $return=array();
