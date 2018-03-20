@@ -44,6 +44,7 @@ $subdiv_query->close();
                   <th>Total Staff PP1</th>
                   <th>Male Staff PP1</th>
                   <th>Female Staff PP1</th>
+                  <th>PP2 Letter</th>
                 </tr>
               </thead>
               <tbody>
@@ -68,7 +69,7 @@ $subdiv_query->close();
                     <td><?php echo $subdiv_names[$i]['TotalStaff']; ?></td>
                     <td><?php echo $subdiv_names[$i]['MaleStaff']; ?></td>
                     <td><?php echo $subdiv_names[$i]['FemaleStaff']; ?></td>
-
+                    <td><?php echo "<a href='report/office_pp2_letter_print.php?opt=blockmuni&code=".$subdiv_names[$i]['BlockMuniCode']."' target='_blank' class='text-red'><i class='fa fa-print'></i> print</a>"; ?></td>
                     <?php
                       $total_office += $subdiv_names[$i]['OfficeCount'];
                       $total_office_updated += $subdiv_names[$i]['OfficeUpdated'];
@@ -90,6 +91,7 @@ $subdiv_query->close();
                   <th><?php echo $total_staff; ?></th>
                   <th><?php echo $total_male; ?></th>
                   <th><?php echo $total_female; ?></th>
+                  <th>&nbsp;</th>
                 </tr>
               </tfoot>
           </table>
