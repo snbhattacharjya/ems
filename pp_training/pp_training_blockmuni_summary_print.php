@@ -47,7 +47,7 @@ $poststat=array();
         $blockmuni_booked_query->bind_param("s",$subdiv_param) or die($blockmuni_booked_query->error);
         $blockmuni_booked_query->execute() or die($blockmuni_booked_query->error);
         $blockmuni_booked_query->bind_result($block_muni_code,$post_stat_code,$pp_count) or die($blockmuni_booked_query->error);
-        
+
         $report=array();
         $search_index=array();
         while($blockmuni_booked_query->fetch()){
@@ -93,9 +93,9 @@ $poststat=array();
         </tr>
         <tr>
             <th colspan="<?php echo count($poststat) + 2; ?>">
-                <?php 
+                <?php
                     date_default_timezone_set("Asia/Kolkata");
-                    echo "<i class='fa fa-info-circle'></i> Report Compiled as on: ".date("d-M-Y H:i:s A"); 
+                    echo "<i class='fa fa-info-circle'></i> Report Compiled as on: ".date("d-M-Y H:i:s A");
                 ?>
             </th>
     </tfoot>
