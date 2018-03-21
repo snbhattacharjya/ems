@@ -72,8 +72,8 @@ $pp1_query->bind_result($pp1_count,$pp2_count) or die($pp1_query->error);
 $pp1_query->fetch();
 $pp1_query->close();
 
-if($pp1_count <= $pp2_count && $pp1_count != 0 && $pp2_count != 0)
-	die("Error!! PP1 count is lower than PP2 count. Please increase your Total Staff Strength to add New PP. Contact District PP cell in this regard");
+//if($pp1_count <= $pp2_count && $pp1_count != 0 && $pp2_count != 0)
+	//die("Error!! PP1 count is lower than PP2 count. Please increase your Total Staff Strength to add New PP. Contact District PP cell in this regard");
 
 $person=mysqli_query($DBLink,"SELECT MID(officecd,1,6) AS shortofficecd from office where officecd=$OfficeCd");
 $shortofficecd=mysqli_fetch_assoc($person);
@@ -89,12 +89,13 @@ else
 	$personcode=str_pad($maxpersoncd['maxpersoncd'],5,"0",STR_PAD_LEFT);
 	$personcd=$shortofficecd['shortofficecd'].$personcode+1;
 }
+date_default_timezone_set("Asia/Kolkata");
 $insertQuery="INSERT INTO `personnel` (
 `personcd` ,`officecd` ,`officer_name` ,`off_desg`, `adharno`,`present_addr1` ,`present_addr2` ,`perm_addr1` ,`perm_addr2` ,`dateofbirth` ,
 `gender` ,
 `scale` ,
 `basic_pay` ,
-`grade_pay` ,`workingstatus` ,`group` ,
+`grade_pay` ,`workingstatus` ,`emp_group` ,
 `email` ,`resi_no` ,
 `mob_no` ,`qualificationcd` ,
 `languagecd` ,

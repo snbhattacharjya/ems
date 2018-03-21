@@ -10,7 +10,7 @@ $BlockMuniTemp=$_POST['BlockMuniTemp'];
 $BlockMuniPerm=$_POST['BlockMuniPerm'];
 $BlockMuniOff=$_POST['BlockMuniOff'];
 
-$update_blockmuni_query=$mysqli->prepare("UPDATE personnel SET blockmuni_temp = ?, blockmuni_perm = ?, blockmuni_off = ? WHERE personcd = ?") or die(json_encode(array("Status"=>$mysqli->error)));
+$update_blockmuni_query=$mysqli->prepare("UPDATE personnel SET blockmuni_temp = ?, blockmuni_perm = ?, blockmuni_off = ?, posted_date = CURRENT_TIMESTAMP WHERE personcd = ?") or die(json_encode(array("Status"=>$mysqli->error)));
 
 $update_blockmuni_query->bind_param("ssss",$BlockMuniTemp,$BlockMuniPerm,$BlockMuniOff,$emp_code) or die(json_encode(array("Status"=>$update_blockmuni_query->error)));
 

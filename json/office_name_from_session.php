@@ -6,7 +6,7 @@ require("../config/config.php");
 if(isset($_SESSION['Office']))
 $office=$_SESSION['Office'];
 else
-die(json_encode());
+die(json_encode("ERROR"));
 $subdiv_name_query="SELECT office AS OfficeName FROM office WHERE officecd='$office'";
 
 $subdiv_name_result=mysqli_query($DBLink,$subdiv_name_query) or die(mysqli_error($DBLink));

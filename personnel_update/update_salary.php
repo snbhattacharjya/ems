@@ -11,7 +11,7 @@ $basic_pay=$_POST['BasicPay'];
 $grade_pay=$_POST['GradePay'];
 $emp_group=$_POST['EmpGroup'];
 
-$update_salary_query=$mysqli->prepare("UPDATE personnel SET scale = ?, basic_pay = ?, grade_pay = ?, emp_group = ? WHERE personcd = ?") or die(json_encode(array("Status"=>$mysqli->error)));
+$update_salary_query=$mysqli->prepare("UPDATE personnel SET scale = ?, basic_pay = ?, grade_pay = ?, emp_group = ?, posted_date = CURRENT_TIMESTAMP WHERE personcd = ?") or die(json_encode(array("Status"=>$mysqli->error)));
 
 $update_salary_query->bind_param("siiss",$scale,$basic_pay,$grade_pay,$emp_group,$emp_code) or die(json_encode(array("Status"=>$update_salary_query->error)));
 
