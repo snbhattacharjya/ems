@@ -58,9 +58,9 @@ $WorkExperience=$_POST['WorkExperience'];
 $districtcd=substr($_SESSION['Subdiv'],0,2);
 $subdivisioncd=$_SESSION['Subdiv'];
 //$photo=$_POST['Photo'];
-$query_check_accno_exsist=mysqli_query($DBLink,"SELECT bank_acc_no FROM personnel WHERE bank_acc_no='$BankAcNo'") or die(mysqli_error());
+$query_check_accno_exsist=mysqli_query($DBLink,"SELECT bank_acc_no FROM personnel WHERE bank_acc_no='$BankAcNo' AND remarks != 96") or die(mysqli_error());
 if(mysqli_num_rows($query_check_accno_exsist))
-die("Error!! Employee already exsist.");
+die("Error!! Employee already exsist. Please ensure that the employee gets marked as TRANFER from the originating office.");
 
 $pp1_count=0;
 $pp2_count=0;
