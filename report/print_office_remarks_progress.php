@@ -4,89 +4,100 @@ require("../config/config.php");
 ?>
 
 
-            	<h3 class="box-title">Office Progress Report</h3>
-
+<h3 class="box-title">Personnel Remarks Distribution Report (Total)</h3>
 
 <table border="1" cellspacing="0" cellpadding="5">
   <?php
   $remarks_names=array();
-  $remarks_query=$mysqli->prepare("SELECT remarks.remarks_cd, remarks.remarks, COUNT(personnel.personcd) FROM personnel INNER JOIN remarks ON personnel.remarks=remarks.remarks_cd GROUP BY remarks.remarks_cd, remarks.remarks ORDER BY remarks.remarks_cd") or die($mysqli->error);
+  $remarks_query=$mysqli->prepare("SELECT remarks.remarks_cd, remarks.remarks, COUNT(CASE personnel.gender WHEN 'M' THEN 1 END), COUNT(CASE personnel.gender WHEN 'F' THEN 1 END) FROM personnel INNER JOIN remarks ON personnel.remarks=remarks.remarks_cd GROUP BY remarks.remarks_cd, remarks.remarks ORDER BY remarks.remarks_cd") or die($mysqli->error);
   $remarks_query->execute() or die($remarks_query->error);
-  $remarks_query->bind_result($remarks_code,$remarks_name,$tot_remarks_count) or die($remarks_query->error);
+  $remarks_query->bind_result($remarks_code,$remarks_name,$male_remarks_count,$female_remarks_count) or die($remarks_query->error);
   while($remarks_query->fetch()){
-  	$remarks_names[]=array("RemarksCode"=>$remarks_code,"RemarksName"=>$remarks_name,"TotalRemarksCount"=>$tot_remarks_count);
+  	$remarks_names[]=array("RemarksCode"=>$remarks_code,"RemarksName"=>$remarks_name,"MaleRemarksCount"=>$male_remarks_count,"FemaleRemarksCount"=>$female_remarks_count);
   }
   $remarks_query->close();
-
-  $subdiv_names=array();
-  $subdiv_query=$mysqli->prepare("SELECT subdivision.subdivisioncd, subdivision.subdivision, COUNT(personnel.personcd) FROM personnel INNER JOIN subdivision ON personnel.subdivisioncd=subdivision.subdivisioncd GROUP BY subdivision.subdivisioncd, subdivision.subdivision ORDER BY subdivision.subdivisioncd") or die($mysqli->error);
-  $subdiv_query->execute() or die($subdiv_query->error);
-  $subdiv_query->bind_result($subdiv_code,$subdiv_name,$tot_subdiv_count) or die($subdiv_query->error);
-  while($subdiv_query->fetch()){
-  	$subdiv_names[]=array("SubDivCode"=>$subdiv_code,"SubDivName"=>$subdiv_name,"TotalSubDivCount"=>$tot_subdiv_count);
-  }
-  $subdiv_query->close();
-
-  $report_query=$mysqli->prepare("SELECT subdivision.subdivisioncd, remarks.remarks_cd, COUNT(personnel.personcd) FROM (personnel INNER JOIN subdivision ON personnel.subdivisioncd=subdivision.subdivisioncd) INNER JOIN remarks ON personnel.remarks=remarks.remarks_cd GROUP BY subdivision.subdivisioncd, remarks.remarks_cd ORDER BY subdivision.subdivisioncd, remarks.remarks_cd") or die($mysqli->error);
-  $report_query->execute() or die($report_query->error);
-  $report_query->bind_result($subdiv_code,$remarks_code,$total_count) or die($report_query->error);
-
-  $report=array();
-  $search_index=array();
-  while($report_query->fetch()){
-  	$report[]=array("SubDivCode"=>$subdiv_code,"RemarksCode"=>$remarks_code,"TotalCount"=>$total_count);
-  	$search_index[]=array("SubDivCode"=>$subdiv_code,"RemarksCode"=>$remarks_code);
-  }
-
   ?>
   <thead>
   <tr class="bg-teal-gradient">
   <th>REMARKS</th>
-  <?php
-  	for($i=0;$i<count($subdiv_names);$i++){
-  ?>
-  	<th><?php echo $subdiv_names[$i]['SubDivName']; ?></th>
-  <?php
-  }
-  ?>
+  <th>Male Count</th>
+  <th>Female Count</th>
   <th>TOTAL</th>
   </tr>
   </thead>
   <tbody>
   <?php
+  $total_male_count = 0;
+  $total_female_count = 0;
   	for($i=0;$i<count($remarks_names);$i++){
   ?>
-  	<tr>
+  	  <tr>
       	<td><?php echo $remarks_names[$i]['RemarksName']; ?></td>
-          <?php
-  		for($j=0;$j<count($subdiv_names);$j++){
-                      $index=array_search(array("SubDivCode"=>$subdiv_names[$j]['SubDivCode'],"RemarksCode"=>$remarks_names[$i]['RemarksCode']),$search_index);
-                      if($report[$index]['SubDivCode'] == $subdiv_names[$j]['SubDivCode'] && $report[$index]['RemarksCode'] == $remarks_names[$i]['RemarksCode']){
-  					echo "<td>".$report[$index]['TotalCount']."</td>";
-  				}
-  				else
-  					echo "<td>0</td>";
-  		}
-  		?>
-          <td><?php echo $remarks_names[$i]['TotalRemarksCount']; ?></td>
+        <td><?php echo $remarks_names[$i]['MaleRemarksCount']; ?></td>
+        <td><?php echo $remarks_names[$i]['FemaleRemarksCount']; ?></td>
+        <td><?php echo $remarks_names[$i]['MaleRemarksCount'] + $remarks_names[$i]['FemaleRemarksCount']; ?></td>
       </tr>
   <?php
+    $total_male_count += $remarks_names[$i]['MaleRemarksCount'];
+    $total_female_count += $remarks_names[$i]['FemaleRemarksCount'];
   }
   ?>
   </tbody>
   <tfoot>
   <tr class="info">
   	<th>TOTAL</th>
-      <?php
-  	$dist_total=0;
-  	for($j=0;$j<count($subdiv_names);$j++){
-  		$dist_total+=$subdiv_names[$j]['TotalSubDivCount'];
-  	?>
-      <th><?php echo $subdiv_names[$j]['TotalSubDivCount']; ?></th>
-      <?php
-  	}
-  	?>
-  	<th><?php echo $dist_total; ?></th>
+    <th><?php echo $total_male_count; ?></th>
+    <th><?php echo $total_female_count; ?></th>
+  	<th><?php echo $total_male_count + $total_female_count; ?></th>
+  </tr>
+  </tfoot>
+</table>
+<h1 style="page-break-after: always;"></h1>
+<h3 class="box-title">Personnel Remarks Distribution Report (Updated)</h3>
+
+<table border="1" cellspacing="0" cellpadding="5">
+  <?php
+  $remarks_names=array();
+  $remarks_query=$mysqli->prepare("SELECT remarks.remarks_cd, remarks.remarks, COUNT(CASE personnel.gender WHEN 'M' THEN 1 END), COUNT(CASE personnel.gender WHEN 'F' THEN 1 END) FROM personnel INNER JOIN remarks ON personnel.remarks=remarks.remarks_cd AND DATE_FORMAT(personnel.posted_date,'%Y') = '2018' GROUP BY remarks.remarks_cd, remarks.remarks ORDER BY remarks.remarks_cd") or die($mysqli->error);
+  $remarks_query->execute() or die($remarks_query->error);
+  $remarks_query->bind_result($remarks_code,$remarks_name,$male_remarks_count,$female_remarks_count) or die($remarks_query->error);
+  while($remarks_query->fetch()){
+  	$remarks_names[]=array("RemarksCode"=>$remarks_code,"RemarksName"=>$remarks_name,"MaleRemarksCount"=>$male_remarks_count,"FemaleRemarksCount"=>$female_remarks_count);
+  }
+  $remarks_query->close();
+  ?>
+  <thead>
+  <tr class="bg-teal-gradient">
+  <th>REMARKS</th>
+  <th>Male Count</th>
+  <th>Female Count</th>
+  <th>TOTAL</th>
+  </tr>
+  </thead>
+  <tbody>
+  <?php
+  $total_male_count = 0;
+  $total_female_count = 0;
+  	for($i=0;$i<count($remarks_names);$i++){
+  ?>
+  	  <tr>
+      	<td><?php echo $remarks_names[$i]['RemarksName']; ?></td>
+        <td><?php echo $remarks_names[$i]['MaleRemarksCount']; ?></td>
+        <td><?php echo $remarks_names[$i]['FemaleRemarksCount']; ?></td>
+        <td><?php echo $remarks_names[$i]['MaleRemarksCount'] + $remarks_names[$i]['FemaleRemarksCount']; ?></td>
+      </tr>
+  <?php
+    $total_male_count += $remarks_names[$i]['MaleRemarksCount'];
+    $total_female_count += $remarks_names[$i]['FemaleRemarksCount'];
+  }
+  ?>
+  </tbody>
+  <tfoot>
+  <tr class="info">
+  	<th>TOTAL</th>
+    <th><?php echo $total_male_count; ?></th>
+    <th><?php echo $total_female_count; ?></th>
+  	<th><?php echo $total_male_count + $total_female_count; ?></th>
   </tr>
   </tfoot>
 </table>
