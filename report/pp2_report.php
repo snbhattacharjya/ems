@@ -39,7 +39,7 @@ $subdiv_query->close();
                   <th>Subdivision</th>
                   <th>Block/Municipality</th>
                   <th>PP2 Updated</th>
-                  <th>Remarks Report</th>
+                  <th>Pending Report</th>
                 </tr>
               </thead>
               <tbody>
@@ -56,7 +56,7 @@ $subdiv_query->close();
                     <td><?php echo "<a href='report/print_office_remarks_progress.php?opt=subdiv&code=".$subdiv_names[$i]['SubDivCode']."' target='_blank'>".$subdiv_names[$i]['SubDivName']."</a>"; ?></td>
                     <td><?php echo "<a href='report/print_office_remarks_progress.php?opt=blockmuni&code=".$subdiv_names[$i]['BlockMuniCode']."' target='_blank'>".$subdiv_names[$i]['BlockMuniName']."</a>"; ?></td>
                     <td><?php echo $subdiv_names[$i]['PP2Count']; ?></td>
-                    <td><?php echo "<a href='report/office_remarks_detail_print.php?opt=blockmuni&code=".$subdiv_names[$i]['BlockMuniCode']."' target='_blank' class='text-red'><i class='fa fa-print'></i> print</a>"; ?></td>
+                    <td><?php echo "<a href='report/office_pending_detail_print.php?opt=blockmuni&code=".$subdiv_names[$i]['BlockMuniCode']."' target='_blank' class='text-red'><i class='fa fa-print'></i> print</a>"; ?></td>
                     <?php
                       $total_pp2 += $subdiv_names[$i]['PP2Count'];
                     ?>
