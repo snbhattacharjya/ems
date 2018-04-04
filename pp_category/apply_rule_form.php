@@ -10,7 +10,7 @@ require("../config/config.php");
     <div class="col-sm-12">
     	<div class="box box-info">
             <div class="box-header with-border">
-            	<h3 class="box-title text-red"><strong>Apply Rule for PP Post Status</strong></h3>              
+            	<h3 class="box-title text-red"><strong>Apply Rule for PP Post Status</strong></h3>
                 <div class="box-tools pull-right">
                     <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>                          </div>
             </div><!-- /.box-header -->
@@ -33,7 +33,7 @@ require("../config/config.php");
                 <div class="col-md-12">
                     <div class="panel panel-success" style="display: none" id="report_panel">
                         <div class="panel-heading" id="report_result">
-                            <label class="pull-left">Progress: </label> <span id="progress"></span>, 
+                            <label class="pull-left">Progress: </label> <span id="progress"></span>,
                             <label>Records Affected: </label> <span id="records"></span>
                             <span class="pull-right">Hide</span>
                         </div>
@@ -56,11 +56,11 @@ require("../config/config.php");
 <?php
 $rule_query="SELECT RuleID, PostStatFrom, PostStatTo, Subdivision, OfficeCategory, Office, BasicPay, GradePay, Qualification, NotQualification, Designation, NotDesignation, Remarks, NotRemarks, Gender, Age, RecordsAffected, AppliedDate, RecordsRevoked, RevokedDate FROM pp_post_rules ORDER BY RuleID";
 
-$rule_result=mysql_query($rule_query,$DBLink) or die(mysql_error());
+$rule_result=mysqli_query($DBLink,$rule_query) or die(mysqli_error($DBLink));
 
 $count=0;
 
-while($res=mysql_fetch_assoc($rule_result))
+while($res=mysqli_fetch_assoc($rule_result))
 {
 	$count=$count+1;
 ?>
@@ -135,7 +135,7 @@ echo '<strong>Subdivision: </strong>'.$res['Subdivision'].'<br>'.
 			</div><!-- /.box-body -->
        	</div><!-- /.box -->
   	</div><!-- /.col -->
-</div><!-- /.row -->   
+</div><!-- /.row -->
 <script>
 var rule_table=$('#rule_table').DataTable({
 		"paging": true,
@@ -145,13 +145,13 @@ var rule_table=$('#rule_table').DataTable({
 	  	"info": true,
 	  	"autoWidth": true
 		});
-		
+
 $('#rule_table tbody').on('click', 'td > a', function (e) {
 	e.preventDefault();
 	var select_row = $(this).closest('tr');
 	var row_data = rule_table.row(select_row).data();
 	var ops=$.parseHTML($(this).html());
-			
+
 	if($(this).hasClass('query_rule')){
 		$(this).hide();
 		$(this).parent('td').find('#query_loader').show();
@@ -175,7 +175,7 @@ $('#rule_table tbody').on('click', 'td > a', function (e) {
 		});
 		$(this).parent('td').find('#query_result').show().html('Record Count: '+result.Status+'<br>');
 		$(this).show();
-		$(this).parent('td').find('#query_loader').hide();	
+		$(this).parent('td').find('#query_loader').hide();
 	}
 	else if($(this).hasClass('grant_rule')){
 		$(this).parent('td').next('td').find('#rule_loader').show();
