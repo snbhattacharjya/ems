@@ -10,7 +10,7 @@ require("../config/config.php");
 	<div class="col-sm-12">
     	<div class="box box-solid">
         	<div class="box-header with-border">
-            	<h3 class="box-title text-red"><strong>Personnel Post Status Reports</strong></h3>              
+            	<h3 class="box-title text-red"><strong>Personnel Post Status Reports</strong></h3>
          	</div><!-- /.box-header -->
 			<div class="box-body">
     			<div class="row">
@@ -29,24 +29,24 @@ require("../config/config.php");
                           </select>
                         </div>
                         <div class="col-md-3">
-                        	<button class="btn btn-primary pull-left" id="reportBtn" type="button">Generate Report</button> 
+                        	<button class="btn btn-primary pull-left" id="reportBtn" type="button">Generate Report</button>
                         </div>
-                    </div>  
+                    </div>
                 </form>
                 </div><!-- End Row 1 -->
-                
+
                 <div id="report_loader" style="text-align:center; display:none">
                     <img src="pp_category/loading_gif_1.gif" width="430" height="260" alt="loading">
                 </div>
 				<div class="margin"></div>
                 <div id="report_result">
-                
+
                 </div>
-                
+
 			</div><!-- /.box-body -->
        	</div><!-- /.box -->
   	</div><!-- /.col -->
-</div><!-- /.row --> 
+</div><!-- /.row -->
 <script>
 $('#reportBtn').click(function(e) {
 	$('#report_result').empty();
@@ -66,4 +66,4 @@ $('#reportBtn').click(function(e) {
 		async: false
 	});
 });
-</script>  
+</script>

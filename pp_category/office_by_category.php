@@ -22,14 +22,14 @@ if($govt_clause == 'ALL'){
 $office_govt_query="SELECT officecd AS OfficeCode, office AS OfficeName FROM office ORDER BY officecd";
 }
 else{
-$office_govt_query="SELECT officecd AS OfficeCode, office AS OfficeName FROM office WHERE govt IN ($govt_clause) ORDER BY officecd";	
+$office_govt_query="SELECT officecd AS OfficeCode, office AS OfficeName FROM office WHERE govt IN ($govt_clause) ORDER BY officecd";
 }
 
-$office_govt_result=mysql_query($office_govt_query,$DBLink) or die(mysql_error());
+$office_govt_result=mysqli_query($DBLink,$office_govt_query) or die(mysqli_error($DBLink));
 $return=array();
-while($row=mysql_fetch_assoc($office_govt_result))
+while($row=mysqli_fetch_assoc($office_govt_result))
 {
 	$return[]=$row;
-}	
+}
 echo json_encode($return);
 ?>

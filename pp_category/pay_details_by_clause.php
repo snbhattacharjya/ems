@@ -39,12 +39,12 @@ if($govt_clause != 'ALL')
 	$clause=$clause." AND office.govt IN ($govt_clause)";
 if($officecd_clause != 'ALL')
 	$clause=$clause." AND office.officecd IN ($officecd_clause)";
-	
+
 $pay_query="SELECT MAX(basic_pay) AS MaxBasic, MAX(grade_pay) AS MaxGrade, MIN(basic_pay) AS MinBasic, MIN(grade_pay) AS MinGrade FROM personnel INNER JOIN office ON personnel.officecd=office.officecd WHERE $clause";
 
-$pay_result=mysql_query($pay_query,$DBLink) or die(mysql_error());
+$pay_result=mysqli_query($DBLink,$pay_query) or die(mysqli_error($DBlink));
 //$return=array();
-$row=mysql_fetch_assoc($pay_result);
+$row=mysqli_fetch_assoc($pay_result);
 
 //$return[]=$row;
 

@@ -39,12 +39,12 @@ if($govt_clause != 'ALL')
 	$clause=$clause." AND office.govt IN ($govt_clause)";
 if($officecd_clause != 'ALL')
 	$clause=$clause." AND office.officecd IN ($officecd_clause)";
-	
+
 $qualification_query="SELECT qualificationcd AS QualificationCode, qualification AS QualificationName FROM qualification WHERE qualificationcd IN (SELECT DISTINCT(qualificationcd) FROM personnel INNER JOIN office ON personnel.officecd=office.officecd WHERE $clause) ORDER BY qualificationcd";
 
-$qualification_result=mysql_query($qualification_query,$DBLink) or die(mysql_error());
+$qualification_result=mysqli_query($DBLink,$qualification_query) or die(mysqli_error($DBLink));
 $return=array();
-while($row=mysql_fetch_assoc($qualification_result))
+while($row=mysqli_fetch_assoc($qualification_result))
 {
 	$return[]=$row;
 }

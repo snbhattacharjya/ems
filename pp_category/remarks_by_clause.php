@@ -59,7 +59,7 @@ if(strlen($qualification_clause) > 50)
 
 if($not_qualification == 1 && $qualification_clause == 'ALL')
 	die(json_encode(array()));
-	
+
 $desg_clause='';
 for($i = 0; $i < count($desg); $i++){
 	if($desg[$i] != 'ALL')
@@ -76,7 +76,7 @@ if(strlen($desg_clause) > 200)
 
 if($not_designation == 1 && $desg_clause == 'ALL')
 	die(json_encode(array()));
-	
+
 $clause="personnel.personcd != ''";
 $clause.=" AND personnel.basic_pay BETWEEN $basic_pay[0] AND $basic_pay[1]";
 $clause.=" AND personnel.grade_pay BETWEEN $grade_pay[0] AND $grade_pay[1]";
@@ -99,15 +99,15 @@ if($officecd_clause != 'ALL')
 	$clause.=" AND office.officecd IN ($officecd_clause)";
 
 $clause.=" AND DATE_FORMAT(NOW(), '%Y') - DATE_FORMAT(personnel.dateofbirth, '%Y') - (DATE_FORMAT(NOW(), '00-%m-%d') < DATE_FORMAT(personnel.dateofbirth, '00-%m-%d')) < 60";
-	
+
 $remarks_query="SELECT remarks.remarks_cd AS RemarksCode, remarks.remarks AS RemarksName, COUNT(*) AS PPCount FROM (personnel INNER JOIN office ON personnel.officecd=office.officecd) INNER JOIN remarks ON personnel.remarks=remarks.remarks_cd WHERE $clause GROUP BY remarks.remarks_cd, remarks.remarks ORDER BY remarks.remarks_cd";
 
-$remarks_result=mysql_query($remarks_query,$DBLink) or die(json_encode(array("status"=>mysql_error())));
+$remarks_result=mysqli_query($DBLink,$remarks_query) or die(json_encode(array("status"=>mysqli_error($DBLink))));
 $return=array();
-while($row=mysql_fetch_assoc($remarks_result))
+while($row=mysqli_fetch_assoc($remarks_result))
 {
 	$return[]=$row;
-}	
+}
 
 echo json_encode($return);
 ?>

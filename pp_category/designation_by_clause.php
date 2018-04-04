@@ -50,7 +50,7 @@ $qualification_clause=rtrim($qualification_clause,',');
 
 if($not_qualification == 1 && $qualification_clause == 'ALL')
 	die(json_encode(array()));
-	
+
 $clause="personnel.personcd != ''";
 $clause.=" AND personnel.basic_pay BETWEEN $basic_pay[0] AND $basic_pay[1]";
 $clause.=" AND personnel.grade_pay BETWEEN $grade_pay[0] AND $grade_pay[1]";
@@ -68,15 +68,15 @@ if($govt_clause != 'ALL')
 	$clause=$clause." AND office.govt IN ($govt_clause)";
 if($officecd_clause != 'ALL')
 	$clause=$clause." AND office.officecd IN ($officecd_clause)";
-	
+
 $desg_query="SELECT DISTINCT(off_desg) AS Designation FROM personnel INNER JOIN office ON personnel.officecd=office.officecd WHERE $clause ORDER BY off_desg";
 
-$desg_result=mysql_query($desg_query,$DBLink) or die(json_encode(array("status"=>mysql_error())));
+$desg_result=mysqli_query($DBLink,$desg_query) or die(json_encode(array("status"=>mysqli_error($DBLink))));
 $return=array();
-while($row=mysql_fetch_assoc($desg_result))
+while($row=mysqli_fetch_assoc($desg_result))
 {
 	$return[]=$row;
-}	
+}
 
 echo json_encode($return);
 ?>
