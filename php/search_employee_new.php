@@ -24,7 +24,9 @@ include("../config/config.php");
 
           <div id="div_message" class="callout callout-danger" style="display:none">
           </div>
-
+          <div class="box-header">
+            <a href='report/office_pending_personnel_report.php' class="btn btn-warning" target="_blank"><i class="fa fa-print"></i> Pending Personnel List</a>
+          </div>
           <div id="show_emp_form">
             <div class="box-header">
               <a class="btn btn-app" data-target="personal" data-value="ON">
