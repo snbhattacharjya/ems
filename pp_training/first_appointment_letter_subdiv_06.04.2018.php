@@ -34,24 +34,23 @@ for($i = 0;$i < count($pp_data); $i++){
 ?>
 <table width="100%" style="font-family: sans-serif; font-size: 11">
     <tr>
-        <th width="20%">&nbsp;Election Urgent </th>
+        <th width="20%">
+            <img src="../img/ECI-Logo-LMI.jpg" alt="" height="50" width="50"/><br>
+            Election Urgent
+        </th>
         <th width="60%">
             <img src="../pp_training/indian-symbol4.jpg" alt=""/><br>
-            ORDER OF APPOINTMENT FOR<br>
-            <?php echo $env.", ".$dist; ?>
+            ORDER OF APPOINTMENT FOR TRAINING<br>
+            <?php echo $env.", ".$dist."<br>No ($apt1_order_no), Date: ".date_format(date_create_from_format("Y-m-d",$apt1_date),"d/m/Y"); ?>
         </th>
-        <th width="20%">&nbsp;</th>
-    </tr>
-    <tr>
-        <th width="20%">Memo No: 21/PP CELL Dist(24525) </th>
-        <th width="60%">&nbsp;
-            
+        <th width="20%">
+            <img src="<?php echo $newfile; ?>" alt=""/><br>
+            QR code
         </th>
-        <th width="20%">Dated: 09/04/2018</th>
     </tr>
     <tr>
         <td colspan="3" style="padding-top: 15; text-align: justify">
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; In exercise of the power conferred upon vide Section 26 of the R. P. Act, 1951 read with sub section(5) of section 6 of West Bengal State Election Commission Act 1994 (WB Act VIII of 1994) read with section 28 of the West Bengal Panchayat Election Act 2003, I do hereby appoint the officer specified below as Polling Officer for undergoing training in connection with the conduct of West Bengal Panchayat Election, 2018 in district of Hooghly.
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; In exercise of the power conferred upon vide Section 26 of the R. P. Act, 1951, I do hereby appoint the officer specified below as Polling Officer for undergoing training in connection with the conduct of General Assembly Election of West Bengal, 2016.
         </td>
     </tr>
     <tr>
@@ -97,7 +96,7 @@ for($i = 0;$i < count($pp_data); $i++){
         </td>
     </tr>
     <tr>
-        <td colspan="3" style="padding-top: 10; text-align: justify">This is a compulsory duty on your part to attend the said programme,as per the provisions of the Representation of the People's Act, 1951, remaining absent in attending training and performing subsequent duties will invite strict penal action. </td>
+        <td colspan="3" style="padding-top: 10; text-align: justify">This is a compulsory duty on your part to attend the said programme,as per the provisions of the Representation of the People Act, 1951. You are directed to bring a copy of your Elector's Photo Identity Card (EPIC) or any other proof of Identity. </td>
     </tr>
     <tr>
         <td style="padding-top: 10; text-align: justify">
@@ -107,7 +106,7 @@ for($i = 0;$i < count($pp_data); $i++){
         <th style="padding-top: 10; text-align: justify">&nbsp;</th>
         <td style="padding-top: 10; text-align: justify">
             <img src="../pp_training/dm-sign1.jpg" alt=""/><br>
-            District Panchayat Election Officer<br>
+            District Election Officer<br>
             District Hooghly
         </td>
     </tr>
@@ -120,9 +119,14 @@ for($i = 0;$i < count($pp_data); $i++){
         <td colspan="3" style="padding-top: 5; text-align: justify">
             NB <br>
             <ol>
+                <li>Sign the pre-filled Form 12 (enclosed), after checking thoroughly for every information and if corrections are needed in current Part No / Serial No. Address need not to be filled. </li>
+                <li> Please submit duly signed Form 12 along with duplicate copy of appointment letter at training venue on the first day of training. </li>
                 <li>
-                Please check your electoral data and bank details given below. For any inconsistency please inform the authority. <strong><br> 
-                EPIC N0. - <?php echo $pp_data[$i]['epic']; ?>, Assembly - <?php echo $pp_data[$i]['acno']; ?>, Part No. - <?php echo $pp_data[$i]['partno']; ?>, Sl. No.- <?php echo $pp_data[$i]['slno']; ?> <br>Bank - <?php echo $pp_data[$i]['bank']; ?>, Branch - <?php echo $pp_data[$i]['branch']; ?> <br>A/c No.- <?php echo $pp_data[$i]['bank_accno']; ?>, IFS Code- <?php echo $pp_data[$i]['ifsc']; ?></strong></li>
+                    Please write particulars on the supplied blank Identity Card and also affix your colour passport size photograph on it. Please bring it to training venue for attestation.
+                </li>
+                <li>
+                Please check your electoral data and bank details given below. For any inconsistency please inform the authority. <strong><br> EPIC N0. - <?php echo $pp_data[$i]['epic']; ?>, Assembly - <?php echo $pp_data[$i]['acno']; ?>, Part No. - <?php echo $pp_data[$i]['partno']; ?>, Sl. No.- <?php echo $pp_data[$i]['slno']; ?> <br>Bank - <?php echo $pp_data[$i]['bank']; ?>, Branch - <?php echo $pp_data[$i]['branch']; ?> <br>A/c No.- <?php echo $pp_data[$i]['bank_accno']; ?>, IFS Code- <?php echo $pp_data[$i]['ifsc']; ?></strong></li>
+                <li>Please verify your Electoral details given above with the latest elctoral roll. You may know your AC no. / Part no. / Sl no. by sending your EPIC no. through SMS at CEO helpline number in the following text format <em>WBELEC&lt;space&gt;Your EPIC Card no to 9002481874</em> or <em>WB&lt;space&gt;EC&lt;space&gt;Your EPIC Card no to 51969.</em></li>
             </ol>
         </td>
     </tr>
