@@ -2,7 +2,7 @@
 session_start();
 require("../config/config.php");
 ?>
-    
+
 <table class="table table-bordered table-hover table-condensed" id="desg_post_table">
 <thead>
 <tr class="bg-teal">
@@ -13,7 +13,7 @@ require("../config/config.php");
         <li><a href="NA" class="poststat">NA - NOT ASSIGNED</a></li>
         <?php
 			$new_post_stat="<select id='new_post_stat' class='select2' style='width: 100%;'>";
-			
+
 			$post_stat_query="SELECT post_stat, poststatus FROM poststat ORDER BY post_stat";
 			$post_stat_result=$mysqli->query($post_stat_query);
 			$post_status=array();
@@ -73,7 +73,7 @@ for($i = 0 ; $i < count($desg) ; $i++){
 <button class="btn btn-sm btn-primary pull-right change-btn">Click Here</button>
 </td>
 </tr>
-<?php 
+<?php
 }
 ?>
 </tbody>
@@ -160,7 +160,7 @@ for($i = 0 ; $i < count($desg) ; $i++){
     </div>
 
   </div>
-</div>		   
+</div>
 <script>
 //$('.select2').select2();
 var row;
@@ -176,12 +176,12 @@ var table=$('#desg_post_table').DataTable({
 $('.poststat').click(function(e) {
     e.preventDefault();
 	var post_stat=$(this).attr('href').toString();
-	
+
 	table
         .column( 0 )
         .search( post_stat )
         .draw();
-	
+
 });
 
 $('.change-btn').click(function(e) {
@@ -194,14 +194,14 @@ $('.change-btn').click(function(e) {
 	var remarks=row.find('.remarks').html().toString();
 
 	var from_post_stat=row.find('.from_post_stat').html().toString();
-	
+
 	$('#basic_pay').html(basic_pay);
 	$('#grade_pay').html(grade_pay);
 	$('#designation').html(designation);
 	$('#qualification').html(qualification);
 	$('#remarks').html(remarks);
 	$('#from_post_stat').html(from_post_stat);
-	
+
 	$('#change-post-status-modal').modal();
 });
 
@@ -209,7 +209,7 @@ $('#CreateApplyRuleBtn').click(function(e) {
     e.preventDefault();
 	row.find('.change-btn').hide();
 	row.find('.change-btn-cell').append("<i class='fa fa-spinner fa-spin text-orange'></i>");
-	
+
 	var basic_pay=$('#basic_pay').html().toString();
 	var grade_pay=$('#grade_pay').html().toString();
 	var designation=$('#designation').html().toString();
@@ -219,7 +219,7 @@ $('#CreateApplyRuleBtn').click(function(e) {
 	var from_post_stat=$('#from_post_stat').html().toString();
 	var gender=$('#gender').val();
 	var to_post_stat=$('#new_post_stat').val();
-	
+
 	var result;
 	$.ajax({
 		mimeType: 'text/html; charset=utf-8', // ! Need set mimeType only when run from local file
