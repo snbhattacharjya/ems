@@ -25,6 +25,7 @@ require("../config/config.php");
                             <option value="pp_category/report_desg_post.php">Post Status for Designation</option>
                             <option value="pp_category/report_subdiv_post.php">Subdivision wise Post Requirement Availibility Matrix</option>
                             <option value="pp_category/report_subdiv_post_all.php">Subdivision wise Post Allocation</option>
+														<option value="pp_category/report_blockmuni_post_all.php">Block Municipality wise Post Allocation</option>
                             <option value="pp_category/report_perm_asm_post_pp.php">Permanent Assembly wise PP Distribution</option>
                           </select>
                         </div>
