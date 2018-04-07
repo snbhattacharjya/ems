@@ -1,4 +1,4 @@
-/* 
+/*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -142,7 +142,7 @@ function loadVenueRooms(){
         dataType: "json",
         async: false
     });
-    
+
     $('#venue_room_table tbody').on('click','.modify', function(e){
         e.preventDefault();
         if(modify_lock == 0){
@@ -153,7 +153,7 @@ function loadVenueRooms(){
             var venue_capacity=$(row).find('.venue_capacity').html().toString();
             $(row).find('.venue_capacity').html("<input type='text' value='"+venue_capacity+"' class='venue_capacity_input'>");
             $(cell).html("<a href='#' class='save btn btn-sm text-green'><i class='fa fa-save'></i></a> <a href='#' class='cancel btn btn-sm text-red'><i class='fa fa-close'></i></a>");
-            
+
             $('.save').click(function(e){
                 e.preventDefault();
                 var venue_capacity_input=$(row).find('.venue_capacity_input').val();
@@ -259,7 +259,7 @@ function loadScheduleTable(){
             //$('#venue_room_table tfoot').find('.total_capacity').html('0');
             //var total_capacity=0;
             $.each(result,function(i){
-                $('#schedule_table tbody').append("<tr><td>"+(i+1)+"</td><td class='venue_cd'>"+result[i].VenueID+"</td><td class='venue_name'>"+result[i].VenueName+"</td><td class='venue_capacity'>"+result[i].VenueCapacity+"</td><td><input type='text' class='pr_input' maxlength='3' size='3' value='0'></td><td><input type='text' class='p1_input' maxlength='3' size='3' value='0'></td><td><input type='text' class='p2_input' maxlength='3' size='3' value='0'></td><td><input type='text' class='p3_input' maxlength='3' size='3' value='0'></td></tr>");
+                $('#schedule_table tbody').append("<tr><td>"+(i+1)+"</td><td class='venue_cd'>"+result[i].VenueID+"</td><td class='venue_name'>"+result[i].VenueName+"</td><td class='venue_capacity'>"+result[i].VenueCapacity+"</td><td><input type='text' class='pr_input' maxlength='3' size='3' value='0'></td><td><input type='text' class='p1_input' maxlength='3' size='3' value='0'></td><td><input type='text' class='p2_input' maxlength='3' size='3' value='0'></td><td><input type='text' class='p3_input' maxlength='3' size='3' value='0'></td><td><input type='text' class='p4_input' maxlength='3' size='3' value='0'></td></tr>");
                 //total_capacity += parseInt(result[i].VenueCapacity);
             });
             //$('#venue_room_table tfoot').find('.total_capacity').html(total_capacity);
@@ -284,8 +284,9 @@ function saveTrainingSchedule(){
         var p1_count=parseInt($(row).find('.p1_input').val());
         var p2_count=parseInt($(row).find('.p2_input').val());
         var p3_count=parseInt($(row).find('.p3_input').val());
-      
-        if(venue_capacity < (pr_count + p1_count + p2_count + p3_count)){
+        var p4_count=parseInt($(row).find('.p4_input').val());
+
+        if(venue_capacity < (pr_count + p1_count + p2_count + p3_count + p4_count)){
             $(row).removeClass('success').addClass('warning');
             analyze_table=false;
         }
@@ -302,6 +303,7 @@ function saveTrainingSchedule(){
             var p1_count=parseInt($(row).find('.p1_input').val());
             var p2_count=parseInt($(row).find('.p2_input').val());
             var p3_count=parseInt($(row).find('.p3_input').val());
+            var p4_count=parseInt($(row).find('.p4_input').val());
 
             $.ajax({
                 mimeType: 'text/html; charset=utf-8', // ! Need set mimeType only when run from local file
@@ -313,6 +315,7 @@ function saveTrainingSchedule(){
                     p1_count: p1_count,
                     p2_count: p2_count,
                     p3_count: p3_count,
+                    p4_count: p4_count,
                     training_date: $('#training_date').val(),
                     training_time: $('#training_time').val(),
                 },
@@ -332,9 +335,9 @@ function saveTrainingSchedule(){
                 async: false
             });
             $(row).find('.venue_name').find('span').remove();
-        }); 
+        });
     }
-    $('#venue_base_name, #training_date, #training_time').attr('disabled',false); 
+    $('#venue_base_name, #training_date, #training_time').attr('disabled',false);
 }
 
 function viewTrainingSchedule(opt){

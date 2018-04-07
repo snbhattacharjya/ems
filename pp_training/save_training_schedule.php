@@ -13,6 +13,7 @@ $pr_count=$_POST['pr_count'];
 $p1_count=$_POST['p1_count'];
 $p2_count=$_POST['p2_count'];
 $p3_count=$_POST['p3_count'];
+$p4_count=$_POST['p4_count'];
 $training_date=$_POST['training_date'];
 $training_time=$_POST['training_time'];
 
@@ -59,9 +60,17 @@ if($p2_count > 0){
     $schedule_id+=1;
 }
 if($p3_count > 0){
-    $poststat="P3";
+    $poststat="PA";
     $add_schedule_query=$mysqli->prepare("INSERT INTO training_schedule (schedule_code, training_venue, forsubdiv, training_type, training_dt, training_time, post_status, no_pp, no_used, choice_type, choice_area, usercode) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)") or die(json_encode(array("Status"=>$mysqli->error)));
     $add_schedule_query->bind_param("sssssssiissi",$schedule_id,$venue_cd,$forsubdiv,$training_type,$training_date,$training_time,$poststat,$p3_count,$no_used,$choice_type,$subdiv,$usercode) or die(json_encode(array("Status"=>$add_schedule_query->error)));
+    $add_schedule_query->execute() or die(json_encode(array("Status"=>$add_schedule_query->error)));
+    $add_schedule_query->close();
+    $schedule_id+=1;
+}
+if($p4_count > 0){
+    $poststat="P3";
+    $add_schedule_query=$mysqli->prepare("INSERT INTO training_schedule (schedule_code, training_venue, forsubdiv, training_type, training_dt, training_time, post_status, no_pp, no_used, choice_type, choice_area, usercode) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)") or die(json_encode(array("Status"=>$mysqli->error)));
+    $add_schedule_query->bind_param("sssssssiissi",$schedule_id,$venue_cd,$forsubdiv,$training_type,$training_date,$training_time,$poststat,$p4_count,$no_used,$choice_type,$subdiv,$usercode) or die(json_encode(array("Status"=>$add_schedule_query->error)));
     $add_schedule_query->execute() or die(json_encode(array("Status"=>$add_schedule_query->error)));
     $add_schedule_query->close();
     $schedule_id+=1;
@@ -69,4 +78,3 @@ if($p3_count > 0){
 
 echo json_encode(array("Status"=>"Success"));
 ?>
-
