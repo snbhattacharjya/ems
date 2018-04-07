@@ -52,8 +52,8 @@ $update_office_query="UPDATE `office` SET `officecd`='$newofficecd', `officer_de
 $update_office_query.="UPDATE personnel SET personcd=CONCAT(SUBSTRING('$newofficecd',1,6),SUBSTRING(personcd,7,5)), officecd='$newofficecd' WHERE officecd='$officecd';";
 
 //User Table Update
-/*
-$update_office_query.="UPDATE users SET UserID='$newofficecd', Password='$newofficecd', Designation='$designation', email='$email', mobile='$mob', ChangePassword=1, ModifiedDate=CURRENT_TIMESTAMP WHERE UserID='$officecd';";*/
+
+$update_office_query.="UPDATE users SET UserID='$newofficecd', Password='$newofficecd', Designation='$designation', email='$email', mobile='$mob', ChangePassword=1, ModifiedDate=CURRENT_TIMESTAMP WHERE UserID='$officecd';";
 
 //Audit for Office Update
 $update_office_query.="INSERT INTO application_audit(UserID, ObjectID, ObjectActivity, RequestIP, SessionID, ActivityTimeStamp) VALUES('$session_user_id','$officecd','UPDATE OFFICE','$session_ip','$session_id',CURRENT_TIMESTAMP);";
