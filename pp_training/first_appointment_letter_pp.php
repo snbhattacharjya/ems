@@ -6,7 +6,7 @@ session_start();
 if(!isset($_SESSION['UserID']))
     die("Login Expired!. Please Login again to continue");
 require("../config/config.php");
-include "../phpqrcode/qrlib.php"; 
+//include "../phpqrcode/qrlib.php";
 $person_code=$_GET['person_code'];
 
 $env_query=$mysqli->prepare("SELECT environment, distnm_sml, apt1_orderno, apt1_date FROM environment") or die($mysqli->error);
@@ -26,24 +26,24 @@ $first_app_query->fetch() or die($first_app_query->error);
 $pp_data=array("personcd"=>$personcd, "officer_name"=>$officer_name, "off_desg"=>$off_desg, "poststatus"=>$poststatus, "mob_no"=>$mob_no, "epic"=>$epic, "partno"=>$partno, "slno"=>$slno, "acno"=>$acno, "bank"=>$bank, "branch"=>$branch, "ifsc"=>$ifsc, "bank_accno"=>$bank_accno, "officecd"=>$officecd, "office"=>$office, "address"=>$address, "block_muni_name"=>$block_muni_name, "postoffice"=>$postoffice, "subdivision"=>$subdivision, "policestation"=>$policestation, "district"=>$district, "pin"=>$pin, "training_desc"=>$training_desc, "venuename"=>$venuename, "venueaddress"=>$venueaddress, "training_dt"=>$training_dt, "training_time"=>$training_time);
 
 $first_app_query->close();
-$filename='../pp_training/qr_img/emp_'.$pp_data['personcd'].'.png';
+//$filename='../pp_training/qr_img/emp_'.$pp_data['personcd'].'.png';
 
-QRcode::png($pp_data['personcd'], $filename, 'H', 2, 2); 
+//QRcode::png($pp_data['personcd'], $filename, 'H', 2, 2);
 ?>
 <table width="100%" style="font-family: sans-serif; font-size: 11">
     <tr>
         <th width="20%">&nbsp;Election Urgent </th>
         <th width="60%">
             <img src="../pp_training/indian-symbol4.jpg" alt=""/><br>
-            ORDER OF APPOINTMENT FOR TRAINING<br>
-            <?php echo $env.", ".$dist."<br>No ($apt1_order_no), Date: ".date_format(date_create_from_format("Y-m-d",$apt1_date),"d/m/Y"); ?>
+            ORDER OF APPOINTMENT FOR<br>
+            <?php echo $env.", ".$dist; ?>
         </th>
         <th width="20%">&nbsp;</th>
     </tr>
     <tr>
         <th width="20%">Memo No: 21/PP CELL Dist(24525) </th>
       <th width="60%">&nbsp;
-            
+
         </th>
         <th width="20%">Dated: 09/04/2018</th>
     </tr>
@@ -118,7 +118,7 @@ QRcode::png($pp_data['personcd'], $filename, 'H', 2, 2);
             NB <br>
             <ol>
                 <li>
-                Please check your electoral data and bank details given below. For any inconsistency please inform the authority. <strong><br> 
+                Please check your electoral data and bank details given below. For any inconsistency please inform the authority. <strong><br>
                 EPIC N0. - <?php echo $pp_data['epic']; ?>, Assembly - <?php echo $pp_data['acno']; ?>, Part No. - <?php echo $pp_data['partno']; ?>, Sl. No.- <?php echo $pp_data['slno']; ?> <br>Bank - <?php echo $pp_data['bank']; ?>, Branch - <?php echo $pp_data['branch']; ?> <br>A/c No.- <?php echo $pp_data['bank_accno']; ?>, IFS Code- <?php echo $pp_data['ifsc']; ?></strong></li>
             </ol>
         </td>

@@ -9,7 +9,7 @@ if(!isset($_POST['subdiv']))
 else
     $subdiv_param=$_POST['subdiv'];
 
-$blockmuni_query=$mysqli->prepare("SELECT block_muni.blockminicd, block_muni.blockmuni, COUNT(personnel.personcd) FROM (office INNER JOIN personnel ON office.officecd=personnel.officecd) INNER JOIN block_muni ON office.blockormuni_cd=block_muni.blockminicd WHERE office.subdivisioncd = ? AND personnel.poststat IN ('PR','P1','P2','P3') AND personnel.booked IN ('P','R') GROUP BY block_muni.blockminicd, block_muni.blockmuni ORDER BY block_muni.blockminicd, block_muni.blockmuni") or die($mysqli->error);
+$blockmuni_query=$mysqli->prepare("SELECT block_muni.blockminicd, block_muni.blockmuni, COUNT(personnel.personcd) FROM (office INNER JOIN personnel ON office.officecd=personnel.officecd) INNER JOIN block_muni ON office.blockormuni_cd=block_muni.blockminicd WHERE office.subdivisioncd = ? AND personnel.poststat IN ('PR','P1','P2','P3','PA') AND personnel.booked IN ('P','R') GROUP BY block_muni.blockminicd, block_muni.blockmuni ORDER BY block_muni.blockminicd, block_muni.blockmuni") or die($mysqli->error);
 $blockmuni_query->bind_param("s",$subdiv_param) or die($blockmuni_query->error);
 $blockmuni_query->execute() or die($blockmuni_query->error);
 $blockmuni_query->bind_result($block_muni_code,$block_muni_name,$block_muni_total) or die($blockmuni_query->error);
@@ -20,7 +20,7 @@ while($blockmuni_query->fetch()){
 }
 $blockmuni_query->close();
 
-$poststat_query=$mysqli->prepare("SELECT poststat.post_stat, poststat.poststatus, COUNT(personnel.personcd) FROM poststat INNER JOIN personnel ON poststat.post_stat=personnel.poststat WHERE personnel.poststat IN ('PR','P1','P2','P3') AND personnel.booked IN ('P','R') AND personnel.subdivisioncd = ? GROUP BY poststat.post_stat, poststat.poststatus ORDER BY poststat.post_stat, poststat.poststatus") or die($mysqli->error);
+$poststat_query=$mysqli->prepare("SELECT poststat.post_stat, poststat.poststatus, COUNT(personnel.personcd) FROM poststat INNER JOIN personnel ON poststat.post_stat=personnel.poststat WHERE personnel.poststat IN ('PR','P1','P2','P3','PA') AND personnel.booked IN ('P','R') AND personnel.subdivisioncd = ? GROUP BY poststat.post_stat, poststat.poststatus ORDER BY poststat.poststat_order, poststat.poststatus") or die($mysqli->error);
 $poststat_query->bind_param("s",$subdiv_param) or die($poststat_query->error);
 $poststat_query->execute() or die($poststat_query->error);
 $poststat_query->bind_result($post_stat_code,$post_stat_name,$post_stat_total) or die($poststat_query->error);
@@ -50,11 +50,11 @@ $poststat=array();
     </thead>
     <tbody>
         <?php
-        $blockmuni_booked_query=$mysqli->prepare("SELECT block_muni.blockminicd, personnel.poststat, COUNT(personnel.personcd) FROM (office INNER JOIN personnel ON office.officecd=personnel.officecd) INNER JOIN block_muni ON office.blockormuni_cd=block_muni.blockminicd WHERE office.subdivisioncd = ? AND personnel.poststat IN ('PR','P1','P2','P3') AND personnel.booked IN ('P','R') GROUP BY block_muni.blockminicd, personnel.poststat ORDER BY block_muni.blockminicd, personnel.poststat") or die($mysqli->error);
+        $blockmuni_booked_query=$mysqli->prepare("SELECT block_muni.blockminicd, personnel.poststat, COUNT(personnel.personcd) FROM (office INNER JOIN personnel ON office.officecd=personnel.officecd) INNER JOIN block_muni ON office.blockormuni_cd=block_muni.blockminicd WHERE office.subdivisioncd = ? AND personnel.poststat IN ('PR','P1','P2','P3','PA') AND personnel.booked IN ('P','R') GROUP BY block_muni.blockminicd, personnel.poststat ORDER BY block_muni.blockminicd, personnel.poststat") or die($mysqli->error);
         $blockmuni_booked_query->bind_param("s",$subdiv_param) or die($blockmuni_booked_query->error);
         $blockmuni_booked_query->execute() or die($blockmuni_booked_query->error);
         $blockmuni_booked_query->bind_result($block_muni_code,$post_stat_code,$pp_count) or die($blockmuni_booked_query->error);
-        
+
         $report=array();
         $search_index=array();
         while($blockmuni_booked_query->fetch()){
@@ -102,9 +102,9 @@ $poststat=array();
         </tr>
         <tr class="danger">
             <th colspan="<?php echo count($poststat) + 3; ?>">
-                <?php 
+                <?php
                     date_default_timezone_set("Asia/Kolkata");
-                    echo "<i class='fa fa-info-circle'></i> Report Compiled as on: ".date("d-M-Y H:i:s A"); 
+                    echo "<i class='fa fa-info-circle'></i> Report Compiled as on: ".date("d-M-Y H:i:s A");
                 ?>
             </th>
     </tfoot>
@@ -121,11 +121,55 @@ $poststat=array();
         var blockmuni=$(this).attr('data-blockmuni').valueOf().toString();
         loadOfficePPBookedSummary(subdiv, blockmuni);
     });
-    
+
     $('.subdiv-summary').click(function(e){
         e.preventDefault();
         loadSubdivPPBookedSummary();
     });
-    
-    
+    function loadSubdivPPBookedSummary(){
+        $('.ajax-result').empty();
+        $('.ajax-loader').show();
+        //var data_target=$(this).attr('data-target').valueOf().toString();
+        $.ajax({
+                mimeType: 'text/html; charset=utf-8', // ! Need set mimeType only when run from local file
+                url: "pp_training/pp_training_subdiv_summary.php",
+                //type: "POST",
+                //data: {
+                    //target_url: data_target
+                //},
+                success: function(data) {
+                    $('.ajax-loader').hide();
+                    $('.ajax-result').html(data);
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    alert(errorThrown);
+                },
+                dataType: "html",
+                async: false
+            });
+    }
+
+    function loadOfficePPBookedSummary(subdiv, blockmuni){
+        $('.ajax-result').empty();
+        $('.ajax-loader').show();
+        $.ajax({
+                mimeType: 'text/html; charset=utf-8', // ! Need set mimeType only when run from local file
+                url: "pp_training/pp_training_office_summary.php",
+                type: "POST",
+                data: {
+                    subdiv: subdiv,
+                    blockmuni: blockmuni
+                },
+                success: function(data) {
+                    $('.ajax-loader').hide();
+                    $('.ajax-result').html(data);
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    alert(errorThrown);
+                },
+                dataType: "html",
+                async: false
+            });
+    }
+
 </script>

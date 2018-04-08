@@ -13,12 +13,15 @@ while($subdiv_query->fetch()){
 }
 $subdiv_query->close();
 
-$poststat_query=$mysqli->prepare("SELECT poststat.post_stat, poststat.poststatus, COUNT(personnel.personcd) FROM poststat INNER JOIN personnel ON poststat.post_stat=personnel.poststat WHERE personnel.poststat IN ('PR','P1','P2','P3','PA') AND personnel.booked IN ('P','R') GROUP BY poststat.post_stat, poststat.poststatus ORDER BY poststat.post_stat, poststat.poststatus") or die($mysqli->error);
+$poststat_query=$mysqli->prepare("SELECT poststat.post_stat, poststat.poststatus, COUNT(personnel.personcd) FROM poststat INNER JOIN personnel ON poststat.post_stat=personnel.poststat WHERE personnel.poststat IN ('PR','P1','P2','P3','PA') AND personnel.booked IN ('P','R') GROUP BY poststat.post_stat, poststat.poststatus ORDER BY poststat.poststat_order, poststat.poststatus") or die($mysqli->error);
 
 $poststat_query->execute() or die($poststat_query->error);
 $poststat_query->bind_result($post_stat_code,$post_stat_name,$post_stat_total) or die($poststat_query->error);
 $poststat=array();
 ?>
+<div class="text-center margin-bottom">
+    <a class="btn btn-md btn-flat btn-default text-red" href="pp_training/pp_training_subdiv_summary_print.php" target="_blank"><i class="fa fa-print"></i> Print</a>
+</div>
 <table id="subdiv_booked_summary" class="table table-bordered table-condensed table-hover small">
     <thead>
         <tr class="bg-light-blue-gradient">
@@ -102,5 +105,25 @@ $poststat=array();
         loadBlockMuniBookedSummary(subdiv);
     });
 
-
+    function loadBlockMuniBookedSummary(subdiv){
+        $('.ajax-result').empty();
+        $('.ajax-loader').show();
+        $.ajax({
+                mimeType: 'text/html; charset=utf-8', // ! Need set mimeType only when run from local file
+                url: "pp_training/pp_training_blockmuni_summary.php",
+                type: "POST",
+                data: {
+                    subdiv: subdiv
+                },
+                success: function(data) {
+                    $('.ajax-loader').hide();
+                    $('.ajax-result').html(data);
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    alert(errorThrown);
+                },
+                dataType: "html",
+                async: false
+            });
+        }
 </script>

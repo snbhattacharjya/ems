@@ -6,7 +6,7 @@ session_start();
 if(!isset($_SESSION['UserID']))
     die("Login Expired!. Please Login again to continue");
 require("../config/config.php");
-include "../phpqrcode/qrlib.php"; 
+include "../phpqrcode/qrlib.php";
 $subdiv_code=$_GET['subdiv_code'];
 
 $env_query=$mysqli->prepare("SELECT environment, distnm_sml, apt1_orderno, apt1_date FROM environment") or die($mysqli->error);
@@ -25,12 +25,12 @@ while($first_app_query->fetch()){
     $pp_data[]=array("personcd"=>$personcd, "officer_name"=>$officer_name, "off_desg"=>$off_desg, "poststatus"=>$poststatus, "mob_no"=>$mob_no, "epic"=>$epic, "partno"=>$partno, "slno"=>$slno, "acno"=>$acno, "bank"=>$bank, "branch"=>$branch, "ifsc"=>$ifsc, "bank_accno"=>$bank_accno, "officecd"=>$officecd, "office"=>$office, "address"=>$address, "block_muni_name"=>$block_muni_name, "postoffice"=>$postoffice, "subdivision"=>$subdivision, "policestation"=>$policestation, "district"=>$district, "pin"=>$pin, "training_desc"=>$training_desc, "venuename"=>$venuename, "venueaddress"=>$venueaddress, "training_dt"=>$training_dt, "training_time"=>$training_time);
 }
 $first_app_query->close();
-$filepath='../pp_training/qr_img/';
-$filename=$filepath.'emp.png';
+//$filepath='../pp_training/qr_img/';
+//$filename=$filepath.'emp.png';
 for($i = 0;$i < count($pp_data); $i++){
-    QRcode::png($pp_data[$i]['personcd'], $filename, 'H', 2, 2);
-    $newfile=$filepath.'emp_'.$pp_data[$i]['personcd'].'.png';
-    rename($filename,$newfile);
+    //QRcode::png($pp_data[$i]['personcd'], $filename, 'H', 2, 2);
+    //$newfile=$filepath.'emp_'.$pp_data[$i]['personcd'].'.png';
+    //rename($filename,$newfile);
 ?>
 <table width="100%" style="font-family: sans-serif; font-size: 11">
     <tr>
@@ -45,7 +45,7 @@ for($i = 0;$i < count($pp_data); $i++){
     <tr>
         <th width="20%">Memo No: 21/PP CELL Dist(24525) </th>
         <th width="60%">&nbsp;
-            
+
         </th>
         <th width="20%">Dated: 09/04/2018</th>
     </tr>
@@ -121,7 +121,7 @@ for($i = 0;$i < count($pp_data); $i++){
             NB <br>
             <ol>
                 <li>
-                Please check your electoral data and bank details given below. For any inconsistency please inform the authority. <strong><br> 
+                Please check your electoral data and bank details given below. For any inconsistency please inform the authority. <strong><br>
                 EPIC N0. - <?php echo $pp_data[$i]['epic']; ?>, Assembly - <?php echo $pp_data[$i]['acno']; ?>, Part No. - <?php echo $pp_data[$i]['partno']; ?>, Sl. No.- <?php echo $pp_data[$i]['slno']; ?> <br>Bank - <?php echo $pp_data[$i]['bank']; ?>, Branch - <?php echo $pp_data[$i]['branch']; ?> <br>A/c No.- <?php echo $pp_data[$i]['bank_accno']; ?>, IFS Code- <?php echo $pp_data[$i]['ifsc']; ?></strong></li>
             </ol>
         </td>
