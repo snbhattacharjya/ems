@@ -8,7 +8,7 @@ if(!isset($_POST['blockmuni']))
     $blockmuni_param=$_SESSION['BlockMuni'];
 else
     $blockmuni_param=$_POST['blockmuni'];
-
+$subdiv_param=$_POST['subdiv'];
 $blockmuni_office_query=$mysqli->prepare("SELECT office.officecd, office.office, office.address1, COUNT(personnel.personcd) FROM office INNER JOIN personnel ON office.officecd=personnel.officecd WHERE office.blockormuni_cd = ? AND personnel.poststat IN ('PR','P1','P2','P3','PA') AND personnel.booked IN ('P','R') GROUP BY office.officecd, office.office, office.address1 ORDER BY office.officecd") or die($mysqli->error);
 $blockmuni_office_query->bind_param("s",$blockmuni_param) or die($blockmuni_office_query->error);
 $blockmuni_office_query->execute() or die($blockmuni_office_query->error);
@@ -72,7 +72,7 @@ $poststat=array();
         ?>
 	<tr>
             <td><?php echo ($i+1); ?></td>
-            <td><?php echo "<a href='#' data-blockmuni='".$blockmuni_param."' data-officecd='".$blockmuni_office[$i]['officecd']."' class='pp-report-btn text-bold text-green'>".$blockmuni_office[$i]['officecd']."</a>"; ?></td>
+            <td><?php echo "<a href='#' data-blockmuni='".$blockmuni_param."' data-officecd='".$blockmuni_office[$i]['officecd']."'  data-subdiv='".$subdiv_param."' class='pp-report-btn text-bold text-green'>".$blockmuni_office[$i]['officecd']."</a>"; ?></td>
             <td><?php echo "<a href='#' data-blockmuni='".$blockmuni_param."' data-officecd='".$blockmuni_office[$i]['officecd']."' class='pp-report-btn text-bold text-green'>".$blockmuni_office[$i]['office']."</a>"; ?></td>
             <td><?php echo $blockmuni_office[$i]['address1']; ?></td>
         <?php
@@ -117,7 +117,7 @@ $poststat=array();
     </tfoot>
 </table>
 <div>
-    <a class="btn btn-default btn-md blockmuni-summary">
+    <a class="btn btn-default btn-md blockmuni-summary" data-subdiv="<?php echo $subdiv_param; ?>">
         <i class="fa fa-arrow-circle-left text-red"></i> Back
     </a>
 </div>
@@ -132,12 +132,14 @@ $poststat=array();
         e.preventDefault();
         var officecd=$(this).attr('data-officecd').valueOf().toString();
         var blockmuni=$(this).attr('data-blockmuni').valueOf().toString();
-        loadPPOfficeReport(officecd, blockmuni);
+        var subdiv=$(this).attr('data-subdiv').valueOf().toString();
+        loadPPOfficeReport(officecd, blockmuni, subdiv);
     });
 
     $('.blockmuni-summary').click(function(e){
         e.preventDefault();
-        loadBlockMuniBookedSummary();
+        var subdiv=$(this).attr('data-subdiv').valueOf().toString();
+        loadBlockMuniBookedSummary(subdiv);
     });
 
     function loadBlockMuniBookedSummary(subdiv){

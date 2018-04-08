@@ -8,7 +8,7 @@ if(!isset($_POST['blockmuni']))
     $blockmuni_param=$_SESSION['BlockMuni'];
 else
     $blockmuni_param=$_POST['blockmuni'];
-
+$subdiv_param=$_POST['subdiv'];
 $blockmuni_office_query=$mysqli->prepare("SELECT office.officecd, office.office, office.address1, COUNT(personnel.personcd) FROM (office INNER JOIN personnel ON office.officecd=personnel.officecd) INNER JOIN assembly ON assembly.assemblycd = personnel.acno WHERE office.blockormuni_cd = ? AND personnel.poststat IN ('PR','P1','P2','P3') AND personnel.booked IN ('P','R') AND assembly.assemblycd != '999' GROUP BY office.officecd, office.office, office.address1 ORDER BY office.officecd") or die($mysqli->error);
 $blockmuni_office_query->bind_param("s",$blockmuni_param) or die($blockmuni_office_query->error);
 $blockmuni_office_query->execute() or die($blockmuni_office_query->error);
@@ -58,7 +58,7 @@ $poststat=array();
         $blockmuni_office_booked_query->bind_param("s",$blockmuni_param) or die($blockmuni_office_booked_query->error);
         $blockmuni_office_booked_query->execute() or die($blockmuni_office_booked_query->error);
         $blockmuni_office_booked_query->bind_result($officecd,$post_stat_code,$pp_count) or die($blockmuni_office_booked_query->error);
-        
+
         $report=array();
         $search_index=array();
         while($blockmuni_office_booked_query->fetch()){
@@ -109,15 +109,15 @@ $poststat=array();
         </tr>
         <tr class="danger">
             <th colspan="<?php echo count($poststat) + 7; ?>">
-                <?php 
+                <?php
                     date_default_timezone_set("Asia/Kolkata");
-                    echo "<i class='fa fa-info-circle'></i> Report Compiled as on: ".date("d-M-Y H:i:s A"); 
+                    echo "<i class='fa fa-info-circle'></i> Report Compiled as on: ".date("d-M-Y H:i:s A");
                 ?>
             </th>
     </tfoot>
 </table>
 <div>
-    <a class="btn btn-default btn-md blockmuni-summary">
+    <a class="btn btn-default btn-md blockmuni-summary" data-subdiv="<?php echo $subdiv_param; ?>">
         <i class="fa fa-arrow-circle-left text-red"></i> Back
     </a>
 </div>
@@ -134,11 +134,35 @@ $poststat=array();
         var blockmuni=$(this).attr('data-blockmuni').valueOf().toString();
         loadForm12OfficeReport(officecd, blockmuni);
     });
-    
+
+
     $('.blockmuni-summary').click(function(e){
         e.preventDefault();
-        loadBlockMuniForm12Summary();
+        var subdiv=$(this).attr('data-subdiv').valueOf().toString();
+        loadBlockMuniSummary(subdiv);
     });
-    
-    
+
+    function loadBlockMuniSummary(subdiv){
+        $('.ajax-result').empty();
+        $('.ajax-loader').show();
+        $.ajax({
+                mimeType: 'text/html; charset=utf-8', // ! Need set mimeType only when run from local file
+                url: "pp_training_extra/pp_training_extra_blockmuni_summary.php",
+                type: "POST",
+                data: {
+                    subdiv: subdiv
+                },
+                success: function(data) {
+                    $('.ajax-loader').hide();
+                    $('.ajax-result').html(data);
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    alert(errorThrown);
+                },
+                dataType: "html",
+                async: false
+            });
+     }
+
+
 </script>

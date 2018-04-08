@@ -59,7 +59,7 @@ $poststat=array();
         $blockmuni_office_booked_query->bind_param("s",$blockmuni_param) or die($blockmuni_office_booked_query->error);
         $blockmuni_office_booked_query->execute() or die($blockmuni_office_booked_query->error);
         $blockmuni_office_booked_query->bind_result($officecd,$post_stat_code,$pp_count) or die($blockmuni_office_booked_query->error);
-        
+
         $report=array();
         $search_index=array();
         while($blockmuni_office_booked_query->fetch()){
@@ -110,9 +110,9 @@ $poststat=array();
         </tr>
         <tr class="danger">
             <th colspan="<?php echo count($poststat) + 7; ?>">
-                <?php 
+                <?php
                     date_default_timezone_set("Asia/Kolkata");
-                    echo "<i class='fa fa-info-circle'></i> Report Compiled as on: ".date("d-M-Y H:i:s A"); 
+                    echo "<i class='fa fa-info-circle'></i> Report Compiled as on: ".date("d-M-Y H:i:s A");
                 ?>
             </th>
     </tfoot>
@@ -128,7 +128,7 @@ $poststat=array();
             paging: false
         });
     });
-    
+
     $('.pp-report-btn').click(function(e){
         e.preventDefault();
         var officecd=$(this).attr('data-officecd').valueOf().toString();
@@ -136,13 +136,13 @@ $poststat=array();
         var subdiv=$(this).attr('data-subdiv').valueOf().toString();
         loadPPExtraOfficeReport(officecd, blockmuni, subdiv);
     });
-    
+
     $('.blockmuni-summary').click(function(e){
         e.preventDefault();
         var subdiv=$(this).attr('data-subdiv').valueOf().toString();
         loadBlockMuniExtraSummary(subdiv);
     });
-    
+
     function loadBlockMuniExtraSummary(subdiv){
         $('.ajax-result').empty();
         $('.ajax-loader').show();
@@ -164,7 +164,7 @@ $poststat=array();
                 async: false
             });
      }
-     
+
     function loadPPExtraOfficeReport(officecd, blockmuni, subdiv){
         $('.ajax-result').empty();
         $('.ajax-loader').show();
@@ -188,6 +188,6 @@ $poststat=array();
                 async: false
             });
     }
-    
-    
+
+
 </script>
