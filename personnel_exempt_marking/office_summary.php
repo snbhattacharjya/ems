@@ -21,12 +21,11 @@ else if(substr($user_id,0,3) == 'BDO'){
 else {
     $office_blockmuni_query="SELECT office.officecd, office.office, CONCAT(office.address1,', ',office.address2) AS address, office.phone, office.mobile, office.tot_staff AS pp1_count, COUNT(personnel.personcd) AS pp2_count, COUNT(personnel_exempt_marked.personcd) AS exempt_count FROM (office INNER JOIN personnel ON office.officecd = personnel.officecd) LEFT JOIN personnel_exempt_marked ON personnel.personcd = personnel_exempt_marked.personcd GROUP BY office.officecd, office.office, CONCAT(office.address1,', ',office.address2), office.phone, office.mobile, office.tot_staff ORDER BY office.officecd";
 }
-$office_blockmuni_result=mysql_query($office_blockmuni_query,$DBLink) or die(mysql_error());
+$office_blockmuni_result=mysqli_query($DBLink,$office_blockmuni_query) or die(mysqli_error($DBLink));
 $return=array();
-while($row=mysql_fetch_assoc($office_blockmuni_result))
+while($row=mysqli_fetch_assoc($office_blockmuni_result))
 {
 	$return[]=$row;
-}	
+}
 echo json_encode($return);
 ?>
-
