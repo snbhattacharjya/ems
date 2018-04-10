@@ -20,7 +20,7 @@ $subdiv_absent_index=array();
 
 while($subdiv_date_absent_query->fetch()){
     $subdiv_absent[]=array("SubdivCode"=>$subdiv_code, "SubdivName"=>$subdiv_name, "PPScheduled"=>$subdiv_pp_scheduled, "PPAbsent"=>$subdiv_pp_absent);
-    $subdiv_absent_index[]=array("SubdivCode"=>$subdiv_code);   
+    $subdiv_absent_index[]=array("SubdivCode"=>$subdiv_code);
 }
 $subdiv_date_absent_query->close();
 
@@ -76,7 +76,7 @@ $subdiv_date_schedule_query->close();
         <?php
         $subdiv_schedule_total=0;
         $subdiv_present_total=0;
-        $subdiv_absent_total=0;        
+        $subdiv_absent_total=0;
 	for($i=0;$i<count($subdiv_schedule);$i++){
             $subdiv_schedule_total+=$subdiv_schedule[$i]['PPScheduled'];
         ?>
@@ -85,14 +85,14 @@ $subdiv_date_schedule_query->close();
             <td><?php echo $subdiv_schedule[$i]['PPScheduled']; ?></td>
             <?php
             $index=array_search(array("SubdivCode"=>$subdiv_schedule[$i]['SubdivCode']),$subdiv_absent_index);
-            if($subdiv_absent[$index]['SubdivCode'] == $subdiv_schedule[$i]['SubdivCode']){
+            if(count($subdiv_absent) > 0 && $subdiv_absent[$index]['SubdivCode'] == $subdiv_schedule[$i]['SubdivCode']){
                 echo "<td>".($subdiv_schedule[$i]['PPScheduled'] - $subdiv_absent[$index]['PPAbsent'])."</td><td>".$subdiv_absent[$index]['PPAbsent']."</td>";
                 $subdiv_present_total+=($subdiv_schedule[$i]['PPScheduled'] - $subdiv_absent[$index]['PPAbsent']);
-                $subdiv_absent_total+=$subdiv_absent[$i]['PPAbsent']; 
+                $subdiv_absent_total+=$subdiv_absent[$i]['PPAbsent'];
             }
             else{
                 echo "<td>".$subdiv_schedule[$i]['PPScheduled']."</td><td>0</td>";
-                $subdiv_present_total+=$subdiv_schedule[$i]['PPScheduled']; 
+                $subdiv_present_total+=$subdiv_schedule[$i]['PPScheduled'];
             }
             ?>
         </tr>
@@ -109,9 +109,9 @@ $subdiv_date_schedule_query->close();
         </tr>
         <tr class="danger">
             <th colspan="4">
-                <?php 
+                <?php
                     date_default_timezone_set("Asia/Kolkata");
-                    echo "<i class='fa fa-info-circle'></i> Report Compiled as on: ".date("d-M-Y H:i:s A"); 
+                    echo "<i class='fa fa-info-circle'></i> Report Compiled as on: ".date("d-M-Y H:i:s A");
                 ?>
             </th>
         </tr>
