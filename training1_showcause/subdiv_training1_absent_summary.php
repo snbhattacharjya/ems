@@ -1,7 +1,9 @@
 <?php
 session_start();
 require("../config/config.php");
-
+if(!isset($_SESSION['UserID'])){
+    die("Login Expired!. Please Login again to continue");
+}
 $subdiv_query=$mysqli->prepare("SELECT subdivision.subdivisioncd, subdivision.subdivision, COUNT(personnel_training_absent.personcd) FROM (subdivision INNER JOIN personnel ON personnel.subdivisioncd=subdivision.subdivisioncd) INNER JOIN personnel_training_absent ON personnel.personcd = personnel_training_absent.personcd GROUP BY subdivision.subdivisioncd, subdivision.subdivision ORDER BY subdivision.subdivisioncd") or die($mysqli->error);
 $subdiv_query->execute() or die($subdiv_query->error);
 $subdiv_query->bind_result($sub_div_code,$sub_div_name,$sub_div_total) or die($subdiv_query->error);
@@ -50,7 +52,7 @@ $poststat_query->close();
         $subdiv_exempt_query=$mysqli->prepare("SELECT subdivision.subdivisioncd, personnel.poststat, COUNT(personnel_training_absent.personcd) FROM (subdivision INNER JOIN personnel ON subdivision.subdivisioncd=personnel.subdivisioncd) INNER JOIN personnel_training_absent ON personnel.personcd=personnel_training_absent.personcd GROUP BY subdivision.subdivisioncd, personnel.poststat ORDER BY subdivision.subdivisioncd, personnel.poststat") or die($mysqli->error);
         $subdiv_exempt_query->execute() or die($subdiv_exempt_query->error);
         $subdiv_exempt_query->bind_result($sub_div_code,$post_stat_code,$pp_count) or die($subdiv_exempt_query->error);
-        
+
         $report=array();
         $search_index=array();
         while($subdiv_exempt_query->fetch()){
@@ -95,9 +97,9 @@ $poststat_query->close();
         </tr>
         <tr class="danger">
             <th colspan="<?php echo count($poststat) + 2; ?>">
-                <?php 
+                <?php
                     date_default_timezone_set("Asia/Kolkata");
-                    echo "<i class='fa fa-info-circle'></i> Report Compiled as on: ".date("d-M-Y H:i:s A"); 
+                    echo "<i class='fa fa-info-circle'></i> Report Compiled as on: ".date("d-M-Y H:i:s A");
                 ?>
             </th>
         </tr>
@@ -109,7 +111,7 @@ $poststat_query->close();
         var subdiv=$(this).attr('data-subdiv').valueOf().toString();
         loadBlockMuniAbsentSummary(subdiv);
     });
-    
+
     function loadBlockMuniAbsentSummary(subdiv){
     $('#ajax-result').empty();
     $('.ajax-loader').show();

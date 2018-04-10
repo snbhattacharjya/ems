@@ -1,17 +1,20 @@
 <?PHP
 session_start();
+if(!isset($_SESSION['UserID'])){
+    die("Login Expired!. Please Login again to continue");
+}
 include("../config/config.php");
 ?>
 
-   
+
 <div class="box box-solid">
     <div class="box-header bg-teal-active">
-        <h3 class="box-title text-bold">Absent Marking and Show Cause for 1st Training)</h3> 
+        <h3 class="box-title text-bold">Absent Marking and Show Cause for 1st Training)</h3>
     </div><!-- /.box-header -->
 
     <div class="box-body">
 
-        <div id="div_message" class="callout callout-danger" style="display:none">												
+        <div id="div_message" class="callout callout-danger" style="display:none">
         </div>
 
         <div class="row">
@@ -33,17 +36,17 @@ include("../config/config.php");
                 </a>
             </div>
         </div><!-- /.row -->
-        
+
         <div class="row text-center ajax-loader">
             <img src="data_transfer/loading_image.gif" height="150" width="150">
             <p id="load-message">
                 Loading Web Data...Please wait
             </p>
         </div>
-        
+
         <div class="row">
             <div class="col-md-12 table-responsive" id="ajax-result"  style="height: 100%">
-                
+
             </div>
         </div>
 
@@ -169,4 +172,3 @@ function loadShowCauseSummary(){
 	});
 }
 </script>
-

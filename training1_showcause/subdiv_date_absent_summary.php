@@ -1,7 +1,9 @@
 <?php
 session_start();
 require("../config/config.php");
-
+if(!isset($_SESSION['UserID'])){
+    die("Login Expired!. Please Login again to continue");
+}
 $training_date=$_POST['training_date'];
 $training_type='01';
 

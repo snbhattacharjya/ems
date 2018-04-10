@@ -1,7 +1,9 @@
 <?php
 session_start();
 require("../config/config.php");
-
+if(!isset($_SESSION['UserID'])){
+    die("Login Expired!. Please Login again to continue");
+}
 $subdiv=$_POST['subdiv'];
 $training_venue=$_POST['training_venue'];
 $training_date=$_POST['training_date'];
@@ -60,7 +62,7 @@ $poststat_query->close();
         $blockmuni_exempt_query->bind_param("sssss",$subdiv,$training_type,$training_date,$training_time,$training_venue) or die($blockmuni_exempt_query->error);
         $blockmuni_exempt_query->execute() or die($blockmuni_exempt_query->error);
         $blockmuni_exempt_query->bind_result($block_muni_code,$post_stat_code,$pp_count) or die($blockmuni_exempt_query->error);
-        
+
         $report=array();
         $search_index=array();
         while($blockmuni_exempt_query->fetch()){
@@ -112,9 +114,9 @@ $poststat_query->close();
         </tr>
         <tr class="danger">
             <th colspan="<?php echo count($poststat) + 3; ?>">
-                <?php 
+                <?php
                     date_default_timezone_set("Asia/Kolkata");
-                    echo "<i class='fa fa-info-circle'></i> Report Compiled as on: ".date("d-M-Y H:i:s A"); 
+                    echo "<i class='fa fa-info-circle'></i> Report Compiled as on: ".date("d-M-Y H:i:s A");
                 ?>
             </th>
         </tr>

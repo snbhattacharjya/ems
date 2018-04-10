@@ -1,7 +1,9 @@
 <?php
 session_start();
 require("../config/config.php");
-
+if(!isset($_SESSION['UserID'])){
+    die("Login Expired!. Please Login again to continue");
+}
 $subdiv_param=$_POST['subdiv'];
 
 $blockmuni_query=$mysqli->prepare("SELECT block_muni.blockminicd, block_muni.blockmuni, COUNT(personnel_training_absent.personcd) FROM ((office INNER JOIN personnel ON office.officecd=personnel.officecd) INNER JOIN block_muni ON office.blockormuni_cd=block_muni.blockminicd) INNER JOIN personnel_training_absent ON personnel.personcd = personnel_training_absent.personcd WHERE office.subdivisioncd = ? AND personnel_training_absent.personcd NOT IN (SELECT personcd FROM personnel_exempt_post_random) GROUP BY block_muni.blockminicd, block_muni.blockmuni ORDER BY block_muni.blockminicd, block_muni.blockmuni") or die($mysqli->error);
@@ -56,7 +58,7 @@ $poststat_query->close();
         $blockmuni_exempt_query->bind_param("s",$subdiv_param) or die($blockmuni_exempt_query->error);
         $blockmuni_exempt_query->execute() or die($blockmuni_exempt_query->error);
         $blockmuni_exempt_query->bind_result($block_muni_code,$post_stat_code,$pp_count) or die($blockmuni_exempt_query->error);
-        
+
         $report=array();
         $search_index=array();
         while($blockmuni_exempt_query->fetch()){
@@ -104,9 +106,9 @@ $poststat_query->close();
         </tr>
         <tr class="danger">
             <th colspan="<?php echo count($poststat) + 3; ?>">
-                <?php 
+                <?php
                     date_default_timezone_set("Asia/Kolkata");
-                    echo "<i class='fa fa-info-circle'></i> Report Compiled as on: ".date("d-M-Y H:i:s A"); 
+                    echo "<i class='fa fa-info-circle'></i> Report Compiled as on: ".date("d-M-Y H:i:s A");
                 ?>
             </th>
         </tr>
@@ -118,19 +120,19 @@ $poststat_query->close();
     </a>
 </div>
 <script>
-    
+
     $('.subdiv-summary').click(function(e){
         e.preventDefault();
         loadSubdivShowCauseSummary();
     });
-    
+
     $('.office-summary').click(function(e){
         e.preventDefault();
         var subdiv = $(this).attr('data-subdiv').valueOf().toString();
         var blockmuni = $(this).attr('data-blockmuni').valueOf().toString();
         loadOfficeShowCauseSummary(subdiv, blockmuni);
     });
-    
+
     function loadSubdivShowCauseSummary(){
         $('#ajax-result').empty();
         $('.ajax-loader').show();
@@ -148,7 +150,7 @@ $poststat_query->close();
                 async: false
             });
     }
-    
+
     function loadOfficeShowCauseSummary(subdiv, blockmuni){
         $('#ajax-result').empty();
         $('.ajax-loader').show();
@@ -171,5 +173,5 @@ $poststat_query->close();
                 async: false
             });
     }
-    
+
 </script>

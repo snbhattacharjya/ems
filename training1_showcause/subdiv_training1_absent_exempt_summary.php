@@ -1,7 +1,9 @@
 <?php
 session_start();
 require("../config/config.php");
-
+if(!isset($_SESSION['UserID'])){
+    die("Login Expired!. Please Login again to continue");
+}
 $training_type='01';
 $subdiv_query=$mysqli->prepare("SELECT subdivision.subdivisioncd, subdivision.subdivision, COUNT(personnel_training_absent.personcd) FROM ((subdivision INNER JOIN personnel ON personnel.subdivisioncd=subdivision.subdivisioncd) INNER JOIN personnel_training_absent ON personnel.personcd = personnel_training_absent.personcd) INNER JOIN personnel_exempt_post_random ON personnel_training_absent.personcd = personnel_exempt_post_random.personcd WHERE personnel_training_absent.training_type = ? GROUP BY subdivision.subdivisioncd, subdivision.subdivision ORDER BY subdivision.subdivisioncd") or die($mysqli->error);
 $subdiv_query->bind_param("s",$training_type) or die($subdiv_query->error);
@@ -53,7 +55,7 @@ $poststat_query->close();
         $subdiv_exempt_query->bind_param("s",$training_type) or die($subdiv_exempt_query->error);
         $subdiv_exempt_query->execute() or die($subdiv_exempt_query->error);
         $subdiv_exempt_query->bind_result($sub_div_code,$post_stat_code,$pp_count) or die($subdiv_exempt_query->error);
-        
+
         $report=array();
         $search_index=array();
         while($subdiv_exempt_query->fetch()){
@@ -98,9 +100,9 @@ $poststat_query->close();
         </tr>
         <tr class="danger">
             <th colspan="<?php echo count($poststat) + 2; ?>">
-                <?php 
+                <?php
                     date_default_timezone_set("Asia/Kolkata");
-                    echo "<i class='fa fa-info-circle'></i> Report Compiled as on: ".date("d-M-Y H:i:s A"); 
+                    echo "<i class='fa fa-info-circle'></i> Report Compiled as on: ".date("d-M-Y H:i:s A");
                 ?>
             </th>
         </tr>

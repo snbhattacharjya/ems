@@ -3,7 +3,9 @@ session_start();
 if(!isset($_SESSION['UserID']))
     die("Login Expired!. Please Login again to continue");
 require("../config/config.php");
-
+if(!isset($_SESSION['UserID'])){
+    die("Login Expired!. Please Login again to continue");
+}
 $blockmuni_param=$_GET['blockmuni'];
 
 $blockmuni_office_query=$mysqli->prepare("SELECT office.officecd, office.office, office.address1, COUNT(personnel.personcd) FROM (office INNER JOIN personnel ON office.officecd=personnel.officecd) INNER JOIN personnel_training_absent ON personnel.personcd = personnel_training_absent.personcd WHERE office.blockormuni_cd = ? AND personnel_training_absent.personcd NOT IN (SELECT personcd FROM personnel_exempt_post_random) GROUP BY office.officecd, office.office, office.address1 ORDER BY office.officecd") or die($mysqli->error);
@@ -57,7 +59,7 @@ $poststat_query->close();
         $blockmuni_office_booked_query->bind_param("s",$blockmuni_param) or die($blockmuni_office_booked_query->error);
         $blockmuni_office_booked_query->execute() or die($blockmuni_office_booked_query->error);
         $blockmuni_office_booked_query->bind_result($officecd,$post_stat_code,$pp_count) or die($blockmuni_office_booked_query->error);
-        
+
         $report=array();
         $search_index=array();
         while($blockmuni_office_booked_query->fetch()){
@@ -106,9 +108,9 @@ $poststat_query->close();
         </tr>
         <tr>
             <th colspan="<?php echo count($poststat) + 6; ?>">
-                <?php 
+                <?php
                     date_default_timezone_set("Asia/Kolkata");
-                    echo "<i class='fa fa-info-circle'></i> Report Compiled as on: ".date("d-M-Y H:i:s A"); 
+                    echo "<i class='fa fa-info-circle'></i> Report Compiled as on: ".date("d-M-Y H:i:s A");
                 ?>
             </th>
         </tr>

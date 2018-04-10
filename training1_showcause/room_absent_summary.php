@@ -1,7 +1,9 @@
 <?php
 session_start();
 require("../config/config.php");
-
+if(!isset($_SESSION['UserID'])){
+    die("Login Expired!. Please Login again to continue");
+}
 $subdiv=$_POST['subdiv'];
 $training_venue=$_POST['training_venue'];
 $training_date=$_POST['training_date'];
@@ -42,11 +44,11 @@ $room_absent_query->close();
         <?php
         $venue_schedule_total=0;
         $venue_present_total=0;
-        $venue_absent_total=0;        
+        $venue_absent_total=0;
 	for($i=0;$i<count($rooms);$i++){
             $venue_schedule_total+=$rooms[$i]['PPScheduled'];
             $venue_present_total+=$rooms[$i]['PPPresent'];
-            $venue_absent_total+=$rooms[$i]['PPAbsent']; 
+            $venue_absent_total+=$rooms[$i]['PPAbsent'];
         ?>
 	<tr>
             <td><?php echo $rooms[$i]['RoomName']; ?></td>
@@ -67,9 +69,9 @@ $room_absent_query->close();
         </tr>
         <tr class="danger">
             <th colspan="4">
-                <?php 
+                <?php
                     date_default_timezone_set("Asia/Kolkata");
-                    echo "<i class='fa fa-info-circle'></i> Report Compiled as on: ".date("d-M-Y H:i:s A"); 
+                    echo "<i class='fa fa-info-circle'></i> Report Compiled as on: ".date("d-M-Y H:i:s A");
                 ?>
             </th>
         </tr>

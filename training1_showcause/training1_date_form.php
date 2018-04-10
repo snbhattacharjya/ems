@@ -2,7 +2,9 @@
 session_start();
 $user_id=$_SESSION['UserID'];
 require("../config/config.php");
-
+if(!isset($_SESSION['UserID'])){
+    die("Login Expired!. Please Login again to continue");
+}
 $training_date_query=$mysqli->prepare("SELECT DISTINCT(DATE(training_dt)) FROM training_schedule ORDER BY DATE(training_dt) DESC") or die($mysqli->error);
 $training_date_query->execute() or die($training_date_query->error);
 $training_date_query->bind_result($exempt_date) or die($training_date_query->error);
@@ -31,21 +33,21 @@ $training_date_query->close();
 </div>
 <div class="row">
     <div class="col-sm-12 subdiv-date-absent-result">
-    </div>                 
+    </div>
 </div>
 <script>
     $(function(){
         $('.select2').select2();
         loadSubdivDateAbsentSummary();
-    
+
         $('.view-report').click(function(e){
             e.preventDefault();
             loadSubdivDateAbsentSummary();
         });
     });
-    
+
     function loadSubdivDateAbsentSummary(){
-        $('.subdiv-result-loader').show();                            
+        $('.subdiv-result-loader').show();
         $.ajax({
             mimeType: 'text/html; charset=utf-8', // ! Need set mimeType only when run from local file
             url: 'training1_showcause/subdiv_date_absent_summary.php',
