@@ -37,7 +37,7 @@ for($i = 0;$i < count($pp_data); $i++){
         <th width="20%">&nbsp;Election Urgent </th>
         <th width="60%">
             <img src="../pp_training/indian-symbol4.jpg" alt=""/><br>
-            ORDER OF APPOINTMENT FOR TRAINING<br>
+            ORDER OF APPOINTMENT FOR<br>
             <?php echo $env.", ".$dist; ?>
         </th>
         <th width="20%">&nbsp;</th>
