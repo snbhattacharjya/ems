@@ -1,6 +1,6 @@
 <?php
 
-/* 
+/*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -11,12 +11,8 @@
     <thead>
         <tr>
             <th colspan="4" class="info">
-                <div class="input-group input-group-sm">
-                    <select id="office" class="select2" multiple="multiple" style="width: 100%"></select>
-                    <div class="input-group-btn">
-                        <button class="btn btn-warning" id="loadPP"><i class="fa fa-search"></i> Load PP</button>
-                    </div>
-                </div>
+                    <select id="office" class="select2" multiple="multiple" style="width: 75%"></select>
+                    <button class="btn btn-warning" id="loadPP"><i class="fa fa-search"></i> Load PP</button>
             </th>
             <th rowspan="2" class="success text-center" style="vertical-align: middle">
                 <button class="btn btn-primary" id="resetPP"><i class="fa fa-refresh"></i> Reset</button>
@@ -29,7 +25,7 @@
         <tr>
             <th colspan="4" class="danger">
                 <div class="input-group input-group-sm">
-                    <input type="text" id="emp_search" class="form-control" placeholder="Search Personnel by Name or ID. For multiple use value1,value2, ...">
+                    <input type="text" id="emp_search" class="form-control" placeholder="Search Personnel by Name or ID. For multiple use value1,value2, ..." style="width: 100%">
                     <div class="input-group-btn">
                         <button class="btn btn-warning dropdown-toggle" id="searchPP" data-toggle="dropdown"><i class="fa fa-search"></i> Search By <span class="fa fa-caret-down"></span></button>
                         <ul class="dropdown-menu">
@@ -43,7 +39,7 @@
         </tr>
         <tr class="bg-gray">
             <th colspan="9">
-                Total: <span id="total_pp">0</span>, Selected: <span id="selected_pp">0</span> 
+                Total: <span id="total_pp">0</span>, Selected: <span id="selected_pp">0</span>
                 <input type="text" class="input-sm pull-right" placeholder="Search Employee" id="search-text">
             </th>
         </tr>
@@ -77,11 +73,11 @@
       <div class="modal-body">
           <h4 class="body-text"></h4>
       </div>
-      
+
     </div>
 
   </div>
-</div>		   
+</div>
 <script>
     var emp;
     var selected_pp=0;
@@ -98,7 +94,7 @@
 	$.ajax({
 		mimeType: 'text/html; charset=utf-8', // ! Need set mimeType only when run from local file
 		url: 'json/office_by_blockmuni.php',
-				
+
 		success: function(data) {
 			office=JSON.parse(JSON.stringify(data));
 		},
@@ -117,9 +113,9 @@
 	}
 	else{
 		$('#office').empty();
-	}	
+	}
     }
-    
+
     $('#loadPP').click(function(e){
         e.preventDefault();
         $('#data-loader').show();
@@ -141,14 +137,14 @@
 		dataType: "json",
 		async: false
 	});
-        
+
         if(emp.length > 0){
             $('#total_pp').html(emp.length);
             $('#table_employee tbody').empty();
             $.each(emp, function(i){
                 $('#table_employee tbody').append("<tr><td><input type='checkbox' class='select-pp'></td><td class='personcd'>"+emp[i].personcd+"</td><td>"+emp[i].officer_name+"</td><td>"+emp[i].off_desg+"</td><td>"+emp[i].poststat+"</td><td>"+emp[i].mob_no+"</td><td>"+emp[i].remarks+"</td><td><input type='text' class='reason'></td></tr>");
             });
-            
+
             $('.select-pp').change(function(e){
                 e.preventDefault();
                 var row=$(this).closest('tr');
@@ -167,10 +163,10 @@
         else{
             $('#table_employee tbody').empty();
         }
-        
+
         $('#data-loader').hide();
     });
-    
+
     $('.id_search').click(function(e){
         e.preventDefault();
         $('#data-loader').show();
@@ -192,14 +188,14 @@
 		dataType: "json",
 		async: false
 	});
-        
+
         if(emp.length > 0){
             $('#total_pp').html(emp.length);
             $('#table_employee tbody').empty();
             $.each(emp, function(i){
                 $('#table_employee tbody').append("<tr><td><input type='checkbox' class='select-pp'></td><td class='personcd'>"+emp[i].personcd+"</td><td>"+emp[i].officer_name+"</td><td>"+emp[i].off_desg+"</td><td>"+emp[i].poststat+"</td><td>"+emp[i].mob_no+"</td><td>"+emp[i].remarks+"</td><td><input type='text' class='reason'></td></tr>");
             });
-            
+
             $('.select-pp').change(function(e){
                 e.preventDefault();
                 var row=$(this).closest('tr');
@@ -218,10 +214,10 @@
         else{
             $('#table_employee tbody').empty();
         }
-        
+
         $('#data-loader').hide();
     });
-    
+
     $('.name_search').click(function(e){
         e.preventDefault();
         $('#data-loader').show();
@@ -243,14 +239,14 @@
 		dataType: "json",
 		async: false
 	});
-        
+
         if(emp.length > 0){
             $('#total_pp').html(emp.length);
             $('#table_employee tbody').empty();
             $.each(emp, function(i){
                 $('#table_employee tbody').append("<tr><td><input type='checkbox' class='select-pp'></td><td class='personcd'>"+emp[i].personcd+"</td><td>"+emp[i].officer_name+"</td><td>"+emp[i].off_desg+"</td><td>"+emp[i].poststat+"</td><td>"+emp[i].mob_no+"</td><td>"+emp[i].remarks+"</td><td><input type='text' class='reason'></td></tr>");
             });
-            
+
             $('.select-pp').change(function(e){
                 e.preventDefault();
                 var row=$(this).closest('tr');
@@ -269,10 +265,10 @@
         else{
             $('#table_employee tbody').empty();
         }
-        
+
         $('#data-loader').hide();
     });
-    
+
     $('#resetPP').click(function(e){
         e.preventDefault();
         $('#table_employee tbody').empty();
@@ -283,18 +279,18 @@
         $('#emp_search').prop('disabled',false);
         $('#searchPP').prop('disabled',false);
     });
-    
+
     $("#search-text").keyup(function(){
         if (this.value.length < 1) {
             $("#table_employee tbody tr").css("display", "");
-        } 
+        }
         else {
             $("#table_employee tbody tr:not(:contains('"+$(this).val().toUpperCase()+"'))").css("display", "none");
             $("#table_employee tbody tr:contains('"+$(this).val().toUpperCase()+"')").css("display", "");
         }
-        
+
     });
-    
+
     $('.select-all').change(function(e){
         e.preventDefault();
         if($(this).is(':checked')){
@@ -308,7 +304,7 @@
             $('#selected_pp').html('0');
         }
     });
-    
+
     $('#exemptPP').click(function(e){
         e.preventDefault();
         $('#data-loader').show();
@@ -373,4 +369,3 @@
         $('#data-loader').hide();
     });
 </script>
-

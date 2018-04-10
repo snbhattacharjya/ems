@@ -10,15 +10,15 @@ if(isset($_SESSION['Subdiv']))
 require("../config/config.php");
 
 
-    
+
     $office_blockmuni_query="SELECT office.officecd, office.office, CONCAT(office.address1,', ',office.address2) AS address, office.phone, office.mobile, office.tot_staff AS pp1_count, COUNT(personnel_exempt.personcd) AS exempt_count FROM office INNER JOIN personnel_exempt ON office.officecd = personnel_exempt.officecd GROUP BY office.officecd, office.office, CONCAT(office.address1,', ',office.address2), office.phone, office.mobile, office.tot_staff ORDER BY office.officecd";
 
-$office_blockmuni_result=mysql_query($office_blockmuni_query,$DBLink) or die(mysql_error());
+$office_blockmuni_result=mysqli_query($DBLink,$office_blockmuni_query) or die(mysqli_error($DBLink));
 $return=array();
-while($row=mysql_fetch_assoc($office_blockmuni_result))
+while($row=mysqli_fetch_assoc($office_blockmuni_result))
 {
 	$return[]=$row;
-}	
+}
 ?>
 <html>
     <title>
@@ -68,9 +68,9 @@ while($row=mysql_fetch_assoc($office_blockmuni_result))
                     </tr>
                     <tr>
                         <th colspan="7">
-                            <?php 
+                            <?php
                                 date_default_timezone_set("Asia/Kolkata");
-                                echo "Report Compiled as on: ".date("d-M-Y H:i:s A"); 
+                                echo "Report Compiled as on: ".date("d-M-Y H:i:s A");
                             ?>
                         </th>
                     </tr>
@@ -78,4 +78,3 @@ while($row=mysql_fetch_assoc($office_blockmuni_result))
             </table>
     </body>
 </html>
-

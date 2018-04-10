@@ -11,9 +11,9 @@ require("../config/config.php");
 
 $employee_exempt_query="SELECT office.officecd, office.office, personnel_exempt.personcd, personnel_exempt.officer_name, personnel_exempt.off_desg, personnel_exempt.mob_no, remarks.remarks, personnel_exempt_marked.reason FROM ((office INNER JOIN personnel_exempt ON office.officecd = personnel_exempt.officecd) INNER JOIN remarks ON personnel_exempt.remarks = remarks.remarks_cd) INNER JOIN personnel_exempt_marked ON personnel_exempt.personcd = personnel_exempt_marked.personcd ORDER BY office.officecd, personnel_exempt.officer_name";
 
-$employee_exempt_result=mysql_query($employee_exempt_query,$DBLink) or die(mysql_error());
+$employee_exempt_result=mysqli_query($DBLink,$employee_exempt_query) or die(mysqli_error($DBLink));
 $return=array();
-while($row=mysql_fetch_assoc($employee_exempt_result))
+while($row=mysqli_fetch_assoc($employee_exempt_result))
 {
 	$return[]=$row;
 }
@@ -70,14 +70,14 @@ while($row=mysql_fetch_assoc($employee_exempt_result))
         $("#search-text").keyup(function(){
             if (this.value.length < 1) {
                 $("#employee_exempt_details tbody tr").css("display", "");
-            } 
+            }
             else {
                 $("#employee_exempt_details tbody tr:not(:contains('"+$(this).val().toUpperCase()+"'))").css("display", "none");
                 $("#employee_exempt_details tbody tr:contains('"+$(this).val().toUpperCase()+"')").css("display", "");
             }
 
         });
-        
+
         $('.remove-exempt-pp').click(function(e){
             e.preventDefault();
             var row=$(this).closest('tr');
@@ -109,4 +109,3 @@ while($row=mysql_fetch_assoc($employee_exempt_result))
         });
     });
 </script>
-

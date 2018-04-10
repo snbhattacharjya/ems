@@ -13,12 +13,11 @@ for($i = 0; $i < count($officer_name); $i++){
 $officer_name_clause=rtrim($officer_name_clause,',');
 
 $emp_query="SELECT personcd, officer_name, off_desg, remarks.remarks, poststat, mob_no FROM personnel INNER JOIN remarks ON personnel.remarks = remarks.remarks_cd WHERE personnel.officer_name IN ($officer_name_clause) AND personnel.personcd NOT IN (SELECT personcd FROM personnel_exempt_post_random)";
-$emp_result=mysql_query($emp_query,$DBLink) or die(mysql_error());
+$emp_result=mysqli_query($DBLink,$emp_query) or die(mysqli_error($DBLink));
 $return=array();
-while($row=mysql_fetch_assoc($emp_result))
+while($row=mysqli_fetch_assoc($emp_result))
 {
 	$return[]=$row;
-}	
+}
 echo json_encode($return);
 ?>
-

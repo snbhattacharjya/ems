@@ -15,12 +15,12 @@ else{
     $employee_exempt_query="SELECT office.officecd, office.office, personnel.personcd, personnel.officer_name, personnel.off_desg, personnel.mob_no, remarks.remarks, personnel_exempt_post_random.reason FROM ((office INNER JOIN personnel ON office.officecd = personnel.officecd) INNER JOIN remarks ON personnel.remarks = remarks.remarks_cd) INNER JOIN personnel_exempt_post_random ON personnel.personcd = personnel_exempt_post_random.personcd WHERE personnel_exempt_post_random.UserID = '$user_id' AND DATE(Modified) = '$exempt_date' ORDER BY office.officecd, personnel.officer_name";
 }
 
-$employee_exempt_result=mysql_query($employee_exempt_query,$DBLink) or die(mysql_error());
+$employee_exempt_result=mysqli_query($DBLink,$employee_exempt_query) or die(mysqli_error($DBLink));
 $return=array();
-while($row=mysql_fetch_assoc($employee_exempt_result))
+while($row=mysqli_fetch_assoc($employee_exempt_result))
 {
 	$return[]=$row;
-}	
+}
 ?>
 <html>
     <title>
@@ -83,9 +83,9 @@ while($row=mysql_fetch_assoc($employee_exempt_result))
             <tfoot>
                 <tr class="danger">
                     <th colspan="9">
-                        <?php 
+                        <?php
                             date_default_timezone_set("Asia/Kolkata");
-                            echo "Report Compiled as on: ".date("d-M-Y H:i:s A"); 
+                            echo "Report Compiled as on: ".date("d-M-Y H:i:s A");
                         ?>
                     </th>
                 </tr>
@@ -93,4 +93,3 @@ while($row=mysql_fetch_assoc($employee_exempt_result))
         </table>
     </body>
 </html>
-
