@@ -27,14 +27,15 @@
                 <div class="input-group input-group-sm">
                     <input type="text" id="emp_search" class="form-control" placeholder="Search Personnel by Name or ID. For multiple use value1,value2, ..." style="width: 100%">
                     <div class="input-group-btn">
-                        <button class="btn btn-warning dropdown-toggle" id="searchPP" data-toggle="dropdown"><i class="fa fa-search"></i> Search By <span class="fa fa-caret-down"></span></button>
+                        <!--<button class="btn btn-warning dropdown-toggle" id="searchPP" data-toggle="dropdown"><i class="fa fa-search"></i> Search By <span class="fa fa-caret-down"></span></button>
                         <ul class="dropdown-menu">
                             <li><a href="#" class="id_search">ID</a></li>
                             <li class="divider"></li>
                             <li><a href="#" class="name_search">Name</a></li>
-                            <li class="divider"></li>
-                            <li><a href="#" class="mobile_search">Mobile</a></li>
-                        </ul>
+                        </ul>-->
+                        <a href="#" class="btn btn-sm btn-primary id_search">ID</a>
+                        <a href="#" class="btn btn-sm btn-danger name_search">Name</a>
+                        <a href="#" class="btn btn-sm btn-info mobile_search">Mobile</a>
                     </div>
                 </div>
             </th>
