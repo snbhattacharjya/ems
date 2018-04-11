@@ -32,6 +32,8 @@
                             <li><a href="#" class="id_search">ID</a></li>
                             <li class="divider"></li>
                             <li><a href="#" class="name_search">Name</a></li>
+                            <li class="divider"></li>
+                            <li><a href="#" class="mobile_search">Mobile</a></li>
                         </ul>
                     </div>
                 </div>
@@ -229,6 +231,57 @@
 		type: 'POST',
                 data: {
                         officer_name: $('#emp_search').val()
+                },
+		success: function(data) {
+			emp=JSON.parse(JSON.stringify(data));
+		},
+		error: function (jqXHR, textStatus, errorThrown) {
+			alert(errorThrown);
+		},
+		dataType: "json",
+		async: false
+	});
+
+        if(emp.length > 0){
+            $('#total_pp').html(emp.length);
+            $('#table_employee tbody').empty();
+            $.each(emp, function(i){
+                $('#table_employee tbody').append("<tr><td><input type='checkbox' class='select-pp'></td><td class='personcd'>"+emp[i].personcd+"</td><td>"+emp[i].officer_name+"</td><td>"+emp[i].off_desg+"</td><td>"+emp[i].poststat+"</td><td>"+emp[i].mob_no+"</td><td>"+emp[i].remarks+"</td><td><input type='text' class='reason'></td></tr>");
+            });
+
+            $('.select-pp').change(function(e){
+                e.preventDefault();
+                var row=$(this).closest('tr');
+                if(row.hasClass('warning')){
+                    row.removeClass('warning');
+                    selected_pp -= 1;
+                    $('#selected_pp').html(selected_pp);
+                }
+                else{
+                    row.addClass('warning');
+                    selected_pp += 1;
+                    $('#selected_pp').html(selected_pp);
+                }
+            });
+        }
+        else{
+            $('#table_employee tbody').empty();
+        }
+
+        $('#data-loader').hide();
+    });
+
+    $('.mobile_search').click(function(e){
+        e.preventDefault();
+        $('#data-loader').show();
+        $('#emp_search').prop('disabled',true);
+        $('#searchPP').prop('disabled',true);
+        $.ajax({
+		mimeType: 'text/html; charset=utf-8', // ! Need set mimeType only when run from local file
+		url: 'post_random_exemption/employee_by_mobile.php',
+		type: 'POST',
+                data: {
+                        mobile_no: $('#emp_search').val()
                 },
 		success: function(data) {
 			emp=JSON.parse(JSON.stringify(data));
