@@ -6,7 +6,7 @@ session_start();
 if(!isset($_SESSION['UserID']))
     die("Login Expired!. Please Login again to continue");
 require("../config/config.php");
-include "../phpqrcode/qrlib.php"; 
+include "../phpqrcode/qrlib.php";
 $person_code=$_GET['person_code'];
 
 $env_query=$mysqli->prepare("SELECT environment, distnm_sml, apt1_orderno, apt1_date FROM environment") or die($mysqli->error);
@@ -26,30 +26,35 @@ $first_app_query->fetch() or die($first_app_query->error);
 $pp_data=array("personcd"=>$personcd, "officer_name"=>$officer_name, "off_desg"=>$off_desg, "poststatus"=>$poststatus, "mob_no"=>$mob_no, "epic"=>$epic, "partno"=>$partno, "slno"=>$slno, "acno"=>$acno, "bank"=>$bank, "branch"=>$branch, "ifsc"=>$ifsc, "bank_accno"=>$bank_accno, "officecd"=>$officecd, "office"=>$office, "address"=>$address, "block_muni_name"=>$block_muni_name, "postoffice"=>$postoffice, "subdivision"=>$subdivision, "policestation"=>$policestation, "district"=>$district, "pin"=>$pin, "training_desc"=>$training_desc);
 
 $first_app_query->close();
-$filename='../pp_training/qr_img/emp_'.$pp_data['personcd'].'.png';
+//$filename='../pp_training/qr_img/emp_'.$pp_data['personcd'].'.png';
 
-QRcode::png($pp_data['personcd'], $filename, 'H', 2, 2); 
+//QRcode::png($pp_data['personcd'], $filename, 'H', 2, 2);
 ?>
 <table width="100%" style="font-family: sans-serif; font-size: 11">
     <tr>
         <th width="20%">
-            <img src="../img/ECI-Logo-LMI.jpg" alt="" height="50" width="50"/><br>
+            <!--<img src="../img/ECI-Logo-LMI.jpg" alt="" height="50" width="50"/><br>-->
             Election Urgent
         </th>
         <th width="60%">
             <img src="../pp_training/indian-symbol4.jpg" alt=""/><br>
-            ORDER OF APPOINTMENT FOR TRAINING<br>
-            <?php echo $env.", ".$dist."<br>No ($apt1_order_no), Date: ".date_format(date_create_from_format("Y-m-d",$apt1_date),"d/m/Y"); ?>
+            ORDER OF APPOINTMENT FOR<br>
+            <?php echo $env.", ".$dist; ?>
         </th>
         <th width="20%">
-            <img src="<?php echo $filename; ?>" alt=""/><br>
-            QR code
+            &nbsp;
         </th>
     </tr>
     <tr>
-        <td colspan="3" style="padding-top: 15; text-align: justify">
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; In exercise of the power conferred upon vide Section 26 of the R. P. Act, 1951, I do hereby appoint the officer specified below as Polling Officer for undergoing training in connection with the conduct of General Assembly Election of West Bengal, 2016.
-        </td>
+        <th width="20%">Memo No: 21/PP CELL Dist(24525) </th>
+      <th width="60%">&nbsp;
+
+        </th>
+        <th width="20%">Dated: 09/04/2018</th>
+    </tr>
+    <tr>
+      <td colspan="3" style="padding-top: 15; text-align: justify">
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; In exercise of the power conferred upon vide Section 26 of the R. P. Act, 1951 read with sub section(5) of section 6 of West Bengal State Election Commission Act 1994 (WB Act VIII of 1994) read with section 28 of the West Bengal Panchayat Election Act 2003, I do hereby appoint the officer specified below as Polling Officer for undergoing training in connection with the conduct of West Bengal Panchayat Election, 2018 in district of Hooghly.</td>
     </tr>
     <tr>
         <td colspan="3" style="padding-top: 15;">
@@ -60,9 +65,9 @@ QRcode::png($pp_data['personcd'], $filename, 'H', 2, 2);
                     <th width="25%">Post Status</th>
                 </tr>
                 <tr>
-                    <th align="left"><?php echo $pp_data['officer_name']."<br>".$pp_data['off_desg']."<br>PIN - ".$pp_data['personcd']; ?></th>
-                    <td align="left"><strong><?php echo $pp_data['office']." (".$pp_data['officecd']."), </strong>".$pp_data['address']." P.O. - ".$pp_data['postoffice'].", Subdiv - ".$pp_data['subdivision'].", P.S. - ".$pp_data['policestation'].", Dist - ".$pp_data['district'].", Pincode - ".$pp_data['pin']; ?></td>
-                    <th align="center"><?php echo $pp_data['poststatus']; ?></th>
+                    <th align="left"><?php echo $pp_data[$i]['officer_name']."<br>".$pp_data[$i]['off_desg']."<br>PIN - ".$pp_data[$i]['personcd']; ?></th>
+                    <td align="left"><strong><?php echo $pp_data[$i]['office']." (".$pp_data[$i]['officecd']."), </strong>".$pp_data[$i]['address']." P.O. - ".$pp_data[$i]['postoffice'].", Subdiv - ".$pp_data[$i]['subdivision'].", P.S. - ".$pp_data[$i]['policestation'].", Dist - ".$pp_data[$i]['district'].", Pincode - ".$pp_data[$i]['pin']; ?></td>
+                    <th align="center"><?php echo $pp_data[$i]['poststatus']; ?></th>
                 </tr>
             </table>
         </td>
@@ -73,7 +78,7 @@ QRcode::png($pp_data['personcd'], $filename, 'H', 2, 2);
         </th>
     </tr>
     <tr>
-        <td colspan="3" style="padding-top: 10; text-align: justify">This is a compulsory duty on your part to attend the said programme,as per the provisions of the Representation of the People Act, 1951. You are directed to bring a copy of your Elector's Photo Identity Card (EPIC) or any other proof of Identity. </td>
+        <td colspan="3" style="padding-top: 10; text-align: justify">This is a compulsory duty on your part to attend the said programme,as per the provisions of the Representation of the People's Act, 1951, remaining absent in attending training and performing subsequent duties will invite strict penal action. </td>
     </tr>
     <tr>
         <td style="padding-top: 10; text-align: justify">
@@ -83,7 +88,7 @@ QRcode::png($pp_data['personcd'], $filename, 'H', 2, 2);
         <th style="padding-top: 10; text-align: justify">&nbsp;</th>
         <td style="padding-top: 10; text-align: justify">
             <img src="../pp_training/dm-sign1.jpg" alt=""/><br>
-            District Election Officer<br>
+            District Panchayat Election Officer<br>
             District Hooghly
         </td>
     </tr>
@@ -96,14 +101,9 @@ QRcode::png($pp_data['personcd'], $filename, 'H', 2, 2);
         <td colspan="3" style="padding-top: 5; text-align: justify">
             NB <br>
             <ol>
-                <li>Sign the pre-filled Form 12 (enclosed), after checking thoroughly for every information and if corrections are needed in current Part No / Serial No. Address need not to be filled. </li>
-                <li> Please submit duly signed Form 12 along with duplicate copy of appointment letter at training venue on the first day of training. </li>
                 <li>
-                    Please write particulars on the supplied blank Identity Card and also affix your colour passport size photograph on it. Please bring it to training venue for attestation.
-                </li>
-                <li>
-                Please check your electoral data and bank details given below. For any inconsistency please inform the authority. <strong><br> EPIC N0. - <?php echo $pp_data['epic']; ?>, Assembly - <?php echo $pp_data['acno']; ?>, Part No. - <?php echo $pp_data['partno']; ?>, Sl. No.- <?php echo $pp_data['slno']; ?> <br>Bank - <?php echo $pp_data['bank']; ?>, Branch - <?php echo $pp_data['branch']; ?> <br>A/c No.- <?php echo $pp_data['bank_accno']; ?>, IFS Code- <?php echo $pp_data['ifsc']; ?></strong></li>
-                <li>Please verify your Electoral details given above with the latest elctoral roll. You may know your AC no. / Part no. / Sl no. by sending your EPIC no. through SMS at CEO helpline number in the following text format <em>WBELEC&lt;space&gt;Your EPIC Card no to 9002481874</em> or <em>WB&lt;space&gt;EC&lt;space&gt;Your EPIC Card no to 51969.</em></li>
+                Please check your electoral data and bank details given below. For any inconsistency please inform the authority. <strong><br>
+                EPIC N0. - <?php echo $pp_data[$i]['epic']; ?>, Assembly - <?php echo $pp_data[$i]['acno']; ?>, Part No. - <?php echo $pp_data[$i]['partno']; ?>, Sl. No.- <?php echo $pp_data[$i]['slno']; ?> <br>Bank - <?php echo $pp_data[$i]['bank']; ?>, Branch - <?php echo $pp_data[$i]['branch']; ?> <br>A/c No.- <?php echo $pp_data[$i]['bank_accno']; ?>, IFS Code- <?php echo $pp_data[$i]['ifsc']; ?></strong></li>
             </ol>
         </td>
     </tr>
@@ -131,7 +131,7 @@ QRcode::png($pp_data['personcd'], $filename, 'H', 2, 2);
                     </td>
                     <td width="33%" align="center">
                         Block/Municipality: <br>
-                        <strong><?php echo $pp_data['block_muni_name']; ?></strong>
+                        <strong><?php echo $pp_data[$i]['block_muni_name']; ?></strong>
                     </td>
                     <td width="33%">
                         Signature of the Recipient<br>

@@ -24,7 +24,7 @@ while($pp_office_query->fetch()){
         $booked_status="Exempted";
     if($booked == '')
         $booked_status="Not Appointed";
-    
+
     if($poststat == 'PR')
         $post_status="Presiding Officer";
     if($poststat == 'P1')
@@ -32,12 +32,12 @@ while($pp_office_query->fetch()){
     if($poststat == 'P2')
         $post_status="2nd Polling Officer";
     if($poststat == 'P3')
+        $post_status="4th Polling Officer";
+    if($poststat == 'PA')
         $post_status="3rd Polling Officer";
-    if($poststat == 'AE')
-        $post_status="Addl Exp Observer";
     if($poststat == 'MO')
         $post_status="Micro Observer";
-    
+
     $pp_office[]=array("personcd"=>$personcd, "officer_name"=>$officer_name, "off_desg"=>$off_desg, "mob_no"=>$mob_no,"booked_status"=>$booked_status,"post_status"=>$post_status);
 }
 $pp_office_query->close();
@@ -58,7 +58,7 @@ $pp_office_query->close();
     </thead>
     <tbody>
         <?php
-        
+
 	for($i=0;$i<count($pp_office);$i++){
         ?>
 	<tr>
@@ -87,9 +87,9 @@ $pp_office_query->close();
     <tfoot>
         <tr class="danger">
             <th colspan="8">
-                <?php 
+                <?php
                     date_default_timezone_set("Asia/Kolkata");
-                    echo "<i class='fa fa-info-circle'></i> Report Compiled as on: ".date("d-M-Y H:i:s A"); 
+                    echo "<i class='fa fa-info-circle'></i> Report Compiled as on: ".date("d-M-Y H:i:s A");
                 ?>
             </th>
     </tfoot>
@@ -105,14 +105,14 @@ $pp_office_query->close();
             paging: false
         });
     });
-    
+
     $('.office-summary').click(function(e){
         e.preventDefault();
         var subdiv=$(this).attr('data-subdiv').valueOf().toString();
         var blockmuni=$(this).attr('data-blockmuni').valueOf().toString();
         loadOfficePPExtraSummary(subdiv, blockmuni);
     });
-    
+
      function loadOfficePPExtraSummary(subdiv, blockmuni){
         $('.ajax-result').empty();
         $('.ajax-loader').show();

@@ -6,7 +6,7 @@ require("../config/config.php");
 
 $blockmuni_param=$_GET['blockmuni'];
 
-$blockmuni_office_query=$mysqli->prepare("SELECT office.officecd, office.office, office.address1, COUNT(personnel_extra.personcd) FROM office INNER JOIN personnel_extra ON office.officecd=personnel_extra.officecd WHERE office.blockormuni_cd = ? AND personnel_extra.poststat IN ('PR','P1','P2','P3') AND personnel_extra.booked IN ('P','R') GROUP BY office.officecd, office.office, office.address1 ORDER BY office.officecd") or die($mysqli->error);
+$blockmuni_office_query=$mysqli->prepare("SELECT office.officecd, office.office, office.address1, COUNT(personnel_extra.personcd) FROM office INNER JOIN personnel_extra ON office.officecd=personnel_extra.officecd WHERE office.blockormuni_cd = ? AND personnel_extra.poststat IN ('PR','P1','P2','P3','PA') AND personnel_extra.booked IN ('P','R') GROUP BY office.officecd, office.office, office.address1 ORDER BY office.officecd") or die($mysqli->error);
 $blockmuni_office_query->bind_param("s",$blockmuni_param) or die($blockmuni_office_query->error);
 $blockmuni_office_query->execute() or die($blockmuni_office_query->error);
 $blockmuni_office_query->bind_result($officecd,$office,$address1,$office_total) or die($blockmuni_office_query->error);
@@ -18,7 +18,7 @@ while($blockmuni_office_query->fetch()){
 }
 $blockmuni_office_query->close();
 
-$poststat_query=$mysqli->prepare("SELECT poststat.post_stat, poststat.poststatus, COUNT(personnel_extra.personcd) FROM (office INNER JOIN personnel_extra ON office.officecd=personnel_extra.officecd) INNER JOIN poststat ON poststat.post_stat=personnel_extra.poststat WHERE personnel_extra.poststat IN ('PR','P1','P2','P3') AND personnel_extra.booked IN ('P','R') AND office.blockormuni_cd = ? GROUP BY poststat.post_stat, poststat.poststatus ORDER BY poststat.post_stat, poststat.poststatus") or die($mysqli->error);
+$poststat_query=$mysqli->prepare("SELECT poststat.post_stat, poststat.poststatus, COUNT(personnel_extra.personcd) FROM (office INNER JOIN personnel_extra ON office.officecd=personnel_extra.officecd) INNER JOIN poststat ON poststat.post_stat=personnel_extra.poststat WHERE personnel_extra.poststat IN ('PR','P1','P2','P3','PA') AND personnel_extra.booked IN ('P','R') AND office.blockormuni_cd = ? GROUP BY poststat.post_stat, poststat.poststatus ORDER BY poststat.poststat_order, poststat.poststatus") or die($mysqli->error);
 $poststat_query->bind_param("s",$blockmuni_param) or die($poststat_query->error);
 $poststat_query->execute() or die($poststat_query->error);
 $poststat_query->bind_result($post_stat_code,$post_stat_name,$post_stat_total) or die($poststat_query->error);
@@ -47,11 +47,11 @@ $poststat=array();
     </thead>
     <tbody>
         <?php
-        $blockmuni_office_booked_query=$mysqli->prepare("SELECT office.officecd, personnel_extra.poststat, COUNT(personnel_extra.personcd) FROM office INNER JOIN personnel_extra ON office.officecd=personnel_extra.officecd WHERE office.blockormuni_cd = ? AND personnel_extra.poststat IN ('PR','P1','P2','P3') AND personnel_extra.booked IN ('P','R') GROUP BY office.officecd, personnel_extra.poststat ORDER BY office.officecd, personnel_extra.poststat") or die($mysqli->error);
+        $blockmuni_office_booked_query=$mysqli->prepare("SELECT office.officecd, personnel_extra.poststat, COUNT(personnel_extra.personcd) FROM office INNER JOIN personnel_extra ON office.officecd=personnel_extra.officecd WHERE office.blockormuni_cd = ? AND personnel_extra.poststat IN ('PR','P1','P2','P3','PA') AND personnel_extra.booked IN ('P','R') GROUP BY office.officecd, personnel_extra.poststat ORDER BY office.officecd, personnel_extra.poststat") or die($mysqli->error);
         $blockmuni_office_booked_query->bind_param("s",$blockmuni_param) or die($blockmuni_office_booked_query->error);
         $blockmuni_office_booked_query->execute() or die($blockmuni_office_booked_query->error);
         $blockmuni_office_booked_query->bind_result($officecd,$post_stat_code,$pp_count) or die($blockmuni_office_booked_query->error);
-        
+
         $report=array();
         $search_index=array();
         while($blockmuni_office_booked_query->fetch()){
@@ -100,9 +100,9 @@ $poststat=array();
         </tr>
         <tr>
             <th colspan="<?php echo count($poststat) + 6; ?>">
-                <?php 
+                <?php
                     date_default_timezone_set("Asia/Kolkata");
-                    echo "<i class='fa fa-info-circle'></i> Report Compiled as on: ".date("d-M-Y H:i:s A"); 
+                    echo "<i class='fa fa-info-circle'></i> Report Compiled as on: ".date("d-M-Y H:i:s A");
                 ?>
             </th>
     </tfoot>
