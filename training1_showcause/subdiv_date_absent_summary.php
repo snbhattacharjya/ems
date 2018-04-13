@@ -90,7 +90,7 @@ $subdiv_date_schedule_query->close();
             if(count($subdiv_absent) > 0 && $subdiv_absent[$index]['SubdivCode'] == $subdiv_schedule[$i]['SubdivCode']){
                 echo "<td>".($subdiv_schedule[$i]['PPScheduled'] - $subdiv_absent[$index]['PPAbsent'])."</td><td>".$subdiv_absent[$index]['PPAbsent']."</td>";
                 $subdiv_present_total+=($subdiv_schedule[$i]['PPScheduled'] - $subdiv_absent[$index]['PPAbsent']);
-                $subdiv_absent_total+=$subdiv_absent[$i]['PPAbsent'];
+                $subdiv_absent_total+=$subdiv_absent[$index]['PPAbsent'];
             }
             else{
                 echo "<td>".$subdiv_schedule[$i]['PPScheduled']."</td><td>0</td>";

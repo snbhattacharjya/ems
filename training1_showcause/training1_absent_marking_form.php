@@ -1,10 +1,11 @@
 <?php
 
-/* 
+/*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+ session_start();
 ?>
 <div class="row">
     <div class="col-md-12">
@@ -47,7 +48,13 @@
                             <li><a href="#" class="scheduled-pp">Personnel Scheduled</a></li>
                             <li><a href="#" class="absent-pp">Personnel Absent</a></li>
                             <li><a href="#" class="room-absent-pp">Room wise Absent List</a></li>
+                            <?php
+                            if($_SESSION['UserID'] == 'ADMIN' || $_SESSION['UserID'] == 'ppcell_hug'){
+                             ?>
                             <li><a href="#" class="show-cause-letter">Show Cause Letter</a></li>
+                            <?php
+                             }
+                            ?>
                         </ul>
                     </div>
                 </div>
@@ -67,7 +74,7 @@
     $(function(){
       $('.select2').select2();
       loadSubdivision();
-    
+
     $('#subdiv').change(function(e){
         e.preventDefault();
         $('#training_venue').empty();
@@ -97,7 +104,7 @@
             async: false
 	});
     });
-    
+
     $('#training_venue').change(function(e){
         e.preventDefault();
         $('#training_date').empty();
@@ -126,7 +133,7 @@
             async: false
 	});
     });
-    
+
     $('#training_date').change(function(e){
         e.preventDefault();
         $('#training_time').empty();
@@ -157,7 +164,7 @@
             async: false
 	});
     });
-    
+
     $('.scheduled-pp').click(function(e){
         e.preventDefault();
         $('.pp-attendance-result').empty();
@@ -187,7 +194,7 @@
             async: false
 	});
     });
-    
+
     $('.absent-pp').click(function(e){
         e.preventDefault();
         $('.pp-attendance-result').empty();
@@ -217,7 +224,7 @@
             async: false
 	});
     });
-    
+
     $('.room-absent-pp').click(function(e){
         e.preventDefault();
         $('.pp-attendance-result').empty();
@@ -247,7 +254,7 @@
             async: false
 	});
     });
-    
+
     $('.show-cause-letter').click(function(e){
         e.preventDefault();
         $('.pp-attendance-result').empty();
@@ -283,7 +290,7 @@ function loadSubdivision(){
     $('#subdiv').select2({placeholder: "Loading Subdivision..."});
     $.ajax({
             mimeType: 'text/html; charset=utf-8', // ! Need set mimeType only when run from local file
-            url: "json/subdivision_details.php",
+            url: "training1_showcause/user_subdivision_details.php",
             success: function(data) {
                 $('#subdiv').empty();
                 var result=JSON.parse(JSON.stringify(data));

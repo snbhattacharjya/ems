@@ -28,12 +28,18 @@ include("../config/config.php");
                 <a class="btn btn-app poststat-absent-summary">
                     <i class="fa fa-bar-chart-o text-blue icon"></i> Poststatus wise Report
                 </a>
+                <?php
+                if($_SESSION['UserID'] == 'ADMIN' || $_SESSION['UserID'] == 'ppcell_hug'){
+                 ?>
                 <a class="btn btn-app exempt-absent-summary">
                     <i class="fa fa-user-secret text-green icon"></i> Exempted from Absent
                 </a>
                 <a class="btn btn-app show-cause-summary">
                     <i class="fa fa-clipboard text-maroon icon"></i> Show Cause Letter
                 </a>
+               <?php
+                }
+               ?>
             </div>
         </div><!-- /.row -->
 
