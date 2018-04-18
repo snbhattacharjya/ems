@@ -23,8 +23,8 @@ $officecd=$_POST['officecd'];
     <thead>
         <tr class="danger">
             <th colspan="7">
-                <button class="btn btn-default" id="exportPP"><i class="fa fa-cloud-upload text-green"></i> Export Selected <span class="selected_pp_count badge">0</span></button> 
-                
+                <button class="btn btn-default" id="exportPP"><i class="fa fa-cloud-upload text-green"></i> Export Selected <span class="selected_pp_count badge">0</span></button>
+
                 <input type="text" class="input-sm pull-right" placeholder="Search Employee" id="search-text">
             </th>
         </tr>
@@ -39,7 +39,7 @@ $officecd=$_POST['officecd'];
         </tr>
     </thead>
     <tbody>
-        
+
     </tbody>
     <tfoot>
 
@@ -58,11 +58,11 @@ $officecd=$_POST['officecd'];
       <div class="modal-body">
           <h4 class="body-text"></h4>
       </div>
-      
+
     </div>
 
   </div>
-</div>	
+</div>
 
 <script type="text/javascript">
 var poststat;
@@ -71,12 +71,12 @@ var poststat_combo;
 var emp;
 var selected_pp=0;
 
-$(document).ready(function(){	
+$(document).ready(function(){
     //$('#table_employee').hide();
 
     loadPostStatus();
     LoadEmployeebyOfficeImport();
-});	
+});
 
 function loadPostStatus(){
     $('.overlay').find('small').html(' Loading Post Status...');
@@ -152,7 +152,7 @@ function LoadEmployeebyOfficeImport()
 $("#search-text").keyup(function(){
     if (this.value.length < 1) {
         $("#table_employee tbody tr").css("display", "");
-    } 
+    }
     else {
         $("#table_employee tbody tr:not(:contains('"+$(this).val().toUpperCase()+"'))").css("display", "none");
         $("#table_employee tbody tr:contains('"+$(this).val().toUpperCase()+"')").css("display", "");
@@ -186,7 +186,7 @@ $('#exportPP').click(function(e){
             var emp_code=$(this).find('.personcd').html().toString();
             var poststat=$(this).find('.poststat_combo').val();
             var result;
-           
+
                 $.ajax({
                         mimeType: 'text/html; charset=utf-8', // ! Need set mimeType only when run from local file
                         url: 'pp_counting/export_employee.php',
@@ -213,7 +213,7 @@ $('#exportPP').click(function(e){
                 else{
                     alert(result.Status);
                 }
-            
+
             if(emp_export_count != selected_pp){
                 $('.body-text').html("ERROR - Some Personnel Cannot be Marked for Counting");
                 $('.modal-header').addClass('bg-red');

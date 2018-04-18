@@ -1,6 +1,6 @@
 <?php
 
-/* 
+/*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -8,7 +8,7 @@
 ?>
 <div class="box box-solid">
     <div class="box-header bg-teal-active">
-        <h3 class="box-title text-bold">Counting Personnel Data Preparation</h3> 
+        <h3 class="box-title text-bold">Counting Personnel Data Preparation</h3>
     </div><!-- /.box-header -->
 
     <div class="box-body">
@@ -62,7 +62,7 @@
                 </ul>
             </div>
         </div><!-- /.row -->
-        
+
         <div class="row" style="padding-top: 15px">
             <div class="col-md-12">
                 <div class="input-group input-group-sm">
@@ -89,102 +89,102 @@
                 Loading Web Data...Please wait
             </p>
         </div>
-        
+
         <div class="row">
             <div class="col-md-12 table-responsive ajax-result">
-                
+
             </div>
         </div>
 
     </div><!-- /.box-body -->
-</div><!-- /.box --> 
+</div><!-- /.box -->
 <script>
     $(function(){
         loadOffice();
     });
-    
+
     $('.pp_search').click(function(e){
         e.preventDefault();
         loadPersonnelSummary();
     });
-    
+
     $('.add_new').click(function(e){
         e.preventDefault();
         loadPersonnelAddForm();
     });
-    
+
     $('.pp_import').click(function(e){
         e.preventDefault();
         loadPersonnelCountingImportForm();
     });
-    
+
     $('.counting-pp-summary').click(function(e){
         e.preventDefault();
         loadPersonnelCountingSummary();
     });
-    
+
     $('.counting-pp-office').click(function(e){
         e.preventDefault();
         loadOfficePPCountingSummary();
     });
-    
+
     $('.counting-pp-date').click(function(e){
         e.preventDefault();
         loadPersonnelCountingEntryDateForm();
     });
-    
+
     $('.emp-search-id').click(function(e){
         e.preventDefault();
         loadPersonnelCountingImportSearch('id');
     });
-    
+
     $('.emp-search-name').click(function(e){
         e.preventDefault();
         loadPersonnelCountingImportSearch('name');
     });
-    
+
     $('.emp-search-bank').click(function(e){
         e.preventDefault();
         loadPersonnelCountingImportSearch('bank');
     });
-    
+
     $('.pp_search_all').click(function(e){
         e.preventDefault();
         loadPersonnelCountingAllSearch();
     });
-    
+
     $('.mo_cs_ca_summary').click(function(e){
         e.preventDefault();
         loadPersonnelCountingAppt('COUNT_PP');
     });
-    
+
     $('.ca_grd_summary').click(function(e){
         e.preventDefault();
         loadPersonnelCountingAppt('COUNT_GRD');
     });
-    
+
     $('.booked_search').click(function(e){
         e.preventDefault();
         loadPersonnelCountingBookedSearch();
     });
-    
+
     $('.unbooked_search').click(function(e){
         e.preventDefault();
         loadPersonnelCountingUnbookedSearch();
     });
-    
+
     $('.exempt_search').click(function(e){
         e.preventDefault();
         loadPersonnelCountingExemptSearch();
     });
-    
+
     function loadOffice(){
 	var office;
 	$('#office').select2({placeholder: 'Loading Office...'});
 	$.ajax({
 		mimeType: 'text/html; charset=utf-8', // ! Need set mimeType only when run from local file
 		url: 'json/office_by_blockmuni.php',
-				
+
 		success: function(data) {
 			office=JSON.parse(JSON.stringify(data));
 		},
@@ -197,15 +197,15 @@
 	if(office.length > 0){
 		$('#office').empty();
 		$.each(office,function(i){
-			$('#office').append( "<option value='"+office[i].OfficeCode+"'>"+ office[i].OfficeCode + ' - ' +office[i].OfficeName + ', ' + office[i].Address + "</option>");
+			$('#office').append( "<option value='"+office[i].OfficeCode+"'>"+ office[i].OfficeCode + ' - ' +office[i].OfficeName + ', ' + office[i].UniqueID + "</option>");
 		});
 		$('#office').select2({placeholder: 'Select Office'});
 	}
 	else{
 		$('#office').empty();
-	}	
+	}
     }
-    
+
     function loadPersonnelSummary(){
 	var officecd=$('#office').val();
         $('.ajax-loader').show();
@@ -227,13 +227,13 @@
             async: false
 	});
     }
-    
+
     function loadPersonnelCountingAllSearch(){
         $('.ajax-loader').show();
 	$.ajax({
             mimeType: 'text/html; charset=utf-8', // ! Need set mimeType only when run from local file
             url: 'pp_counting/pp_data_search_all.php',
-            
+
             success: function(data) {
                 $('.ajax-loader').hide();
                 $('.ajax-result').html(data);
@@ -245,7 +245,7 @@
             async: false
 	});
     }
-    
+
     function loadPersonnelAddForm(){
 	var officecd=$('#office').val();
         $('.ajax-loader').show();
@@ -267,7 +267,7 @@
             async: false
 	});
     }
-    
+
     function loadPersonnelCountingImportForm(){
 	var officecd=$('#office').val();
         $('.ajax-loader').show();
@@ -289,7 +289,7 @@
             async: false
 	});
     }
-    
+
     function loadPersonnelCountingImportSearch(search_param){
         var search_val=$('.emp_search').val();
         $('.ajax-loader').show();
@@ -312,7 +312,7 @@
             async: false
 	});
     }
-    
+
     function loadPersonnelCountingSummary(){
         $('.ajax-loader').show();
 	$.ajax({
@@ -329,7 +329,7 @@
             async: false
 	});
     }
-    
+
     function loadOfficePPCountingSummary(){
         $('.ajax-loader').show();
 	$.ajax({
@@ -346,7 +346,7 @@
             async: false
 	});
     }
-    
+
     function loadPersonnelCountingEntryDateForm(){
         $('.ajax-loader').show();
 	$.ajax({
@@ -363,7 +363,7 @@
             async: false
 	});
     }
-    
+
     function loadPersonnelCountingAppt(opt){
         $('.ajax-loader').show();
 	$.ajax({
@@ -384,7 +384,7 @@
             async: false
 	});
     }
-    
+
     function loadPersonnelCountingBookedSearch(){
         $('.ajax-loader').show();
 	$.ajax({
@@ -401,7 +401,7 @@
             async: false
 	});
     }
-    
+
     function loadPersonnelCountingUnbookedSearch(){
         $('.ajax-loader').show();
 	$.ajax({
@@ -418,7 +418,7 @@
             async: false
 	});
     }
-    
+
     function loadPersonnelCountingExemptSearch(){
         $('.ajax-loader').show();
 	$.ajax({
@@ -436,4 +436,3 @@
 	});
     }
 </script>
-
