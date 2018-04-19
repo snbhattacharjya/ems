@@ -114,7 +114,7 @@ $insertQuery="INSERT INTO `personnel` (
 `subdivisioncd` ,`bank_acc_no` ,`bank_cd`,`branchname` ,`branchcd` ,`remarks` ,`pgroup` ,`upload_file`,`usercode` ,`posted_date` ,`f_cd`,`image`
 )
 VALUES (
-'$personcd', '$OfficeCd', '$EmployeeName', '$Designation', '0', '$PresentAddress1', '$PresentAddress2', '$PermanentAddress1', '$PermanentAddress2', '$DateOfBirth', '$Sex', '$ScaleOfPay', '$BasicPay', '$GradePay', '$WorkExperience', '$Group',  '$EmailId', '$PhoneNumber', '$MobileNumber', '$Qualification', '$LanguageKnown', '$EpicNo', '$Assembly_perm', '$SerialNo', '$PartNo', '', '$Assembly_temp', '$Assembly_off', '$Assembly_perm', '$BlockMuni_temp', '$BlockMuni_off', '$BlockMuni_perm', '$districtcd', '$subdivisioncd', '$BankAcNo', '$Bank', '$BranchName', '$BranchIFSCCode', '$Remarks', '1', '1', '1',CURRENT_TIMESTAMP, '1','');
+'$personcd', '$OfficeCd', '$EmployeeName', '$Designation', '0', '$PresentAddress1', '$PresentAddress2', '$PermanentAddress1', '$PermanentAddress2', '$DateOfBirth', '$Sex', '$ScaleOfPay', '$BasicPay', '$GradePay', '$WorkExperience', '$Group',  '$EmailId', '$PhoneNumber', '$MobileNumber', '$Qualification', '$LanguageKnown', '$EpicNo', '$Assembly_perm', '$SerialNo', '$PartNo', '', '$Assembly_temp', '$Assembly_off', '$Assembly_perm', '$BlockMuni_temp', '$BlockMuni_off', '$BlockMuni_perm', '$districtcd', '$subdivisioncd', '$BankAcNo', '$Bank', '$BranchName', '$BranchIFSCCode', '$Remarks', '1', '1', '1',CURRENT_TIMESTAMP, '0','');
 ";
 //Query for Audit
 //$insertQuery.="INSERT INTO application_audit(UserID, ObjectID, ObjectActivity, RequestIP, SessionID, ActivityTimeStamp) VALUES('$session_user_id','$personcd','ADD EMPLOYEE','$session_ip','$session_id',CURRENT_TIMESTAMP)";
