@@ -12,20 +12,20 @@ $subdiv=$_POST['subdiv'];
 $training_date=$_POST['training_date'];
 $training_time=$_POST['training_time'];
 
-$training_schedule_venue_query=$mysqli->prepare("SELECT training_venue.venue_cd, training_venue.venuename, training_venue.maximumcapacity, training_schedule.post_status, training_schedule.no_pp, training_schedule.no_used FROM training_schedule INNER JOIN training_venue ON training_venue.venue_cd = training_schedule.training_venue WHERE training_venue.venue_base_name = ? AND training_venue.subdivisioncd = ? AND training_schedule.training_dt = ? AND training_schedule.training_time = ? ORDER BY  training_venue.venue_cd") or die($mysqli->error);
+$training_schedule_venue_query=$mysqli->prepare("SELECT training_venue.venue_cd, training_venue.venuename, training_venue.maximumcapacity, training_schedule.post_status, training_schedule.no_pp, training_schedule.no_used, COUNT(personnel.personcd) FROM ((training_schedule INNER JOIN training_venue ON training_venue.venue_cd = training_schedule.training_venue) INNER JOIN personnel ON personnel.training1_sch = training_schedule.schedule_code) INNER JOIN personnel_exempt_post_random ON personnel.personcd = personnel_exempt_post_random.personcd WHERE training_venue.venue_base_name = ? AND training_venue.subdivisioncd = ? AND training_schedule.training_dt = ? AND training_schedule.training_time = ? GROUP BY training_venue.venue_cd, training_venue.venuename, training_venue.maximumcapacity, training_schedule.post_status, training_schedule.no_pp, training_schedule.no_used ORDER BY  training_venue.venue_cd") or die($mysqli->error);
     $training_schedule_venue_query->bind_param("ssss",$venue_base_name,$subdiv,$training_date,$training_time) or die($training_schedule_venue_query->error);
 
 $training_schedule_venue_query->execute() or die($training_schedule_venue_query->error);
-$training_schedule_venue_query->bind_result($venue_code,$venue_name,$maximum_capacity,$post_status,$no_pp,$no_used) or die($training_schedule_venue_query->error);
+$training_schedule_venue_query->bind_result($venue_code,$venue_name,$maximum_capacity,$post_status,$no_pp,$no_used,$no_exempted) or die($training_schedule_venue_query->error);
 $return=array();
 while($training_schedule_venue_query->fetch())
 {
-	$return[]=array("VenueID"=>$venue_code,"VenueName"=>$venue_name,"MaximumCapacity"=>$maximum_capacity,"PostStatus"=>$post_status,"NoPP"=>$no_pp,"NoUsed"=>$no_used);
+	$return[]=array("VenueID"=>$venue_code,"VenueName"=>$venue_name,"MaximumCapacity"=>$maximum_capacity,"PostStatus"=>$post_status,"NoPP"=>$no_pp,"NoUsed"=>$no_used,"NoExempted"=>$no_exempted);
 }
 ?>
 <div class="pull-right margin-bottom">
       <a href="pp_training_attendance/attendance_personel_range_print.php?subdiv=<?php echo $subdiv; ?>&training_venue=<?php echo $venue_base_name; ?>&training_date=<?php echo $training_date; ?>&training_time=<?php echo $training_time; ?>" class="btn btn-default btn-md text-red" target="_blank">
-      <i class="fa fa-print"></i> Print Presonal Range
+      <i class="fa fa-print"></i> Print Presonnel Range
     </a>
     <a href="pp_training_attendance/attendance_summary_print.php?subdiv=<?php echo $subdiv; ?>&training_venue=<?php echo $venue_base_name; ?>&training_date=<?php echo $training_date; ?>&training_time=<?php echo $training_time; ?>" class="btn btn-default btn-md text-red" target="_blank">
         <i class="fa fa-print"></i> Print Summary
@@ -34,7 +34,7 @@ while($training_schedule_venue_query->fetch())
 <table id="training_schedule_table" class="table table-bordered table-condensed small">
     <thead>
         <tr>
-            <th class="bg-aqua text-center" colspan="10">
+            <th class="bg-aqua text-center" colspan="11">
                 <?php echo $venue_base_name.', Date: '.date_format(date_create($training_date),"d-M-Y").', Time: '.$training_time; ?>
             </th>
         </tr>
@@ -46,6 +46,7 @@ while($training_schedule_venue_query->fetch())
             <th>Post Status</th>
             <th>PP Allocated</th>
             <th>PP Occupied</th>
+            <th>PP Exempted</th>
             <th>Vacancy</th>
             <th>Attendance List</th>
             <th>Absent Marking</th>
@@ -67,7 +68,8 @@ while($training_schedule_venue_query->fetch())
             <td><?php echo $return[$i]['PostStatus']; ?></td>
             <td><?php echo $return[$i]['NoPP']; ?></td>
             <td><?php echo $return[$i]['NoUsed']; ?></td>
-            <td><?php echo $return[$i]['NoPP'] - $return[$i]['NoUsed']; ?></td>
+            <td><?php echo $return[$i]['NoExempted']; ?></td>
+            <td><?php echo $return[$i]['NoPP'] - $return[$i]['NoUsed'] - $return[$i]['NoExempted']; ?></td>
             <td class="text-center"><a href="pp_training_attendance/training_attendance_list_print.php?venue_id=<?php echo $return[$i]['VenueID']; ?>&venue_name=<?php echo $return[$i]['VenueName']; ?>&training_date=<?php echo $training_date; ?>&training_time=<?php echo $training_time; ?>&no_pp=<?php echo $return[$i]['NoPP']; ?>&no_used=<?php echo $return[$i]['NoUsed']; ?>" class="btn btn-default btn-md text-red" target="_blank"><i class="fa fa-print"></i></a></td>
             <td class="text-center"><a href="#" class="btn btn-default btn-md text-blue"><i class="fa fa-user-times"></i></a></td>
         </tr>
@@ -75,7 +77,7 @@ while($training_schedule_venue_query->fetch())
             $total_capacity+=$return[$i]['MaximumCapacity'];
             $total_allocated+=$return[$i]['NoPP'];
             $total_occupied+=$return[$i]['NoUsed'];
-            $total_vacant+=($return[$i]['NoPP'] - $return[$i]['NoUsed']);
+            $total_vacant+=($return[$i]['NoPP'] - $return[$i]['NoUsed'] - $return[$i]['NoExempted']);
         }
         ?>
     </tbody>
