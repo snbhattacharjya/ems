@@ -60,12 +60,14 @@ while($training_schedule_venue_query->fetch())
             <td><?php echo $return[$i]['PostStatus']; ?></td>
             <td><?php echo $return[$i]['NoPP']; ?></td>
             <td><?php echo $return[$i]['NoUsed']; ?></td>
+            <td><?php echo $return[$i]['NoExempted']; ?></td>
             <td><?php echo $return[$i]['NoPP'] - ($return[$i]['NoUsed'] - $return[$i]['NoExempted']); ?></td>
         </tr>
         <?php
             $total_capacity+=$return[$i]['MaximumCapacity'];
             $total_allocated+=$return[$i]['NoPP'];
             $total_occupied+=$return[$i]['NoUsed'];
+            $total_exempted+=$return[$i]['NoExempted'];
             $total_vacant+=($return[$i]['NoPP'] - ($return[$i]['NoUsed'] - $return[$i]['NoExempted']));
         }
         ?>
@@ -86,6 +88,9 @@ while($training_schedule_venue_query->fetch())
             </th>
             <th>
                 <?php echo $total_occupied; ?>
+            </th>
+            <th>
+                <?php echo $total_exempted; ?>
             </th>
             <th>
                 <?php echo $total_vacant; ?>
