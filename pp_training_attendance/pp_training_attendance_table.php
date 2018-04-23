@@ -107,6 +107,9 @@ while($training_schedule_venue_query->fetch())
             <th class="text-center">
                 &nbsp;
             </th>
+            <th class="text-center">
+                &nbsp;
+            </th>
         </tr>
     </tfoot>
 </table>
