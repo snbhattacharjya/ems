@@ -16,11 +16,11 @@ $training_schedule_venue_query=$mysqli->prepare("SELECT training_venue.venue_cd,
     $training_schedule_venue_query->bind_param("ssss",$venue_base_name,$subdiv,$training_date,$training_time) or die($training_schedule_venue_query->error);
 
 $training_schedule_venue_query->execute() or die($training_schedule_venue_query->error);
-$training_schedule_venue_query->bind_result($venue_code,$venue_name,$maximum_capacity,$post_status,$no_pp,$no_used,$no_exempted) or die($training_schedule_venue_query->error);
+$training_schedule_venue_query->bind_result($venue_code,$venue_name,$maximum_capacity,$post_status,$no_pp,$no_used) or die($training_schedule_venue_query->error);
 $return=array();
 while($training_schedule_venue_query->fetch())
 {
-	$return[]=array("VenueID"=>$venue_code,"VenueName"=>$venue_name,"MaximumCapacity"=>$maximum_capacity,"PostStatus"=>$post_status,"NoPP"=>$no_pp,"NoUsed"=>$no_used,"NoExempted"=>$no_exempted);
+	$return[]=array("VenueID"=>$venue_code,"VenueName"=>$venue_name,"MaximumCapacity"=>$maximum_capacity,"PostStatus"=>$post_status,"NoPP"=>$no_pp,"NoUsed"=>$no_used);
 }
 ?>
 <div class="pull-right margin-bottom">
