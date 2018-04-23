@@ -50,6 +50,7 @@ while($training_schedule_venue_query->fetch())
         $total_allocated=0;
         $total_occupied=0;
         $total_vacant=0;
+        $total_exempted=0;
         for($i = 0; $i < count($return); $i++){
         ?>
         <tr>
