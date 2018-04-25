@@ -5,15 +5,15 @@ if(!isset($_SESSION['UserID'])){
 }
 require("../config/config.php");
 
-$venue_id=$_GET['venue_id'];
+/*$venue_id=$_GET['venue_id'];
 $venue_name=$_GET['venue_name'];
 $training_date=$_GET['training_date'];
 $training_time=$_GET['training_time'];
 $no_pp=$_GET['no_pp'];
-$no_used=$_GET['no_used'];
+$no_used=$_GET['no_used'];*/
 
-$training_attendance_list_query=$mysqli->prepare("SELECT personnel_exempted.personcd, personnel_exempted.officer_name, personnel_exempted.off_desg, office.officecd, office.office, office.address1, office.address2, poststat.poststatus, personnel_exempted.mob_no FROM (((personnel_exempted INNER JOIN office ON personnel_exempted.officecd = office.officecd) INNER JOIN poststat ON personnel_exempted.poststat = poststat.post_stat) INNER JOIN training_schedule ON personnel_exempted.training1_sch = training_schedule.schedule_code) INNER JOIN training_venue ON training_venue.venue_cd = training_schedule.training_venue AND training_venue.venue_cd = ? AND training_schedule.training_dt = ? AND training_schedule.training_time = ? ORDER BY personnel_exempted.officer_name") or die($mysqli->error);
-    $training_attendance_list_query->bind_param("sss",$venue_id,$training_date,$training_time) or die($training_attendance_list_query->error);
+$training_attendance_list_query=$mysqli->prepare("SELECT personnel_exempted.personcd, personnel_exempted.officer_name, personnel_exempted.off_desg, office.officecd, office.office, office.address1, office.address2, poststat.poststatus, personnel_exempted.mob_no FROM (((personnel_exempted INNER JOIN office ON personnel_exempted.officecd = office.officecd) INNER JOIN poststat ON personnel_exempted.poststat = poststat.post_stat) INNER JOIN training_schedule ON personnel_exempted.training1_sch = training_schedule.schedule_code) INNER JOIN training_venue ON training_venue.venue_cd = training_schedule.training_venue ORDER BY personnel_exempted.officer_name") or die($mysqli->error);
+    //$training_attendance_list_query->bind_param("sss",$venue_id,$training_date,$training_time) or die($training_attendance_list_query->error);
 
 $training_attendance_list_query->execute() or die($training_attendance_list_query->error);
 $training_attendance_list_query->bind_result($personcd,$officer_name,$off_desg,$officecd,$office_name,$address1,$address2,$poststatus,$mobile) or die($training_attendance_list_query->error);
