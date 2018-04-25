@@ -39,7 +39,7 @@ for($i = 0;$i < count($pp_data); $i++){
             Election Urgent
         </th>
         <th width="60%">
-            <!--<img src="../pp_training/indian-symbol4.jpg" alt=""/><br>-->
+            <img src="../pp_training/indian-symbol4.jpg" alt=""/><br>
             ORDER OF APPOINTMENT FOR<br>
             <?php echo $env.", ".$dist; ?>
         </th>
