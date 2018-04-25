@@ -20,7 +20,7 @@ $training_attendance_list_query->bind_result($personcd,$officer_name,$off_desg,$
 $return=array();
 while($training_attendance_list_query->fetch())
 {
-	$return[]=array("PersonID"=>$personcd,"OfficerName"=>$officer_name,"Designation"=>$off_desg,"OfficeID"=>$officecd,"OfficeName"=>$office_name,"Address1"=>$address1,"Address2"=>$address2,"PostStatus"=>$poststatus,"Mobile"=>$mobile,"VenueName"=>$training_venue,"TrainingDate"=>$traning_date,"TrainingTime"=>$training_time);
+	$return[]=array("PersonID"=>$personcd,"OfficerName"=>$officer_name,"Designation"=>$off_desg,"OfficeID"=>$officecd,"OfficeName"=>$office_name,"Address1"=>$address1,"Address2"=>$address2,"PostStatus"=>$poststatus,"Mobile"=>$mobile,"VenueName"=>$training_venue,"TrainingDate"=>$training_date,"TrainingTime"=>$training_time);
 }
 ?>
 <html>
