@@ -6,7 +6,7 @@ if(!isset($_SESSION['UserID'])){
 require("../config/config.php");
 
 
-$training_schedule_venue_query=$mysqli->prepare("SELECT training_venue.venue_cd, training_venue.venuename, training_venue.maximumcapacity, training_schedule.post_status, training_schedule.no_pp, training_schedule.no_used, training_schedule.training_dt, training_schedule.training_time, COUNT(personnel_exempted.personcd) FROM (training_schedule INNER JOIN training_venue ON training_venue.venue_cd = training_schedule.training_venue) INNER JOIN personnel_exempted ON personnel_exempted.training1_sch = training_schedule.schedule_code GROUP BY training_venue.venue_cd, training_venue.venuename, training_venue.maximumcapacity, training_schedule.post_status, training_schedule.no_pp, training_schedule.no_used ORDER BY  training_venue.venue_cd") or die($mysqli->error);
+$training_schedule_venue_query=$mysqli->prepare("SELECT training_venue.venue_cd, training_venue.venuename, training_venue.maximumcapacity, training_schedule.post_status, training_schedule.no_pp, training_schedule.no_used, training_schedule.training_dt, training_schedule.training_time, COUNT(personnel_exempted.personcd) FROM (training_schedule INNER JOIN training_venue ON training_venue.venue_cd = training_schedule.training_venue) INNER JOIN personnel_exempted ON personnel_exempted.training1_sch = training_schedule.schedule_code GROUP BY training_venue.venue_cd, training_venue.venuename, training_venue.maximumcapacity, training_schedule.post_status, training_schedule.no_pp, training_schedule.no_used, training_schedule.training_dt, training_schedule.training_time ORDER BY  training_venue.venue_cd") or die($mysqli->error);
     //$training_schedule_venue_query->bind_param("ssss",$venue_base_name,$subdiv,$training_date,$training_time) or die($training_schedule_venue_query->error);
 
 $training_schedule_venue_query->execute() or die($training_schedule_venue_query->error);
@@ -25,7 +25,7 @@ while($training_schedule_venue_query->fetch())
     <thead>
         <tr>
             <th colspan="11">
-                <?php echo $venue_base_name.', Date: '.date_format(date_create($training_date),"d-M-Y").', Time: '.$training_time; ?>
+                Training Attendance Summary for Exempted Personnel
             </th>
         </tr>
         <tr>
