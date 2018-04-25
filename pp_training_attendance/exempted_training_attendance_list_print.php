@@ -12,15 +12,15 @@ $training_time=$_GET['training_time'];
 $no_pp=$_GET['no_pp'];
 $no_used=$_GET['no_used'];*/
 
-$training_attendance_list_query=$mysqli->prepare("SELECT personnel_exempted.personcd, personnel_exempted.officer_name, personnel_exempted.off_desg, office.officecd, office.office, office.address1, office.address2, poststat.poststatus, personnel_exempted.mob_no FROM (((personnel_exempted INNER JOIN office ON personnel_exempted.officecd = office.officecd) INNER JOIN poststat ON personnel_exempted.poststat = poststat.post_stat) INNER JOIN training_schedule ON personnel_exempted.training1_sch = training_schedule.schedule_code) INNER JOIN training_venue ON training_venue.venue_cd = training_schedule.training_venue ORDER BY personnel_exempted.officer_name") or die($mysqli->error);
+$training_attendance_list_query=$mysqli->prepare("SELECT personnel_exempted.personcd, personnel_exempted.officer_name, personnel_exempted.off_desg, office.officecd, office.office, office.address1, office.address2, poststat.poststatus, personnel_exempted.mob_no, training_venue.venuename, training_schedule.training_dt, training_schedule.training_time FROM (((personnel_exempted INNER JOIN office ON personnel_exempted.officecd = office.officecd) INNER JOIN poststat ON personnel_exempted.poststat = poststat.post_stat) INNER JOIN training_schedule ON personnel_exempted.training1_sch = training_schedule.schedule_code) INNER JOIN training_venue ON training_venue.venue_cd = training_schedule.training_venue ORDER BY personnel_exempted.officer_name") or die($mysqli->error);
     //$training_attendance_list_query->bind_param("sss",$venue_id,$training_date,$training_time) or die($training_attendance_list_query->error);
 
 $training_attendance_list_query->execute() or die($training_attendance_list_query->error);
-$training_attendance_list_query->bind_result($personcd,$officer_name,$off_desg,$officecd,$office_name,$address1,$address2,$poststatus,$mobile) or die($training_attendance_list_query->error);
+$training_attendance_list_query->bind_result($personcd,$officer_name,$off_desg,$officecd,$office_name,$address1,$address2,$poststatus,$mobile,$training_venue,$training_date,$training_time) or die($training_attendance_list_query->error);
 $return=array();
 while($training_attendance_list_query->fetch())
 {
-	$return[]=array("PersonID"=>$personcd,"OfficerName"=>$officer_name,"Designation"=>$off_desg,"OfficeID"=>$officecd,"OfficeName"=>$office_name,"Address1"=>$address1,"Address2"=>$address2,"PostStatus"=>$poststatus,"Mobile"=>$mobile);
+	$return[]=array("PersonID"=>$personcd,"OfficerName"=>$officer_name,"Designation"=>$off_desg,"OfficeID"=>$officecd,"OfficeName"=>$office_name,"Address1"=>$address1,"Address2"=>$address2,"PostStatus"=>$poststatus,"Mobile"=>$mobile,"VenueName"=>$traning_venue,"TrainingDate"=>$traning_date,"TrainingTime"=>$training_time);
 }
 ?>
 <html>
@@ -30,8 +30,8 @@ while($training_attendance_list_query->fetch())
     <table border="1" cellpadding="5" cellspacing="0" width="100%" style="font-size: 14">
     <thead>
         <tr>
-            <th colspan="7">
-                <?php echo "Venue Name:- ".$venue_name.', Date of Training:- '.date_format(date_create($training_date),"d-M-Y").', Time:- '.$training_time.', PP Allocated:- '.$no_pp.', PP Occupied:- '.$no_used; ?>
+            <th colspan="9">
+                Attendance List for Exempted Personnel
             </th>
         </tr>
         <tr>
@@ -41,7 +41,9 @@ while($training_attendance_list_query->fetch())
             <th>Designation / Office</th>
             <th>Post Status</th>
             <th>Mobile</th>
-            <th>Signature</th>
+            <th>Training Venue</th>
+            <th>Training Date</th>
+            <th>Training Time</th>
         </tr>
     </thead>
     <tbody>
@@ -55,7 +57,9 @@ while($training_attendance_list_query->fetch())
             <td><?php echo $return[$i]['Designation'].", ".$return[$i]['OfficeName']." - ".$return[$i]['Address1'].", ".$return[$i]['Address2']." (".$return[$i]['OfficeID'].")"; ?></td>
             <td><?php echo $return[$i]['PostStatus']; ?></td>
             <td><?php echo $return[$i]['Mobile']; ?></td>
-            <td><?php echo "&nbsp;"; ?></td>
+            <td><?php echo $return[$i]['VenueName']; ?></td>
+            <td><?php echo $return[$i]['TrainingDate']; ?></td>
+            <td><?php echo $return[$i]['TrainingTime']; ?></td>
         </tr>
         <?php
         }
