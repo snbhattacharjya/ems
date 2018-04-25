@@ -10,11 +10,12 @@ require("../config/config.php");
     <div class="box-header bg-teal">
         <h3 class="box-title">
             Personnel Training Management
-        </h3> 
+        </h3>
         <div class="box-tools pull-right">
-            <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>                            </div>
-        </div><!-- /.box-header -->
-        <div class="box-body">          
+            <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+        </div>
+    </div><!-- /.box-header -->
+        <div class="box-body">
             <div class="box-header">
                 <a class="btn btn-app populate-first-training">
                     <i class="fa fa-users icon"></i> Populate First Training Letter
@@ -45,7 +46,7 @@ require("../config/config.php");
             </div>
             <div class="row">
                 <div class="col-md-12 ajax-result">
-                    
+
                 </div>
             </div>
         </div><!-- /.box-body -->
@@ -54,7 +55,7 @@ require("../config/config.php");
 $(function(){
     //$.getScript("pp_training/pp_training_func.js");
 });
-    
+
 $('.training-summary').click(function(e){
     e.preventDefault();
     loadSubdivPPBookedSummary();
@@ -131,7 +132,7 @@ function loadSubdivPPExtraBookedSummary(){
 	});
 }
 
-    
+
     function populate_first_rand_table(){
         $('.ajax-result').empty();
         $('.ajax-loader').show();
@@ -155,7 +156,7 @@ function loadSubdivPPExtraBookedSummary(){
             async: false
 	});
     }
-    
+
     function populate_first_rand_table_extra(){
         $('.ajax-result').empty();
         $('.ajax-loader').show();
@@ -179,7 +180,7 @@ function loadSubdivPPExtraBookedSummary(){
             async: false
 	});
     }
-    
+
     function populate_first_rand_table_new(){
         $('.ajax-result').empty();
         $('.ajax-loader').show();
@@ -203,7 +204,7 @@ function loadSubdivPPExtraBookedSummary(){
             async: false
 	});
     }
-    
+
     function loadSubdivForm12Summary(){
     $('.ajax-result').empty();
     $('.ajax-loader').show();
