@@ -16,11 +16,11 @@ $training_attendance_list_query=$mysqli->prepare("SELECT personnel_exempted.pers
     //$training_attendance_list_query->bind_param("sss",$venue_id,$training_date,$training_time) or die($training_attendance_list_query->error);
 
 $training_attendance_list_query->execute() or die($training_attendance_list_query->error);
-$training_attendance_list_query->bind_result($personcd,$officer_name,$off_desg,$officecd,$office_name,$address1,$address2,$poststatus,$mobile,$training_venue,$training_date,$training_time) or die($training_attendance_list_query->error);
+$training_attendance_list_query->bind_result($personcd,$officer_name,$off_desg,$officecd,$office_name,$address1,$address2,$poststatus,$mobile) or die($training_attendance_list_query->error);
 $return=array();
 while($training_attendance_list_query->fetch())
 {
-	$return[]=array("PersonID"=>$personcd,"OfficerName"=>$officer_name,"Designation"=>$off_desg,"OfficeID"=>$officecd,"OfficeName"=>$office_name,"Address1"=>$address1,"Address2"=>$address2,"PostStatus"=>$poststatus,"Mobile"=>$mobile,"VenueName"=>$training_venue,"TrainingDate"=>$training_date,"TrainingTime"=>$training_time);
+	$return[]=array("PersonID"=>$personcd,"OfficerName"=>$officer_name,"Designation"=>$off_desg,"OfficeID"=>$officecd,"OfficeName"=>$office_name,"Address1"=>$address1,"Address2"=>$address2,"PostStatus"=>$poststatus,"Mobile"=>$mobile);
 }
 ?>
 <html>
