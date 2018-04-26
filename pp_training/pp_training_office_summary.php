@@ -73,7 +73,7 @@ $poststat=array();
 	<tr>
             <td><?php echo ($i+1); ?></td>
             <td><?php echo "<a href='#' data-blockmuni='".$blockmuni_param."' data-officecd='".$blockmuni_office[$i]['officecd']."'  data-subdiv='".$subdiv_param."' class='pp-report-btn text-bold text-green'>".$blockmuni_office[$i]['officecd']."</a>"; ?></td>
-            <td><?php echo "<a href='#' data-blockmuni='".$blockmuni_param."' data-officecd='".$blockmuni_office[$i]['officecd']."' class='pp-report-btn text-bold text-green'>".$blockmuni_office[$i]['office']."</a>"; ?></td>
+            <td><?php echo "<a href='#' data-blockmuni='".$blockmuni_param."' data-officecd='".$blockmuni_office[$i]['officecd']."' data-subdiv='".$subdiv_param."' class='pp-report-btn text-bold text-green'>".$blockmuni_office[$i]['office']."</a>"; ?></td>
             <td><?php echo $blockmuni_office[$i]['address1']; ?></td>
         <?php
             for($j=0;$j<count($poststat);$j++){
