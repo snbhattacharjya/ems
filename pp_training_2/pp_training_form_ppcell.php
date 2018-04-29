@@ -74,7 +74,7 @@ function loadSubdivPPBookedSummary(){
     //var data_target=$(this).attr('data-target').valueOf().toString();
     $.ajax({
             mimeType: 'text/html; charset=utf-8', // ! Need set mimeType only when run from local file
-            url: "pp_training/pp_training_subdiv_summary.php",
+            url: "pp_training_2/pp_training_subdiv_summary.php",
             //type: "POST",
             //data: {
                 //target_url: data_target

@@ -9,10 +9,10 @@ if(!isset($_POST['officecd']))
 else
     $office_param=$_POST['officecd'];
 
-$pp_office_query=$mysqli->prepare("SELECT personnel.personcd, personnel.officer_name, personnel.off_desg, personnel.mob_no, personnel.booked, personnel.poststat FROM personnel WHERE personnel.officecd = ?") or die($mysqli->error);
+$pp_office_query=$mysqli->prepare("SELECT personnel.personcd, personnel.officer_name, personnel.off_desg, personnel.mob_no, personnel.booked, personnel.poststat, personnel.forassembly, personnel.groupid FROM personnel WHERE personnel.officecd = ?") or die($mysqli->error);
 $pp_office_query->bind_param("s",$office_param) or die($pp_office_query->error);
 $pp_office_query->execute() or die($pp_office_query->error);
-$pp_office_query->bind_result($personcd,$officer_name,$off_desg,$mob_no,$booked,$poststat) or die($pp_office_query->error);
+$pp_office_query->bind_result($personcd,$officer_name,$off_desg,$mob_no,$booked,$poststat,$forassembly,$groupid) or die($pp_office_query->error);
 
 $pp_office=array();
 
@@ -22,6 +22,8 @@ while($pp_office_query->fetch()){
     if($booked == 'C')
         $booked_status="Exempted";
     if($booked == '')
+        $booked_status="Not Appointed";
+    if($forassembly == '' || $groupid == 0)
         $booked_status="Not Appointed";
 
     if($poststat == 'PR')
@@ -52,7 +54,7 @@ $pp_office_query->close();
             <th>Mobile No</th>
             <th>Post Status</th>
             <th>Polling Duty</th>
-            <th>1st Appointment Letter</th>
+            <th>2nd Appointment Letter</th>
         </tr>
     </thead>
     <tbody>
@@ -71,7 +73,7 @@ $pp_office_query->close();
             <?php
             if($pp_office[$i]['booked_status'] == "Appointed"){
             ?>
-            <td class="text-center"><a href="pp_training/first_appointment_letter_pp.php?person_code=<?php echo $pp_office[$i]['personcd']; ?>" class="text-red" target="_blank"><i class="fa fa-print"></i> Print</a></td>
+            <td class="text-center"><a href="pp_training_2/second_appointment_letter.php?opt='PERSON'&person_code=<?php echo $pp_office[$i]['personcd']; ?>" class="text-red" target="_blank"><i class="fa fa-print"></i> Print</a></td>
             <?php
             }
             else{

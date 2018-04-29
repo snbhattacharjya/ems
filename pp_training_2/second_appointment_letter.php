@@ -7,7 +7,7 @@ if(!isset($_SESSION['UserID']))
     die("Login Expired!. Please Login again to continue");
 require("../config/config.php");
 include "../phpqrcode/qrlib.php";
-$subdiv_code=$_GET['subdiv_code'];
+$opt=$_GET['opt'];
 
 $env_query=$mysqli->prepare("SELECT environment, distnm_sml, apt1_orderno, apt1_date FROM environment") or die($mysqli->error);
 $env_query->execute() or die($env_query->error);
@@ -15,8 +15,27 @@ $env_query->bind_result($env,$dist,$apt1_order_no,$apt1_date) or die($env_query-
 $env_query->fetch() or die($env_query->error);
 $env_query->close();
 
-$second_app_query=$mysqli->prepare("SELECT personcd, officer_name, off_desg, poststatus, poststat, mob_no, epic, partno, slno, acno, bank, branch, ifsc, bank_accno, officecd, office, address, block_muni_name, postoffice, subdivision, policestation, district, pin, training_desc, venuename, venueaddress, training_dt, training_time, forassembly, forassembly_name, booked, groupid, dc_venue, dc_addr, rc_venue, rc_addr FROM second_rand_table WHERE subdivisioncd = ? ORDER BY officecd, personcd LIMIT 3") or die($mysqli->error);
-$second_app_query->bind_param("s",$subdiv_code) or die($second_app_query->error);
+if($opt == 'SUBDIVISION'){
+  $subdiv_code = $_GET['subdiv_code'];
+  $second_app_query=$mysqli->prepare("SELECT personcd, officer_name, off_desg, poststatus, poststat, mob_no, epic, partno, slno, acno, bank, branch, ifsc, bank_accno, officecd, office, address, block_muni_name, postoffice, subdivision, policestation, district, pin, training_desc, venuename, venueaddress, training_dt, training_time, forassembly, forassembly_name, booked, groupid, dc_venue, dc_addr, rc_venue, rc_addr FROM second_rand_table WHERE subdivisioncd = ? ORDER BY officecd, personcd") or die($mysqli->error);
+  $second_app_query->bind_param("s",$subdiv_code) or die($second_app_query->error);
+}
+if($opt == 'BLOCKMUNI'){
+  $block_muni_code = $_GET['block_muni_code'];
+  $second_app_query=$mysqli->prepare("SELECT personcd, officer_name, off_desg, poststatus, poststat, mob_no, epic, partno, slno, acno, bank, branch, ifsc, bank_accno, officecd, office, address, block_muni_name, postoffice, subdivision, policestation, district, pin, training_desc, venuename, venueaddress, training_dt, training_time, forassembly, forassembly_name, booked, groupid, dc_venue, dc_addr, rc_venue, rc_addr FROM second_rand_table WHERE block_muni = ? ORDER BY officecd, personcd") or die($mysqli->error);
+  $second_app_query->bind_param("s",$block_muni_code) or die($second_app_query->error);
+}
+if($opt == 'OFFICE'){
+  $office_code = $_GET['office_code'];
+  $second_app_query=$mysqli->prepare("SELECT personcd, officer_name, off_desg, poststatus, poststat, mob_no, epic, partno, slno, acno, bank, branch, ifsc, bank_accno, officecd, office, address, block_muni_name, postoffice, subdivision, policestation, district, pin, training_desc, venuename, venueaddress, training_dt, training_time, forassembly, forassembly_name, booked, groupid, dc_venue, dc_addr, rc_venue, rc_addr FROM second_rand_table WHERE officecd = ? ORDER BY officecd, personcd") or die($mysqli->error);
+  $second_app_query->bind_param("s",$office_code) or die($second_app_query->error);
+}
+if($opt == 'PERSON'){
+  $person_code = $_GET['person_code'];
+  $second_app_query=$mysqli->prepare("SELECT personcd, officer_name, off_desg, poststatus, poststat, mob_no, epic, partno, slno, acno, bank, branch, ifsc, bank_accno, officecd, office, address, block_muni_name, postoffice, subdivision, policestation, district, pin, training_desc, venuename, venueaddress, training_dt, training_time, forassembly, forassembly_name, booked, groupid, dc_venue, dc_addr, rc_venue, rc_addr FROM second_rand_table WHERE personcd = ? ORDER BY officecd, personcd") or die($mysqli->error);
+  $second_app_query->bind_param("s",$person_code) or die($second_app_query->error);
+}
+
 $second_app_query->execute() or die($second_app_query->error);
 $second_app_query->bind_result($personcd, $officer_name, $off_desg, $poststatus, $poststat, $mob_no, $epic, $partno, $slno, $acno, $bank, $branch, $ifsc, $bank_accno, $officecd, $office, $address, $block_muni_name, $postoffice, $subdivision, $policestation, $district, $pin, $training_desc, $venuename, $venueaddress, $training_dt, $training_time, $forassembly, $forassembly_name, $booked, $groupid, $dc_venue, $dc_addr, $rc_venue, $rc_addr) or die($second_app_query->error);
 
@@ -212,7 +231,7 @@ for($i = 0;$i < count($pp_data); $i++){
         </td>
         <th style="padding-top: 10; text-align: justify">&nbsp;</th>
         <td style="padding-top: 10; text-align: center">
-            <img src="../pp_training/dm-sign1.jpg" alt=""/><br>
+            <img src="../pp_training_2/ro/<?php echo $pp_data[$i]['forassembly'].'.jpg'?>" alt=""/><br>
             Panchayat Returning Officer<br>
             Gram Panchayat <strong><?php echo $pp_data[$i]['forassembly_name']; ?></strong> Panchayat Samiti<br>
             Contituencies and APRO, Hooghly Zilla Parishad Constituency

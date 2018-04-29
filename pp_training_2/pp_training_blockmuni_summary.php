@@ -9,7 +9,7 @@ if(!isset($_POST['subdiv']))
 else
     $subdiv_param=$_POST['subdiv'];
 
-$blockmuni_query=$mysqli->prepare("SELECT block_muni.blockminicd, block_muni.blockmuni, COUNT(personnel.personcd) FROM (office INNER JOIN personnel ON office.officecd=personnel.officecd) INNER JOIN block_muni ON office.blockormuni_cd=block_muni.blockminicd WHERE office.subdivisioncd = ? AND personnel.poststat IN ('PR','P1','P2','P3','PA') AND personnel.booked IN ('P','R') GROUP BY block_muni.blockminicd, block_muni.blockmuni ORDER BY block_muni.blockminicd, block_muni.blockmuni") or die($mysqli->error);
+$blockmuni_query=$mysqli->prepare("SELECT block_muni.blockminicd, block_muni.blockmuni, COUNT(personnel.personcd) FROM (office INNER JOIN personnel ON office.officecd=personnel.officecd) INNER JOIN block_muni ON office.blockormuni_cd=block_muni.blockminicd WHERE office.subdivisioncd = ? AND personnel.poststat IN ('PR','P1','P2','P3','PA') AND personnel.booked IN ('P','R') AND personnel.forassembly != '' AND personnel.groupid != 0 GROUP BY block_muni.blockminicd, block_muni.blockmuni ORDER BY block_muni.blockminicd, block_muni.blockmuni") or die($mysqli->error);
 $blockmuni_query->bind_param("s",$subdiv_param) or die($blockmuni_query->error);
 $blockmuni_query->execute() or die($blockmuni_query->error);
 $blockmuni_query->bind_result($block_muni_code,$block_muni_name,$block_muni_total) or die($blockmuni_query->error);
@@ -20,14 +20,14 @@ while($blockmuni_query->fetch()){
 }
 $blockmuni_query->close();
 
-$poststat_query=$mysqli->prepare("SELECT poststat.post_stat, poststat.poststatus, COUNT(personnel.personcd) FROM poststat INNER JOIN personnel ON poststat.post_stat=personnel.poststat WHERE personnel.poststat IN ('PR','P1','P2','P3','PA') AND personnel.booked IN ('P','R') AND personnel.subdivisioncd = ? GROUP BY poststat.post_stat, poststat.poststatus ORDER BY poststat.poststat_order, poststat.poststatus") or die($mysqli->error);
+$poststat_query=$mysqli->prepare("SELECT poststat.post_stat, poststat.poststatus, COUNT(personnel.personcd) FROM poststat INNER JOIN personnel ON poststat.post_stat=personnel.poststat WHERE personnel.poststat IN ('PR','P1','P2','P3','PA') AND personnel.booked IN ('P','R') AND personnel.forassembly != '' AND personnel.groupid != 0 AND personnel.subdivisioncd = ? GROUP BY poststat.post_stat, poststat.poststatus ORDER BY poststat.poststat_order, poststat.poststatus") or die($mysqli->error);
 $poststat_query->bind_param("s",$subdiv_param) or die($poststat_query->error);
 $poststat_query->execute() or die($poststat_query->error);
 $poststat_query->bind_result($post_stat_code,$post_stat_name,$post_stat_total) or die($poststat_query->error);
 $poststat=array();
 ?>
 <div class="text-center margin-bottom">
-    <a class="btn btn-default btn-md" href="pp_training/pp_training_blockmuni_summary_print.php?subdiv=<?php echo $subdiv_param; ?>" target="_blank">
+    <a class="btn btn-default btn-md" href="pp_training_2/pp_training_blockmuni_summary_print.php?subdiv=<?php echo $subdiv_param; ?>" target="_blank">
         <i class="fa fa-print text-red"></i> Print Summary
     </a>
 </div>
@@ -45,12 +45,12 @@ $poststat=array();
             $poststat_query->close();
             ?>
             <th>Total</th>
-            <th>1st Appointment Letter</th>
+            <th>2nd Appointment Letter</th>
         </tr>
     </thead>
     <tbody>
         <?php
-        $blockmuni_booked_query=$mysqli->prepare("SELECT block_muni.blockminicd, personnel.poststat, COUNT(personnel.personcd) FROM (office INNER JOIN personnel ON office.officecd=personnel.officecd) INNER JOIN block_muni ON office.blockormuni_cd=block_muni.blockminicd WHERE office.subdivisioncd = ? AND personnel.poststat IN ('PR','P1','P2','P3','PA') AND personnel.booked IN ('P','R') GROUP BY block_muni.blockminicd, personnel.poststat ORDER BY block_muni.blockminicd, personnel.poststat") or die($mysqli->error);
+        $blockmuni_booked_query=$mysqli->prepare("SELECT block_muni.blockminicd, personnel.poststat, COUNT(personnel.personcd) FROM (office INNER JOIN personnel ON office.officecd=personnel.officecd) INNER JOIN block_muni ON office.blockormuni_cd=block_muni.blockminicd WHERE office.subdivisioncd = ? AND personnel.poststat IN ('PR','P1','P2','P3','PA') AND personnel.booked IN ('P','R') AND personnel.forassembly != '' AND personnel.groupid != 0 GROUP BY block_muni.blockminicd, personnel.poststat ORDER BY block_muni.blockminicd, personnel.poststat") or die($mysqli->error);
         $blockmuni_booked_query->bind_param("s",$subdiv_param) or die($blockmuni_booked_query->error);
         $blockmuni_booked_query->execute() or die($blockmuni_booked_query->error);
         $blockmuni_booked_query->bind_result($block_muni_code,$post_stat_code,$pp_count) or die($blockmuni_booked_query->error);
@@ -79,7 +79,7 @@ $poststat=array();
             }
         ?>
             <td><?php echo $blockmuni[$i]['BlockMuniTotal']; ?></td>
-            <td class="text-center"><a href="pp_training/first_appointment_letter_blockmuni.php?block_muni_code=<?php echo $blockmuni[$i]['BlockMuniCode']; ?>" class="text-red" target="_blank"><i class="fa fa-print"></i> Print</a></td>
+            <td class="text-center"><a href="pp_training_2/second_appointment_letter.php?opt=BLOCKMUNI&block_muni_code=<?php echo $blockmuni[$i]['BlockMuniCode']; ?>" class="text-red" target="_blank"><i class="fa fa-print"></i> Print</a></td>
         </tr>
         <?php
         }
@@ -132,7 +132,7 @@ $poststat=array();
         //var data_target=$(this).attr('data-target').valueOf().toString();
         $.ajax({
                 mimeType: 'text/html; charset=utf-8', // ! Need set mimeType only when run from local file
-                url: "pp_training/pp_training_subdiv_summary.php",
+                url: "pp_training_2/pp_training_subdiv_summary.php",
                 //type: "POST",
                 //data: {
                     //target_url: data_target
@@ -154,7 +154,7 @@ $poststat=array();
         $('.ajax-loader').show();
         $.ajax({
                 mimeType: 'text/html; charset=utf-8', // ! Need set mimeType only when run from local file
-                url: "pp_training/pp_training_office_summary.php",
+                url: "pp_training_2/pp_training_office_summary.php",
                 type: "POST",
                 data: {
                     subdiv: subdiv,
