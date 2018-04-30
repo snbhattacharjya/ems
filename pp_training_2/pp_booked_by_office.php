@@ -73,7 +73,7 @@ $pp_office_query->close();
             <?php
             if($pp_office[$i]['booked_status'] == "Appointed"){
             ?>
-            <td class="text-center"><a href="pp_training_2/second_appointment_letter.php?opt='PERSON'&person_code=<?php echo $pp_office[$i]['personcd']; ?>" class="text-red" target="_blank"><i class="fa fa-print"></i> Print</a></td>
+            <td class="text-center"><a href="pp_training_2/second_appointment_letter.php?opt=PERSON&person_code=<?php echo $pp_office[$i]['personcd']; ?>" class="text-red" target="_blank"><i class="fa fa-print"></i> Print</a></td>
             <?php
             }
             else{
