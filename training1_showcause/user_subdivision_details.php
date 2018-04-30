@@ -6,7 +6,7 @@ require("../config/config.php");
 
 $user_id = $_SESSION['UserID'];
 
-if($user_id != 'ADMIN'){
+if($user_id != 'ADMIN' || $user_id != 'ppcell_hug'){
 	$subdiv = $_SESSION['Subdiv'];
 	$subdivision_details_query="SELECT subdivisioncd AS SubdivisionCode, subdivision AS Subdivision FROM subdivision WHERE subdivisioncd = '$subdiv' ORDER BY subdivisioncd";
 }
