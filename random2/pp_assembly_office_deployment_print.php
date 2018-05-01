@@ -3,15 +3,8 @@
 </title>
 <?php
 session_start();
-$DBHost="127.0.0.1";
-$DBUser="root";
-$DBPass="ppds";
-$DBName="ppds";
 
-date_default_timezone_set("Asia/Kolkata");
-$mysqli=new mysqli($DBHost,$DBUser,$DBPass,$DBName) or die($mysqli->error);
-
-$asm_temp_query=$mysqli->prepare("SELECT assembly.assemblycd, assembly.assemblyname, COUNT(personnela.personcd) FROM assembly INNER JOIN personnela ON personnela.assembly_temp=assembly.assemblycd WHERE personnela.booked IN ('P','R') GROUP BY assembly.assemblycd, assembly.assemblyname ORDER BY assembly.assemblycd, assembly.assemblyname") or die($mysqli->error);
+$asm_temp_query=$mysqli->prepare("SELECT assembly.assemblycd, assembly.assemblyname, COUNT(personnel.personcd) FROM assembly INNER JOIN personnel ON personnel.assembly_temp=assembly.assemblycd WHERE personnel.booked IN ('P','R') GROUP BY assembly.assemblycd, assembly.assemblyname ORDER BY assembly.assemblycd, assembly.assemblyname") or die($mysqli->error);
 $asm_temp_query->execute() or die($asm_temp_query->error);
 $asm_temp_query->bind_result($asm_temp_code,$asm_temp_name,$asm_temp_total) or die($asm_temp_query->error);
 $asm_temp=array();
@@ -20,7 +13,7 @@ while($asm_temp_query->fetch()){
 }
 $asm_temp_query->close();
 
-$for_asm_query=$mysqli->prepare("SELECT assembly.assemblycd, assembly.assemblyname, COUNT(personnela.personcd) FROM assembly INNER JOIN personnela ON personnela.forassembly=assembly.assemblycd WHERE personnela.booked IN ('P','R') GROUP BY assembly.assemblycd, assembly.assemblyname ORDER BY assembly.assemblycd, assembly.assemblyname") or die($mysqli->error);
+$for_asm_query=$mysqli->prepare("SELECT assembly.assemblycd, assembly.assemblyname, COUNT(personnel.personcd) FROM assembly INNER JOIN personnel ON personnel.forassembly=assembly.assemblycd WHERE personnel.booked IN ('P','R') GROUP BY assembly.assemblycd, assembly.assemblyname ORDER BY assembly.assemblycd, assembly.assemblyname") or die($mysqli->error);
 
 $for_asm_query->execute() or die($for_asm_query->error);
 $for_asm_query->bind_result($for_asm_code,$for_asm_name,$for_asm_total) or die($for_asm_query->error);
@@ -47,7 +40,7 @@ $for_asm=array();
     </thead>
     <tbody>
         <?php
-        $pp_asm_deployment_query=$mysqli->prepare("SELECT personnela.assembly_temp, personnela.forassembly, COUNT(personnela.personcd) FROM personnela WHERE personnela.booked IN ('P','R') GROUP BY personnela.assembly_temp, personnela.forassembly ORDER BY personnela.assembly_temp, personnela.forassembly") or die($mysqli->error);
+        $pp_asm_deployment_query=$mysqli->prepare("SELECT personnel.assembly_temp, personnel.forassembly, COUNT(personnel.personcd) FROM personnel WHERE personnel.booked IN ('P','R') GROUP BY personnel.assembly_temp, personnel.forassembly ORDER BY personnel.assembly_temp, personnel.forassembly") or die($mysqli->error);
         $pp_asm_deployment_query->execute() or die($pp_asm_deployment_query->error);
         $pp_asm_deployment_query->bind_result($asm_temp_code,$for_asm_code,$pp_count) or die($pp_asm_deployment_query->error);
 

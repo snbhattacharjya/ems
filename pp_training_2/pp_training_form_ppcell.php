@@ -16,20 +16,16 @@ require("../config/config.php");
         </div><!-- /.box-header -->
         <div class="box-body">
             <div class="box-header">
-                <a class="btn btn-app training-summary">
-                    <i class="fa fa-globe icon"></i> Polling Party Appointment Summary
+                <a class="btn btn-app training-service-summary">
+                    <i class="fa fa-globe icon"></i> 2nd Appointment for Service
                 </a>
 
-                <a class="btn btn-app training-summary-extra">
-                    <i class="fa fa-users icon"></i> Reserve PP Appointment Summary
+                <a class="btn btn-app deployed-party">
+                    <i class="fa fa-globe icon"></i> Deployed Party
                 </a>
 
-                <a class="btn btn-app training-summary">
-                    <i class="fa fa-globe icon"></i> Deployed Party Appointment Summary
-                </a>
-
-                <a class="btn btn-app training-summary-extra">
-                    <i class="fa fa-users icon"></i> Deployed Reserve Appointment Summary
+                <a class="btn btn-app deployed-reserve">
+                    <i class="fa fa-users icon"></i> Deployed Reserve
                 </a>
 
             </div><!-- /.box-header -->
@@ -53,19 +49,19 @@ $(function(){
     //$.getScript("pp_training/pp_training_func.js");
 });
 
-$('.training-summary').click(function(e){
+$('.training-service-summary').click(function(e){
     e.preventDefault();
     loadSubdivPPBookedSummary();
 });
 
-$('.form12-summary').click(function(e){
+$('.deployed-party').click(function(e){
     e.preventDefault();
-    loadSubdivForm12Summary();
+    loadDeployedPartySummary();
 });
 
-$('.training-summary-extra').click(function(e){
+$('.deployed-reserve').click(function(e){
     e.preventDefault();
-    loadSubdivPPExtraBookedSummary();
+    loadDeployedReserveSummary();
 });
 
 function loadSubdivPPBookedSummary(){
@@ -91,13 +87,13 @@ function loadSubdivPPBookedSummary(){
 	});
 }
 
-function loadSubdivPPExtraBookedSummary(){
+function loadDeployedPartySummary(){
     $('.ajax-result').empty();
     $('.ajax-loader').show();
     //var data_target=$(this).attr('data-target').valueOf().toString();
     $.ajax({
             mimeType: 'text/html; charset=utf-8', // ! Need set mimeType only when run from local file
-            url: "pp_training_extra/pp_training_extra_subdiv_summary.php",
+            url: "pp_training_2/pp_deployed_party_summary.php",
             //type: "POST",
             //data: {
                 //target_url: data_target
@@ -114,13 +110,13 @@ function loadSubdivPPExtraBookedSummary(){
 	});
 }
 
-    function loadSubdivForm12Summary(){
+    function loadDeployedReserveSummary(){
     $('.ajax-result').empty();
     $('.ajax-loader').show();
     //var data_target=$(this).attr('data-target').valueOf().toString();
     $.ajax({
             mimeType: 'text/html; charset=utf-8', // ! Need set mimeType only when run from local file
-            url: "pp_training/pp_form12_subdiv_summary.php",
+            url: "pp_training_2/pp_deployed_reserve_summary.php",
             //type: "POST",
             //data: {
                 //target_url: data_target

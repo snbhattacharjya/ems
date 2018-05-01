@@ -64,7 +64,7 @@ for($i = 0;$i < count($pp_data); $i++){
     </tr>
     <tr>
         <td width="50%" style="padding-top: 15;">
-            Memo No. 50/1(2)(1400) / PP Cell (Dist)
+            Memo No. 50(1400) / PP Cell (Dist)
         </td>
         <td width="50%" align="right" style="padding-top: 15;">
             Date: 30.04.2018
@@ -110,6 +110,11 @@ for($i = 0;$i < count($pp_data); $i++){
         </th>
     </tr>
     <tr>
+        <th style="padding-top: 20;" colspan="2">
+          <hr>
+        </th>
+    </tr>
+    <tr>
         <td width="50%" style="padding-top: 15;">
             Memo No. 50/1(2)(1400) / PP Cell (Dist)
         </td>
@@ -129,6 +134,24 @@ for($i = 0;$i < count($pp_data); $i++){
             <img src="../pp_training/dm-sign1.jpg" alt="" style="padding-right: 30px"/><br>
             District Panchayat Election Officer, &<br>
             District Magistrate Hooghly
+        </th>
+    </tr>
+    <tr>
+        <th style="padding-top: 20;" colspan="2">
+          <hr>
+        </th>
+    </tr>
+    <tr>
+        <td width="50%" style="padding-top: 15;">
+            Received Memo No. 50/1(2)(1400) / PP Cell (Dist)
+        </td>
+        <td width="50%" align="right" style="padding-top: 15;">
+            Date: 30.04.2018
+        </td>
+    </tr>
+    <tr>
+        <th style="padding-top: 40; text-align: right" colspan="2">
+            Signature of the Sponsoring Authority with seal
         </th>
     </tr>
 </table>

@@ -35,6 +35,16 @@ if($opt == 'PERSON'){
   $second_app_query=$mysqli->prepare("SELECT personcd, officer_name, off_desg, poststatus, poststat, mob_no, epic, partno, slno, acno, bank, branch, ifsc, bank_accno, officecd, office, address, block_muni_name, postoffice, subdivision, policestation, district, pin, training_desc, venuename, venueaddress, training_dt, training_time, forassembly, forassembly_name, booked, groupid, dc_venue, dc_addr, rc_venue, rc_addr FROM second_rand_table WHERE personcd = ? ORDER BY officecd, personcd") or die($mysqli->error);
   $second_app_query->bind_param("s",$person_code) or die($second_app_query->error);
 }
+if($opt == 'ASSEMBLY_PARTY'){
+  $assembly_code = $_GET['AssemblyCode'];
+  $second_app_query=$mysqli->prepare("SELECT personcd, officer_name, off_desg, poststatus, poststat, mob_no, epic, partno, slno, acno, bank, branch, ifsc, bank_accno, officecd, office, address, block_muni_name, postoffice, subdivision, policestation, district, pin, training_desc, venuename, venueaddress, training_dt, training_time, forassembly, forassembly_name, booked, groupid, dc_venue, dc_addr, rc_venue, rc_addr FROM second_rand_table WHERE forassembly = ? AND booked = 'P' AND poststat = 'PR' ORDER BY groupid") or die($mysqli->error);
+  $second_app_query->bind_param("s",$assembly_code) or die($second_app_query->error);
+}
+if($opt == 'ASSEMBLY_RESERVE'){
+  $assembly_code = $_GET['AssemblyCode'];
+  $second_app_query=$mysqli->prepare("SELECT personcd, officer_name, off_desg, poststatus, poststat, mob_no, epic, partno, slno, acno, bank, branch, ifsc, bank_accno, officecd, office, address, block_muni_name, postoffice, subdivision, policestation, district, pin, training_desc, venuename, venueaddress, training_dt, training_time, forassembly, forassembly_name, booked, groupid, dc_venue, dc_addr, rc_venue, rc_addr FROM second_rand_table WHERE forassembly = ? AND booked = 'R' AND poststat = 'PR' ORDER BY groupid") or die($mysqli->error);
+  $second_app_query->bind_param("s",$assembly_code) or die($second_app_query->error);
+}
 
 $second_app_query->execute() or die($second_app_query->error);
 $second_app_query->bind_result($personcd, $officer_name, $off_desg, $poststatus, $poststat, $mob_no, $epic, $partno, $slno, $acno, $bank, $branch, $ifsc, $bank_accno, $officecd, $office, $address, $block_muni_name, $postoffice, $subdivision, $policestation, $district, $pin, $training_desc, $venuename, $venueaddress, $training_dt, $training_time, $forassembly, $forassembly_name, $booked, $groupid, $dc_venue, $dc_addr, $rc_venue, $rc_addr) or die($second_app_query->error);
@@ -51,6 +61,7 @@ while($second_app_query->fetch()){
 $second_app_query->close();
 //$filepath='../pp_training/qr_img/';
 //$filename=$filepath.'emp.png';
+$old_group = 0;
 for($i = 0;$i < count($pp_data); $i++){
     //QRcode::png($pp_data[$i]['personcd'], $filename, 'H', 2, 2);
     //$newfile=$filepath.'emp_'.$pp_data[$i]['personcd'].'.png';
@@ -67,6 +78,7 @@ for($i = 0;$i < count($pp_data); $i++){
       }
       $second_app_group_query->close();
     }
+
 //die(count($pp_data));
 ?>
 <table width="100%" style="font-family: sans-serif; font-size: 11">
@@ -135,7 +147,7 @@ for($i = 0;$i < count($pp_data); $i++){
                         <th><?php echo $pp_data[$i]['groupid']; ?></th>
                         <td>
                           <?php echo $grp_pp_data[0]['officer_name']; ?>
-                          <?php if($grp_pp_data[0]['personcd'] == $pp_data[$i]['personcd'])
+                          <?php if($grp_pp_data[0]['personcd'] == $pp_data[$i]['personcd'] && $opt != 'ASSEMBLY_PARTY')
                             echo "<img src='../pp_training_2/black-check-mark.png' alt='' height = 20 width = 20/>";
                           ?><br>
                           <?php echo $grp_pp_data[0]['off_desg']; ?><br>
@@ -148,7 +160,7 @@ for($i = 0;$i < count($pp_data); $i++){
                               for($j = 1; $j < count($grp_pp_data); $j++){
                           ?>
                               <?php echo $grp_pp_data[$j]['officer_name']; ?>
-                              <?php if($grp_pp_data[$j]['personcd'] == $pp_data[$i]['personcd'])
+                              <?php if($grp_pp_data[$j]['personcd'] == $pp_data[$i]['personcd'] && $opt != 'ASSEMBLY_PARTY')
                                 echo "<img src='../pp_training_2/black-check-mark.png' alt='' height = 20 width = 20/>";
                               ?><br>
                               <?php echo $grp_pp_data[$j]['off_desg']; ?><br>
