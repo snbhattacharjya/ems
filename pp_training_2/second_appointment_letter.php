@@ -17,45 +17,45 @@ $env_query->close();
 
 if($opt == 'SUBDIVISION'){
   $subdiv_code = $_GET['subdiv_code'];
-  $second_app_query=$mysqli->prepare("SELECT personcd, officer_name, off_desg, poststatus, poststat, mob_no, epic, partno, slno, acno, bank, branch, ifsc, bank_accno, officecd, office, address, block_muni_name, postoffice, subdivision, policestation, district, pin, training_desc, venuename, venueaddress, training_dt, training_time, forassembly, forassembly_name, booked, groupid, dc_venue, dc_addr, rc_venue, rc_addr FROM second_rand_table WHERE subdivisioncd = ? ORDER BY officecd, personcd") or die($mysqli->error);
+  $second_app_query=$mysqli->prepare("SELECT personcd, officer_name, off_desg, poststatus, poststat, mob_no, epic, partno, slno, acno, bank, branch, ifsc, bank_accno, officecd, office, address, block_muni_name, postoffice, subdivision, policestation, district, pin, training_desc, venuename, venueaddress, training_dt, training_time, forassembly, forassembly_name, booked, groupid, dc_venue, dc_addr, rc_venue, rc_addr, second_appt_memo, second_appt_date FROM second_rand_table WHERE subdivisioncd = ? ORDER BY officecd, personcd") or die($mysqli->error);
   $second_app_query->bind_param("s",$subdiv_code) or die($second_app_query->error);
 }
 if($opt == 'BLOCKMUNI'){
   $block_muni_code = $_GET['block_muni_code'];
-  $second_app_query=$mysqli->prepare("SELECT personcd, officer_name, off_desg, poststatus, poststat, mob_no, epic, partno, slno, acno, bank, branch, ifsc, bank_accno, officecd, office, address, block_muni_name, postoffice, subdivision, policestation, district, pin, training_desc, venuename, venueaddress, training_dt, training_time, forassembly, forassembly_name, booked, groupid, dc_venue, dc_addr, rc_venue, rc_addr FROM second_rand_table WHERE block_muni = ? ORDER BY officecd, personcd") or die($mysqli->error);
+  $second_app_query=$mysqli->prepare("SELECT personcd, officer_name, off_desg, poststatus, poststat, mob_no, epic, partno, slno, acno, bank, branch, ifsc, bank_accno, officecd, office, address, block_muni_name, postoffice, subdivision, policestation, district, pin, training_desc, venuename, venueaddress, training_dt, training_time, forassembly, forassembly_name, booked, groupid, dc_venue, dc_addr, rc_venue, rc_addr, second_appt_memo, second_appt_date FROM second_rand_table WHERE block_muni = ? ORDER BY officecd, personcd") or die($mysqli->error);
   $second_app_query->bind_param("s",$block_muni_code) or die($second_app_query->error);
 }
 if($opt == 'OFFICE'){
   $office_code = $_GET['office_code'];
-  $second_app_query=$mysqli->prepare("SELECT personcd, officer_name, off_desg, poststatus, poststat, mob_no, epic, partno, slno, acno, bank, branch, ifsc, bank_accno, officecd, office, address, block_muni_name, postoffice, subdivision, policestation, district, pin, training_desc, venuename, venueaddress, training_dt, training_time, forassembly, forassembly_name, booked, groupid, dc_venue, dc_addr, rc_venue, rc_addr FROM second_rand_table WHERE officecd = ? ORDER BY officecd, personcd") or die($mysqli->error);
+  $second_app_query=$mysqli->prepare("SELECT personcd, officer_name, off_desg, poststatus, poststat, mob_no, epic, partno, slno, acno, bank, branch, ifsc, bank_accno, officecd, office, address, block_muni_name, postoffice, subdivision, policestation, district, pin, training_desc, venuename, venueaddress, training_dt, training_time, forassembly, forassembly_name, booked, groupid, dc_venue, dc_addr, rc_venue, rc_addr, second_appt_memo, second_appt_date FROM second_rand_table WHERE officecd = ? ORDER BY officecd, personcd") or die($mysqli->error);
   $second_app_query->bind_param("s",$office_code) or die($second_app_query->error);
 }
 if($opt == 'PERSON'){
   $person_code = $_GET['person_code'];
-  $second_app_query=$mysqli->prepare("SELECT personcd, officer_name, off_desg, poststatus, poststat, mob_no, epic, partno, slno, acno, bank, branch, ifsc, bank_accno, officecd, office, address, block_muni_name, postoffice, subdivision, policestation, district, pin, training_desc, venuename, venueaddress, training_dt, training_time, forassembly, forassembly_name, booked, groupid, dc_venue, dc_addr, rc_venue, rc_addr FROM second_rand_table WHERE personcd = ? ORDER BY officecd, personcd") or die($mysqli->error);
+  $second_app_query=$mysqli->prepare("SELECT personcd, officer_name, off_desg, poststatus, poststat, mob_no, epic, partno, slno, acno, bank, branch, ifsc, bank_accno, officecd, office, address, block_muni_name, postoffice, subdivision, policestation, district, pin, training_desc, venuename, venueaddress, training_dt, training_time, forassembly, forassembly_name, booked, groupid, dc_venue, dc_addr, rc_venue, rc_addr, second_appt_memo, second_appt_date FROM second_rand_table WHERE personcd = ? ORDER BY officecd, personcd") or die($mysqli->error);
   $second_app_query->bind_param("s",$person_code) or die($second_app_query->error);
 }
 if($opt == 'ASSEMBLY_PARTY'){
   $assembly_code = $_GET['AssemblyCode'];
-  $second_app_query=$mysqli->prepare("SELECT personcd, officer_name, off_desg, poststatus, poststat, mob_no, epic, partno, slno, acno, bank, branch, ifsc, bank_accno, officecd, office, address, block_muni_name, postoffice, subdivision, policestation, district, pin, training_desc, venuename, venueaddress, training_dt, training_time, forassembly, forassembly_name, booked, groupid, dc_venue, dc_addr, rc_venue, rc_addr FROM second_rand_table WHERE forassembly = ? AND booked = 'P' AND poststat = 'PR' ORDER BY groupid") or die($mysqli->error);
+  $second_app_query=$mysqli->prepare("SELECT personcd, officer_name, off_desg, poststatus, poststat, mob_no, epic, partno, slno, acno, bank, branch, ifsc, bank_accno, officecd, office, address, block_muni_name, postoffice, subdivision, policestation, district, pin, training_desc, venuename, venueaddress, training_dt, training_time, forassembly, forassembly_name, booked, groupid, dc_venue, dc_addr, rc_venue, rc_addr, second_appt_memo, second_appt_date FROM second_rand_table WHERE forassembly = ? AND booked = 'P' AND poststat = 'PR' ORDER BY groupid") or die($mysqli->error);
   $second_app_query->bind_param("s",$assembly_code) or die($second_app_query->error);
 }
 if($opt == 'ASSEMBLY_RESERVE'){
   $assembly_code = $_GET['AssemblyCode'];
-  $second_app_query=$mysqli->prepare("SELECT personcd, officer_name, off_desg, poststatus, poststat, mob_no, epic, partno, slno, acno, bank, branch, ifsc, bank_accno, officecd, office, address, block_muni_name, postoffice, subdivision, policestation, district, pin, training_desc, venuename, venueaddress, training_dt, training_time, forassembly, forassembly_name, booked, groupid, dc_venue, dc_addr, rc_venue, rc_addr FROM second_rand_table WHERE forassembly = ? AND booked = 'R' AND poststat = 'PR' ORDER BY groupid") or die($mysqli->error);
+  $second_app_query=$mysqli->prepare("SELECT personcd, officer_name, off_desg, poststatus, poststat, mob_no, epic, partno, slno, acno, bank, branch, ifsc, bank_accno, officecd, office, address, block_muni_name, postoffice, subdivision, policestation, district, pin, training_desc, venuename, venueaddress, training_dt, training_time, forassembly, forassembly_name, booked, groupid, dc_venue, dc_addr, rc_venue, rc_addr, second_appt_memo, second_appt_date FROM second_rand_table WHERE forassembly = ? AND booked = 'R' AND poststat = 'PR' ORDER BY groupid") or die($mysqli->error);
   $second_app_query->bind_param("s",$assembly_code) or die($second_app_query->error);
 }
 
 $second_app_query->execute() or die($second_app_query->error);
-$second_app_query->bind_result($personcd, $officer_name, $off_desg, $poststatus, $poststat, $mob_no, $epic, $partno, $slno, $acno, $bank, $branch, $ifsc, $bank_accno, $officecd, $office, $address, $block_muni_name, $postoffice, $subdivision, $policestation, $district, $pin, $training_desc, $venuename, $venueaddress, $training_dt, $training_time, $forassembly, $forassembly_name, $booked, $groupid, $dc_venue, $dc_addr, $rc_venue, $rc_addr) or die($second_app_query->error);
+$second_app_query->bind_result($personcd, $officer_name, $off_desg, $poststatus, $poststat, $mob_no, $epic, $partno, $slno, $acno, $bank, $branch, $ifsc, $bank_accno, $officecd, $office, $address, $block_muni_name, $postoffice, $subdivision, $policestation, $district, $pin, $training_desc, $venuename, $venueaddress, $training_dt, $training_time, $forassembly, $forassembly_name, $booked, $groupid, $dc_venue, $dc_addr, $rc_venue, $rc_addr, $memo, $date) or die($second_app_query->error);
 
 $pp_data=array();
 while($second_app_query->fetch()){
     if($booked == 'P'){
-      $pp_data[]=array("personcd"=>$personcd, "block_muni_name"=>$block_muni_name, "forassembly"=>$forassembly, "forassembly_name"=>$forassembly_name, "booked"=>$booked, "groupid"=>$groupid, "dc_venue"=>$dc_venue, "dc_addr"=>$dc_addr, "rc_venue"=>$rc_venue, "rc_addr"=>$rc_addr);
+      $pp_data[]=array("personcd"=>$personcd, "block_muni_name"=>$block_muni_name, "forassembly"=>$forassembly, "forassembly_name"=>$forassembly_name, "booked"=>$booked, "groupid"=>$groupid, "dc_venue"=>$dc_venue, "dc_addr"=>$dc_addr, "rc_venue"=>$rc_venue, "rc_addr"=>$rc_addr, "memo"=>$memo, "date"=>$date);
     }
     else {
-      $pp_data[]= array("personcd"=>$personcd, "officer_name"=>$officer_name, "off_desg"=>$off_desg, "poststatus"=>$poststatus, "poststat"=>$poststat, "mob_no"=>$mob_no, "epic"=>$epic, "partno"=>$partno, "slno"=>$slno, "acno"=>$acno, "bank"=>$bank, "branch"=>$branch, "ifsc"=>$ifsc, "bank_accno"=>$bank_accno, "officecd"=>$officecd, "office"=>$office, "address"=>$address, "block_muni_name"=>$block_muni_name, "postoffice"=>$postoffice, "subdivision"=>$subdivision, "policestation"=>$policestation, "district"=>$district, "pin"=>$pin, "training_desc"=>$training_desc, "venuename"=>$venuename, "venueaddress"=>$venueaddress, "training_dt"=>$training_dt, "training_time"=>$training_time, "forassembly"=>$forassembly, "forassembly_name"=>$forassembly_name, "booked"=>$booked, "groupid"=>$groupid, "dc_venue"=>$dc_venue, "dc_addr"=>$dc_addr, "rc_venue"=>$rc_venue, "rc_addr"=>$rc_addr);
+      $pp_data[]= array("personcd"=>$personcd, "officer_name"=>$officer_name, "off_desg"=>$off_desg, "poststatus"=>$poststatus, "poststat"=>$poststat, "mob_no"=>$mob_no, "epic"=>$epic, "partno"=>$partno, "slno"=>$slno, "acno"=>$acno, "bank"=>$bank, "branch"=>$branch, "ifsc"=>$ifsc, "bank_accno"=>$bank_accno, "officecd"=>$officecd, "office"=>$office, "address"=>$address, "block_muni_name"=>$block_muni_name, "postoffice"=>$postoffice, "subdivision"=>$subdivision, "policestation"=>$policestation, "district"=>$district, "pin"=>$pin, "training_desc"=>$training_desc, "venuename"=>$venuename, "venueaddress"=>$venueaddress, "training_dt"=>$training_dt, "training_time"=>$training_time, "forassembly"=>$forassembly, "forassembly_name"=>$forassembly_name, "booked"=>$booked, "groupid"=>$groupid, "dc_venue"=>$dc_venue, "dc_addr"=>$dc_addr, "rc_venue"=>$rc_venue, "rc_addr"=>$rc_addr, "memo"=>$memo, "date"=>$date);
     }
 }
 $second_app_query->close();
@@ -93,11 +93,11 @@ for($i = 0;$i < count($pp_data); $i++){
         <th width="20%">&nbsp;</th>
     </tr>
     <tr>
-        <th width="20%">Memo No: 21/PP CELL Dist(24525) </th>
+        <th width="20%">Memo No: <?php echo $pp_data[$i]['memo']; ?> </th>
         <th width="60%">&nbsp;
 
         </th>
-        <th width="20%">Dated: 09/04/2018</th>
+        <th width="20%">Dated: <?php echo $pp_data[$i]['date']; ?></th>
     </tr>
     <tr>
         <td colspan="3" style="padding-top: 15; text-align: justify">
