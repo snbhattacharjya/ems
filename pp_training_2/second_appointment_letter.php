@@ -239,7 +239,7 @@ for($i = 0;$i < count($pp_data); $i++){
     <tr>
         <td style="padding-top: 10; text-align: justify">
             Place: Hooghly<br>
-            Date: <?php echo date_format(date_create_from_format("Y-m-d",$apt1_date),"d/m/Y"); ?>
+            Date: <?php echo $pp_data[$i]['date']; ?>
         </td>
         <th style="padding-top: 10; text-align: justify">&nbsp;</th>
         <td style="padding-top: 10; text-align: center">
