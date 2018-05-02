@@ -22,7 +22,7 @@ $poststat_query->bind_result($post_stat_code,$post_stat_name,$post_stat_total) o
 $poststat=array();
 ?>
 
-<table id="blockmuni_exempt_summary" class="table table-bordered table-condensed table-hover small">
+<table border="1" cellpadding="5" cellspacing="0">
     <thead>
         <tr class="bg-light-blue-gradient">
             <th>Sl No.</th>
