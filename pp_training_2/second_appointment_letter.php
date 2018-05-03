@@ -42,7 +42,7 @@ if($opt == 'ASSEMBLY_PARTY'){
 }
 if($opt == 'ASSEMBLY_RESERVE'){
   $assembly_code = $_GET['AssemblyCode'];
-  $second_app_query=$mysqli->prepare("SELECT personcd, officer_name, off_desg, poststatus, poststat, mob_no, epic, partno, slno, acno, bank, branch, ifsc, bank_accno, officecd, office, address, block_muni_name, postoffice, subdivision, policestation, district, pin, training_desc, venuename, venueaddress, training_dt, training_time, forassembly, forassembly_name, booked, groupid, dc_venue, dc_addr, rc_venue, rc_addr, second_appt_memo, DATE_FORMAT(second_appt_date,'%d-%m-%Y') FROM second_rand_table WHERE forassembly = ? AND booked = 'R' AND poststat = 'PR' ORDER BY groupid") or die($mysqli->error);
+  $second_app_query=$mysqli->prepare("SELECT personcd, officer_name, off_desg, poststatus, poststat, mob_no, epic, partno, slno, acno, bank, branch, ifsc, bank_accno, officecd, office, address, block_muni_name, postoffice, subdivision, policestation, district, pin, training_desc, venuename, venueaddress, training_dt, training_time, forassembly, forassembly_name, booked, groupid, dc_venue, dc_addr, rc_venue, rc_addr, second_appt_memo, DATE_FORMAT(second_appt_date,'%d-%m-%Y') FROM second_rand_table WHERE forassembly = ? AND booked = 'R' ORDER BY groupid") or die($mysqli->error);
   $second_app_query->bind_param("s",$assembly_code) or die($second_app_query->error);
 }
 
