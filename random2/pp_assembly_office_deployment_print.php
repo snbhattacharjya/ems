@@ -3,8 +3,9 @@
 </title>
 <?php
 session_start();
+require("../config/config.php");
 
-$asm_temp_query=$mysqli->prepare("SELECT assembly.assemblycd, assembly.assemblyname, COUNT(personnel.personcd) FROM assembly INNER JOIN personnel ON personnel.assembly_temp=assembly.assemblycd WHERE personnel.booked IN ('P','R') GROUP BY assembly.assemblycd, assembly.assemblyname ORDER BY assembly.assemblycd, assembly.assemblyname") or die($mysqli->error);
+$asm_temp_query=$mysqli->prepare("SELECT block_muni.blockminicd, block_muni.blockmuni, COUNT(personnel.personcd) FROM (office INNER JOIN personnel ON office.officecd = personnel.officecd) INNER JOIN block_muni ON block_muni.blockminicd = office.blockormuni_cd WHERE personnel.booked IN ('P','R') AND personnel.forassembly != '' AND personnel.groupid != 0 GROUP BY block_muni.blockminicd, block_muni.blockmuni ORDER BY block_muni.blockminicd, block_muni.blockmuni") or die($mysqli->error);
 $asm_temp_query->execute() or die($asm_temp_query->error);
 $asm_temp_query->bind_result($asm_temp_code,$asm_temp_name,$asm_temp_total) or die($asm_temp_query->error);
 $asm_temp=array();
@@ -13,7 +14,7 @@ while($asm_temp_query->fetch()){
 }
 $asm_temp_query->close();
 
-$for_asm_query=$mysqli->prepare("SELECT assembly.assemblycd, assembly.assemblyname, COUNT(personnel.personcd) FROM assembly INNER JOIN personnel ON personnel.forassembly=assembly.assemblycd WHERE personnel.booked IN ('P','R') GROUP BY assembly.assemblycd, assembly.assemblyname ORDER BY assembly.assemblycd, assembly.assemblyname") or die($mysqli->error);
+$for_asm_query=$mysqli->prepare("SELECT assembly.assemblycd, assembly.assemblyname, COUNT(personnel.personcd) FROM assembly INNER JOIN personnel ON personnel.forassembly=assembly.assemblycd WHERE personnel.booked IN ('P','R') AND personnel.forassembly != '' AND personnel.groupid != 0 GROUP BY assembly.assemblycd, assembly.assemblyname ORDER BY assembly.assemblycd, assembly.assemblyname") or die($mysqli->error);
 
 $for_asm_query->execute() or die($for_asm_query->error);
 $for_asm_query->bind_result($for_asm_code,$for_asm_name,$for_asm_total) or die($for_asm_query->error);
@@ -25,7 +26,7 @@ $for_asm=array();
 <table border="1" cellpadding="5" cellspacing="0">
     <thead>
         <tr>
-            <th>From Assembly / Deployed Assembly</th>
+            <th>From Constituency / Deployed Constituency</th>
             <?php
             while($for_asm_query->fetch()){
                 $for_asm[]=array("ForAssemblyCode"=>$for_asm_code, "ForAssemblyName"=>$for_asm_name, "ForAssemblyTotal"=>$for_asm_total);
@@ -40,7 +41,7 @@ $for_asm=array();
     </thead>
     <tbody>
         <?php
-        $pp_asm_deployment_query=$mysqli->prepare("SELECT personnel.assembly_temp, personnel.forassembly, COUNT(personnel.personcd) FROM personnel WHERE personnel.booked IN ('P','R') GROUP BY personnel.assembly_temp, personnel.forassembly ORDER BY personnel.assembly_temp, personnel.forassembly") or die($mysqli->error);
+        $pp_asm_deployment_query=$mysqli->prepare("SELECT block_muni.blockminicd, personnel.forassembly, COUNT(personnel.personcd) FROM (office INNER JOIN personnel ON office.officecd = personnel.officecd) INNER JOIN block_muni ON block_muni.blockminicd = office.blockormuni_cd WHERE personnel.booked IN ('P','R') AND personnel.forassembly != '' AND personnel.groupid != 0 GROUP BY personnel.assembly_temp, personnel.forassembly ORDER BY personnel.assembly_temp, personnel.forassembly") or die($mysqli->error);
         $pp_asm_deployment_query->execute() or die($pp_asm_deployment_query->error);
         $pp_asm_deployment_query->bind_result($asm_temp_code,$for_asm_code,$pp_count) or die($pp_asm_deployment_query->error);
 
