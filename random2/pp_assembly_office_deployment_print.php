@@ -41,7 +41,7 @@ $for_asm=array();
     </thead>
     <tbody>
         <?php
-        $pp_asm_deployment_query=$mysqli->prepare("SELECT block_muni.blockminicd, personnel.forassembly, COUNT(personnel.personcd) FROM (office INNER JOIN personnel ON office.officecd = personnel.officecd) INNER JOIN block_muni ON block_muni.blockminicd = office.blockormuni_cd WHERE personnel.booked IN ('P','R') AND personnel.forassembly != '' AND personnel.groupid != 0 GROUP BY personnel.assembly_temp, personnel.forassembly ORDER BY personnel.assembly_temp, personnel.forassembly") or die($mysqli->error);
+        $pp_asm_deployment_query=$mysqli->prepare("SELECT block_muni.blockminicd, personnel.forassembly, COUNT(personnel.personcd) FROM (office INNER JOIN personnel ON office.officecd = personnel.officecd) INNER JOIN block_muni ON block_muni.blockminicd = office.blockormuni_cd WHERE personnel.booked IN ('P','R') AND personnel.forassembly != '' AND personnel.groupid != 0 GROUP BY block_muni.blockminicd, personnel.forassembly ORDER BY block_muni.blockminicd, personnel.forassembly") or die($mysqli->error);
         $pp_asm_deployment_query->execute() or die($pp_asm_deployment_query->error);
         $pp_asm_deployment_query->bind_result($asm_temp_code,$for_asm_code,$pp_count) or die($pp_asm_deployment_query->error);
 
