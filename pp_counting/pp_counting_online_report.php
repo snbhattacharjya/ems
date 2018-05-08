@@ -39,6 +39,7 @@ $subdiv_query->close();
                   <th>Subdivision</th>
                   <th>Block</th>
                   <th>Personnel Count</th>
+                  <th>Print Records</th>
                 </tr>
               </thead>
               <tbody>
