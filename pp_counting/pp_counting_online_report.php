@@ -55,7 +55,7 @@ $subdiv_query->close();
                     <td><?php echo $subdiv_names[$i]['SubDivName']; ?></td>
                     <td><?php echo $subdiv_names[$i]['BlockMuniName']; ?></td>
                     <td><?php echo $subdiv_names[$i]['PP2MaleCount']; ?></td>
-                    <td><?php echo "<a href='pp_counting/pp_counting_block_report_print.php?opt=blockmuni&code=".$subdiv_names[$i]['BlockMuniCode']."' target='_blank' class='text-red'><i class='fa fa-print'></i> print</a>"; ?></td>
+                    <td><?php echo "<a href='pp_counting/pp_counting_block_report_print.php?opt=blockmuni&code=".$subdiv_names[$i]['BlockMuniCode']."&name=".$subdiv_names[$i]['BlockMuniName']."' target='_blank' class='text-red'><i class='fa fa-print'></i> print</a>"; ?></td>
                     <?php
                       $total_male_pp2 += $subdiv_names[$i]['PP2MaleCount'];
                     ?>

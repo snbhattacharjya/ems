@@ -6,6 +6,7 @@ if(!isset($_SESSION['UserID'])){
 require("../config/config.php");
 
 $block_muni_code = $_GET['code'];
+$block_muni_name = $_GET['name'];
 
 $counitng_personnel_query=$mysqli->prepare("SELECT personnel.personcd, personnel.officer_name, personnel.off_desg, office.officecd, office.office, office.address1, office.address2, personnel.mob_no, personnel.scale, personnel.basic_pay, personnel.grade_pay, personnel.emp_group, remarks.remarks FROM (personnel INNER JOIN office ON personnel.officecd = office.officecd) INNER JOIN remarks ON personnel.remarks = remarks.remarks_cd WHERE office.blockormuni_cd = ? AND personnel.gender = 'M' AND personnel.remarks NOT IN ('05','91','94','96','97') AND DATE_FORMAT(personnel.posted_date,'%Y') = 2018 ORDER BY personnel.personcd") or die($mysqli->error);
 
