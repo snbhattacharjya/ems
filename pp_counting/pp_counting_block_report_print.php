@@ -26,7 +26,7 @@ while($counitng_personnel_query->fetch())
     <table border="1" cellpadding="5" cellspacing="0" width="100%" style="font-size: 14">
     <thead>
         <tr>
-            <th colspan="9">
+            <th colspan="11">
                 Counting Personnel List for Block - <strong><?php ?></strong>
             </th>
         </tr>
