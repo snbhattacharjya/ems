@@ -28,7 +28,7 @@ while($counitng_personnel_query->fetch())
     <thead>
         <tr>
             <th colspan="11">
-                Counting Personnel List for Block - <strong><?php ?></strong>
+                Counting Personnel List for Block - <strong><?php echo $block_muni_name; ?></strong>
             </th>
         </tr>
         <tr>
