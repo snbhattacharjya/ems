@@ -24,8 +24,14 @@ require("../config/config.php");
             <?php
 $user_id=$_SESSION['UserID'];
 
+if($user_id == 'ADMIN' || $user_id == 'ppcell_hug'){
+  $subdiv_query=$mysqli->prepare("SELECT subdivision.subdivisioncd, subdivision.subdivision, block_muni.blockminicd, block_muni.blockmuni, COUNT(CASE personnel.gender WHEN 'M' THEN 1 END) AS pp2_male_count FROM ((subdivision INNER JOIN block_muni ON subdivision.subdivisioncd=block_muni.subdivisioncd) INNER JOIN office ON office.blockormuni_cd = block_muni.blockminicd) INNER JOIN personnel ON office.officecd = personnel.officecd AND personnel.gender = 'M' AND personnel.remarks NOT IN ('05','91','94','96','97') AND DATE_FORMAT(personnel.posted_date,'%Y') = 2018 GROUP BY subdivision.subdivisioncd, subdivision.subdivision, block_muni.blockminicd, block_muni.blockmuni ORDER BY subdivision.subdivisioncd") or die($mysqli->error);
+}
+else{
+  $subdiv_query=$mysqli->prepare("SELECT subdivision.subdivisioncd, subdivision.subdivision, block_muni.blockminicd, block_muni.blockmuni, COUNT(CASE personnel.gender WHEN 'M' THEN 1 END) AS pp2_male_count FROM ((subdivision INNER JOIN block_muni ON subdivision.subdivisioncd=block_muni.subdivisioncd) INNER JOIN office ON office.blockormuni_cd = block_muni.blockminicd) INNER JOIN personnel ON office.officecd = personnel.officecd AND block_muni.block_or_muni = 'B' AND personnel.gender = 'M' AND personnel.remarks NOT IN ('05','91','94','96','97') AND DATE_FORMAT(personnel.posted_date,'%Y') = 2018 GROUP BY subdivision.subdivisioncd, subdivision.subdivision, block_muni.blockminicd, block_muni.blockmuni ORDER BY subdivision.subdivisioncd") or die($mysqli->error);
+}
 $subdiv_names=array();
-$subdiv_query=$mysqli->prepare("SELECT subdivision.subdivisioncd, subdivision.subdivision, block_muni.blockminicd, block_muni.blockmuni, COUNT(CASE personnel.gender WHEN 'M' THEN 1 END) AS pp2_male_count FROM ((subdivision INNER JOIN block_muni ON subdivision.subdivisioncd=block_muni.subdivisioncd) INNER JOIN office ON office.blockormuni_cd = block_muni.blockminicd) INNER JOIN personnel ON office.officecd = personnel.officecd AND block_muni.block_or_muni = 'B' AND personnel.gender = 'M' AND personnel.remarks NOT IN ('05','91','94','96','97') AND DATE_FORMAT(personnel.posted_date,'%Y') = 2018 GROUP BY subdivision.subdivisioncd, subdivision.subdivision, block_muni.blockminicd, block_muni.blockmuni ORDER BY subdivision.subdivisioncd") or die($mysqli->error);
+
 $subdiv_query->execute() or die($subdiv_query->error);
 $subdiv_query->bind_result($subdiv_code,$subdiv_name,$block_muni_code,$block_muni_name,$pp2_male_count) or die($subdiv_query->error);
 while($subdiv_query->fetch()){
