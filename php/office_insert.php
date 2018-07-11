@@ -19,13 +19,13 @@ include("../config/config.php");
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
 
-$officename=mysql_real_escape_string(strtoupper($_POST['OfficeName']));
+$officename=mysqli_real_escape_string($DBLink,strtoupper($_POST['OfficeName']));
 $designation=ucwords(strtolower($_POST['Designation']));
 $officeuniqueid=$_POST['OfficeId'];
-$pts=mysql_real_escape_string(strtoupper($_POST['Street']));
+$pts=mysqli_real_escape_string($DBLink,strtoupper($_POST['Street']));
 $po=strtoupper($_POST['PostOffice']);
 $polices=$_POST['PoliceStation'];
-$vtm=mysql_real_escape_string(strtoupper($_POST['Town']));
+$vtm=mysqli_real_escape_string($DBLink,strtoupper($_POST['Town']));
 $bm=$_POST['Municipality'];
 $pin=$_POST['PinCode'];
 $pc_dtls=$_POST['pc_dtls'];

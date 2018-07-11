@@ -8,6 +8,9 @@ $office_details_query="SELECT * FROM office";
 
 $office_details_result=mysqli_query($DBLink,$office_details_query) or die(mysqli_error($DBLink));
 
-$return=mysqli_fetch_assoc($office_details_result);
+$return = array();
+while($office = mysqli_fetch_assoc($office_details_result)){
+    $return[] = $office;
+}
 echo json_encode($return);
 ?>
