@@ -6,16 +6,16 @@ $counter=1;
 $ofccd=$_SESSION['Office'];
 $person_details_query="SELECT * FROM personnel WHERE officecd='$ofccd'";
 
-$person_details_result=mysql_query($person_details_query,$DBLink) or die(mysql_error());
+$person_details_result=mysqli_query($DBLink,$person_details_query) or die(mysqli_error($DBLink));
 
 $office_name_query="SELECT office AS OfficeName FROM office WHERE officecd='$ofccd'";
 
-$ofc_name_result=mysql_query($office_name_query,$DBLink) or die(mysql_error());
-$ofc_ret=mysql_fetch_assoc($ofc_name_result);
+$ofc_name_result=mysqli_query($DBLink,$office_name_query) or die(mysqli_error($DBLink));
+$ofc_ret=mysqli_fetch_assoc($ofc_name_result);
 
 echo "<b>".$ofc_ret['OfficeName']." (".$ofccd.")</b>";
 
-while($return=mysql_fetch_assoc($person_details_result))
+while($return=mysqli_fetch_assoc($person_details_result))
 {
 	echo "<table border='1'>";
 	echo "<tr>";
@@ -51,16 +51,16 @@ while($return=mysql_fetch_assoc($person_details_result))
 	echo "<td colspan='2'><b>Working for more than 3 Years: </b>".$return['workingstatus']."</td>";
 	$ql=$return['qualificationcd'];
 $qualification_query="SELECT qualification AS QualificationName FROM qualification where qualificationcd='$ql'";
-$qualification_result=mysql_query($qualification_query,$DBLink) or die(mysql_error());
-$row=mysql_fetch_assoc($qualification_result);
+$qualification_result=mysqli_query($DBLink,$qualification_query) or die(mysqli_error($DBLink));
+$row=mysqli_fetch_assoc($qualification_result);
 	
 	
 	echo "<td><b>QL:</b> ".$row['QualificationName']."</td>";
 	$lang=$return['languagecd'];
 $language_details_query="SELECT language AS Language FROM language where language_cd='$lang'";
 
-$language_details_result=mysql_query($language_details_query,$DBLink) or die(mysql_error());
-$row=mysql_fetch_assoc($language_details_result);
+$language_details_result=mysqli_query($DBLink,$language_details_query) or die(mysqli_error($DBLink));
+$row=mysqli_fetch_assoc($language_details_result);
 
 	echo "<td><b>LANG: </b>".$row['Language']."</td>";
 	
@@ -73,8 +73,8 @@ $row=mysql_fetch_assoc($language_details_result);
 	$temp=$return['assembly_temp'];
 $assembly_details_query="SELECT assemblyname AS AssemblyName FROM assembly where assemblycd='$temp'";
 
-$assembly_details_result=mysql_query($assembly_details_query,$DBLink) or die(mysql_error());
-$row=mysql_fetch_assoc($assembly_details_result);
+$assembly_details_result=mysqli_query($DBLink,$assembly_details_query) or die(mysqli_error($DBLink));
+$row=mysqli_fetch_assoc($assembly_details_result);
 	echo "<td><b>TEMP ASMBLY:</b> ".$row['AssemblyName']."</td>";
 	
 	echo "</tr>";
@@ -83,23 +83,23 @@ $row=mysql_fetch_assoc($assembly_details_result);
 	$off=$return['assembly_off'];
 $assembly_details_query="SELECT assemblyname AS AssemblyName FROM assembly where assemblycd='$off'";
 
-$assembly_details_result=mysql_query($assembly_details_query,$DBLink) or die(mysql_error());
-$row=mysql_fetch_assoc($assembly_details_result);	
+$assembly_details_result=mysqli_query($DBLink,$assembly_details_query) or die(mysqli_error($DBLink));
+$row=mysqli_fetch_assoc($assembly_details_result);	
 	echo "<td><b>OFC ASMBLY: </b>".$row['AssemblyName']."</td>";
 	
 	
 	$perm=$return['assembly_perm'];
 $assembly_details_query="SELECT assemblyname AS AssemblyName FROM assembly where assemblycd='$perm'";
 
-$assembly_details_result=mysql_query($assembly_details_query,$DBLink) or die(mysql_error());
-$row=mysql_fetch_assoc($assembly_details_result);	
+$assembly_details_result=mysqli_query($DBLink,$assembly_details_query) or die(mysqli_error($DBLink));
+$row=mysqli_fetch_assoc($assembly_details_result);	
 	
 	echo "<td><b>PERM ASMBLY:</b> ".$row['AssemblyName']."</td>";
 	$re=$return['remarks'];
 $remarks_details_query="SELECT remarks AS RemarksName FROM remarks WHERE remarks_cd='$re'";
 
-$remarks_details_result=mysql_query($remarks_details_query,$DBLink) or die(mysql_error());
-$row=mysql_fetch_assoc($remarks_details_result);
+$remarks_details_result=mysqli_query($DBLink,$remarks_details_query) or die(mysqli_error($DBLink));
+$row=mysqli_fetch_assoc($remarks_details_result);
 	echo "<td colspan='2'><b>REMARKS: </b>".$row['RemarksName']."</td>";
 	
 	echo "</tr>";
@@ -107,9 +107,9 @@ $row=mysql_fetch_assoc($remarks_details_result);
 	$bank=$return['bank_cd'];
 $bank_details_query="SELECT bank_name AS BankName FROM bank where bank_cd='$bank'";
 
-$bank_details_result=mysql_query($bank_details_query,$DBLink) or die(mysql_error());
+$bank_details_result=mysqli_query($DBLink,$bank_details_query) or die(mysqli_error($DBLink));
 
-$row=mysql_fetch_assoc($bank_details_result);
+$row=mysqli_fetch_assoc($bank_details_result);
 	
 	echo "<td><b>BANK NAME:</b> ".$row['BankName']."</td>";
 	echo "<td><b>BRNCH NAME:</b> ".$return['branchname']."</td>";

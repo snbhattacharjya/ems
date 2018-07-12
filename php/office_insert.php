@@ -60,7 +60,7 @@ else
 }
 
 //Query for Office Add
-$insert_office_query="INSERT INTO `ems`.`office` (
+$insert_office_query="INSERT INTO `office` (
 `officecd` ,
 `officer_desg` ,
 `office` ,
@@ -94,13 +94,13 @@ VALUES (
 );";
 $sql->close();
 //Audit for Office Add
-$insert_office_query.="INSERT INTO ems.application_audit(UserID, ObjectID, ObjectActivity, RequestIP, SessionID, ActivityTimeStamp) VALUES('$session_user_id','$nextmaxfetch','ADD OFFICE','$session_ip','$session_id',CURRENT_TIMESTAMP);";
+$insert_office_query.="INSERT INTO application_audit(UserID, ObjectID, ObjectActivity, RequestIP, SessionID, ActivityTimeStamp) VALUES('$session_user_id','$nextmaxfetch','ADD OFFICE','$session_ip','$session_id',CURRENT_TIMESTAMP);";
 
 //Query for Office User
-$insert_office_query.="INSERT INTO `ems`.`users` (`UserTypeID`, `UserID`,`UserName`,`Designation`, `Email`,`Mobile`,`ModifiedDate`,`Password`, `Active`, `ChangePassword`, `LastLoginDate`) VALUES ('2', '$nextmaxfetch','OFFICER-IN-CHARGE','$designation','$email','$mob','0000-00-00 00:00:00','$nextmaxfetch', '1', '1', CURRENT_TIMESTAMP);";
+$insert_office_query.="INSERT INTO `users` (`UserTypeID`, `UserID`,`UserName`,`Designation`, `Email`,`Mobile`,`ModifiedDate`,`Password`, `Active`, `ChangePassword`, `LastLoginDate`) VALUES ('2', '$nextmaxfetch','OFFICER-IN-CHARGE','$designation','$email','$mob','0000-00-00 00:00:00','$nextmaxfetch', '1', '1', CURRENT_TIMESTAMP);";
 
 //Audit for Office User
-$insert_office_query.="INSERT INTO ems.application_audit(UserID, ObjectID, ObjectActivity, RequestIP, SessionID, ActivityTimeStamp) VALUES('$session_user_id','$nextmaxfetch','ADD OFFICE USER','$session_ip','$session_id',CURRENT_TIMESTAMP);";
+$insert_office_query.="INSERT INTO application_audit(UserID, ObjectID, ObjectActivity, RequestIP, SessionID, ActivityTimeStamp) VALUES('$session_user_id','$nextmaxfetch','ADD OFFICE USER','$session_ip','$session_id',CURRENT_TIMESTAMP);";
 
 $mysqli->multi_query($insert_office_query) or die("error ".$mysqli->error);
  
