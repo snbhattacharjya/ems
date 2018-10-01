@@ -27,10 +27,10 @@ require("../config/config.php");
 $opt = $_GET['opt'];
 $code = $_GET['code'];
 if($opt == 'subdiv'){
-	$query_get_office=mysqli_query($DBLink,"SELECT office.officecd, office.office, office.officer_desg, office.address1, office.address2, block_muni.blockmuni, policestation.policestation, office.postoffice, office.pin, office.email, office.phone, office.mobile, office.tot_staff AS pp1_count, office.male_staff, office.female_staff, office.posted_date FROM (office INNER JOIN block_muni ON block_muni.blockminicd=office.blockormuni_cd) INNER JOIN policestation ON policestation.policestationcd=office.policestn_cd WHERE office.subdivisioncd='$code'") or die(mysqli_error($DBLink));
+	$query_get_office=mysqli_query($DBLink,"SELECT office.officecd, office.office, office.officer_desg, office.address1, office.address2, block_muni.blockmuni, policestation.policestation, office.postoffice, office.pin, office.email, office.phone, office.mobile, office.tot_staff AS pp1_count, office.male_staff, office.female_staff, office.posted_date, office.updated_at FROM ((office INNER JOIN block_muni ON block_muni.blockminicd=office.blockormuni_cd) INNER JOIN policestation ON policestation.policestationcd=office.policestn_cd) INNER JOIN office_no_pp ON office.officecd = office_no_pp.officecd WHERE office.subdivisioncd='$code'") or die(mysqli_error($DBLink));
 }
 else{
-	$query_get_office=mysqli_query($DBLink,"SELECT office.officecd, office.office, office.officer_desg, office.address1, office.address2, block_muni.blockmuni, policestation.policestation, office.postoffice, office.pin, office.email, office.phone, office.mobile, office.tot_staff AS pp1_count, office.male_staff, office.female_staff, office.posted_date FROM (office INNER JOIN block_muni ON block_muni.blockminicd=office.blockormuni_cd) INNER JOIN policestation ON policestation.policestationcd=office.policestn_cd WHERE office.blockormuni_cd='$code'") or die(mysqli_error($DBLink));
+	$query_get_office=mysqli_query($DBLink,"SELECT office.officecd, office.office, office.officer_desg, office.address1, office.address2, block_muni.blockmuni, policestation.policestation, office.postoffice, office.pin, office.email, office.phone, office.mobile, office.tot_staff AS pp1_count, office.male_staff, office.female_staff, office.posted_date, office.updated_at FROM ((office INNER JOIN block_muni ON block_muni.blockminicd=office.blockormuni_cd) INNER JOIN policestation ON policestation.policestationcd=office.policestn_cd) INNER JOIN office_no_pp ON office.officecd = office_no_pp.officecd WHERE office.blockormuni_cd='$code'") or die(mysqli_error($DBLink));
 }
 $count=0;
 $total_pp1=0;
@@ -60,12 +60,12 @@ $total_female=0;
 <td><?php echo $res['female_staff']; ?></td>
 <td>
   <?php
-    if(date_format(date_create($res['posted_date']),'Y') == 2018){
-      echo date_format(date_create($res['posted_date']),'d-M-Y H:i:s');
-    }
-    else {
-      echo "Not Updated";
-    }
+    //if(date_format(date_create($res['posted_date']),'Y') == 2018){
+      echo $res['updated_at'];
+    //}
+    //else {
+      //echo "Not Updated";
+    //}
   ?>
 </td>
 </tr>
@@ -77,7 +77,7 @@ $total_female=0;
 <tr class="info">
 	<th colspan="3">Total Office</th>
     <th><?php echo $count;?></th>
-    <th>Total Count</th>
+    <th colspan="2">Total Count</th>
     <th><?php echo $total_pp1;?></th>
     <th><?php echo $total_male;?></th>
     <th><?php echo $total_female;?></th>

@@ -25,7 +25,7 @@ require("../config/config.php");
 $user_id=$_SESSION['UserID'];
 
 $subdiv_names=array();
-$subdiv_query=$mysqli->prepare("SELECT subdivision.subdivisioncd, subdivision.subdivision, block_muni.blockminicd, block_muni.blockmuni, COUNT(office.officecd), COUNT(CASE DATE_FORMAT(office.posted_date,'%Y') WHEN 2018 THEN 1 END), SUM(CASE DATE_FORMAT(office.posted_date,'%Y') WHEN 2018 THEN office.tot_staff END), SUM(CASE DATE_FORMAT(office.posted_date,'%Y') WHEN 2018 THEN office.male_staff END), SUM(CASE DATE_FORMAT(office.posted_date,'%Y') WHEN 2018 THEN office.female_staff END) FROM (subdivision INNER JOIN block_muni ON subdivision.subdivisioncd=block_muni.subdivisioncd) INNER JOIN office ON office.blockormuni_cd = block_muni.blockminicd GROUP BY subdivision.subdivisioncd, subdivision.subdivision, block_muni.blockminicd, block_muni.blockmuni ORDER BY subdivision.subdivisioncd") or die($mysqli->error);
+$subdiv_query=$mysqli->prepare("SELECT subdivision.subdivisioncd, subdivision.subdivision, block_muni.blockminicd, block_muni.blockmuni, COUNT(office.officecd), COUNT(CASE WHEN office.updated_at != '0000-00-00 00:00:00' THEN 1 END), SUM(CASE WHEN office.updated_at != '0000-00-00 00:00:00' THEN office.tot_staff ELSE 0 END), SUM(CASE WHEN office.updated_at != '0000-00-00 00:00:00' THEN office.male_staff ELSE 0 END), SUM(CASE WHEN office.updated_at != '0000-00-00 00:00:00' THEN office.female_staff ELSE 0 END) FROM ((subdivision INNER JOIN block_muni ON subdivision.subdivisioncd=block_muni.subdivisioncd) INNER JOIN office ON office.blockormuni_cd = block_muni.blockminicd) INNER JOIN office_no_pp ON office.officecd = office_no_pp.officecd GROUP BY subdivision.subdivisioncd, subdivision.subdivision, block_muni.blockminicd, block_muni.blockmuni ORDER BY subdivision.subdivisioncd") or die($mysqli->error);
 $subdiv_query->execute() or die($subdiv_query->error);
 $subdiv_query->bind_result($subdiv_code,$subdiv_name,$block_muni_code,$block_muni_name,$office_count,$office_updated,$total_staff,$male_staff,$female_staff) or die($subdiv_query->error);
 while($subdiv_query->fetch()){
@@ -44,7 +44,7 @@ $subdiv_query->close();
                   <th>Total Staff PP1</th>
                   <th>Male Staff PP1</th>
                   <th>Female Staff PP1</th>
-                  <th>PP2 Letter</th>
+                  <th>Letter - 01(151) 01/10/2018</th>
                 </tr>
               </thead>
               <tbody>
@@ -69,7 +69,7 @@ $subdiv_query->close();
                     <td><?php echo $subdiv_names[$i]['TotalStaff']; ?></td>
                     <td><?php echo $subdiv_names[$i]['MaleStaff']; ?></td>
                     <td><?php echo $subdiv_names[$i]['FemaleStaff']; ?></td>
-                    <td><?php echo "<a href='report/office_pp2_letter_print.php?opt=blockmuni&code=".$subdiv_names[$i]['BlockMuniCode']."' target='_blank' class='text-red'><i class='fa fa-print'></i> print</a>"; ?></td>
+                    <td><?php echo "<a href='report/office_letter_01_151ppcelldist_01102018.php?opt=blockmuni&code=".$subdiv_names[$i]['BlockMuniCode']."' target='_blank' class='text-red'><i class='fa fa-print'></i> print</a>"; ?></td>
                     <?php
                       $total_office += $subdiv_names[$i]['OfficeCount'];
                       $total_office_updated += $subdiv_names[$i]['OfficeUpdated'];

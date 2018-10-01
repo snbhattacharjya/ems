@@ -16,7 +16,7 @@ else
 	die('Cannot Connect to Server');
 }
 include("../config/config.php");
-
+date_default_timezone_set("Asia/Kolkata");
 $officename=mysqli_real_escape_string($DBLink,strtoupper($_POST['OfficeName']));
 
 $designation=ucwords(strtolower($_POST['Designation']));
@@ -46,7 +46,7 @@ $exsisting_ps_cd=substr($officecd,0,6);
 $newofficecd=str_replace($exsisting_ps_cd,$polices,$officecd);
 
 //Query for Office Update
-$update_office_query="UPDATE `office` SET `officecd`='$newofficecd', `officer_desg`='$designation',`office`='$officename',`office_unique_id`='$officeuniqueid',`address1`='$pts',`address2`='$vtm',`postoffice`='$po',`pin`='$pin',`blockormuni_cd`='$bm',`policestn_cd`='$polices',`govt`='$so',`email`='$email',`phone`='$phn',`mobile`='$mob',`fax`='$fax',`tot_staff`='$tns',`male_staff`='$tms',`female_staff`='$tfs',`assemblycd`='$Assembly_dtls',`pccd`='$pc_dtls',`subdivisioncd`='$subdiv',`districtcd`='$dist',`institutecd`='$no',`officetype`='NULL',`usercode`='1',`posted_date`='".date('y-m-d h:i:sa')."',`flag`='Y' WHERE `office`.`officecd` ='$officecd';";
+$update_office_query="UPDATE `office` SET `officecd`='$newofficecd', `officer_desg`='$designation',`office`='$officename',`office_unique_id`='$officeuniqueid',`address1`='$pts',`address2`='$vtm',`postoffice`='$po',`pin`='$pin',`blockormuni_cd`='$bm',`policestn_cd`='$polices',`govt`='$so',`email`='$email',`phone`='$phn',`mobile`='$mob',`fax`='$fax',`tot_staff`='$tns',`male_staff`='$tms',`female_staff`='$tfs',`assemblycd`='$Assembly_dtls',`pccd`='$pc_dtls',`subdivisioncd`='$subdiv',`districtcd`='$dist',`institutecd`='$no',`officetype`='NULL',`usercode`='1',`posted_date`='".date('y-m-d h:i:sa')."',`updated_at`='".date('y-m-d h:i:sa')."',`flag`='Y' WHERE `office`.`officecd` ='$officecd';";
 
 //Query for Personnel Table
 $update_office_query.="UPDATE personnel SET personcd=CONCAT(SUBSTRING('$newofficecd',1,6),SUBSTRING(personcd,7,5)), officecd='$newofficecd' WHERE officecd='$officecd';";
