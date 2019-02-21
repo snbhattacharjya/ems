@@ -110,25 +110,25 @@ $poststat_query->execute() or die($poststat_query->error);
 $poststat_query->bind_result($post_stat_code,$post_stat_name,$post_stat_total) or die($poststat_query->error);
 $poststat=array();
 ?>
-<h3>Female Report</h3>
+<!-- <h3>Female Report</h3>
 <table id="subdiv_booked_summary" class="table table-bordered table-condensed table-hover small">
     <thead>
         <tr class="bg-light-blue-gradient">
             <th>Subdivision Name</th>
-            <?php
+            <?php /*
             while($poststat_query->fetch()){
                 $poststat[]=array("PostStatCode"=>$post_stat_code, "PostStatName"=>$post_stat_name, "PostStatTotal"=>$post_stat_total);
             ?>
             <th><?php echo $post_stat_code.' - '.$post_stat_name; ?></th>
             <?php
             }
-            $poststat_query->close();
+            $poststat_query->close(); */
             ?>
             <th>Total</th>
         </tr>
     </thead>
     <tbody>
-        <?php
+        <?php /*
         $subdiv_booked_query=$mysqli->prepare("SELECT subdivision.subdivisioncd, personnel.poststat, COUNT(personnel.personcd) FROM subdivision INNER JOIN personnel ON subdivision.subdivisioncd=personnel.subdivisioncd WHERE personnel.poststat != '' AND personnel.gender = 'F' GROUP BY subdivision.subdivisioncd, personnel.poststat ORDER BY subdivision.subdivisioncd, personnel.poststat") or die($mysqli->error);
         $subdiv_booked_query->execute() or die($subdiv_booked_query->error);
         $subdiv_booked_query->bind_result($sub_div_code,$post_stat_code,$pp_count) or die($subdiv_booked_query->error);
@@ -180,10 +180,10 @@ $poststat=array();
                 <?php 
                     date_default_timezone_set("Asia/Kolkata");
                     echo "<i class='fa fa-info-circle'></i> Report Compiled as on: ".date("d-M-Y H:i:s A")."; <i>The Figures indicated above may change subject to first randomisation and approved exemption from the appropriate authority.</i>"; 
-                ?>
+               */ ?>
             </th>
     </tfoot>
-</table>
+</table> -->
 <script>
        
     

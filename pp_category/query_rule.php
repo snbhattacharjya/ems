@@ -53,7 +53,7 @@ else
 
 $clause.=" AND DATE_FORMAT(NOW(), '%Y') - DATE_FORMAT(personnel.dateofbirth, '%Y') - (DATE_FORMAT(NOW(), '00-%m-%d') < DATE_FORMAT(personnel.dateofbirth, '00-%m-%d')) < 60";
 
-$rule_pp_query="SELECT COUNT(personnel.personcd) AS PPCount FROM personnel INNER JOIN office ON personnel.officecd=office.officecd WHERE $clause";
+$rule_pp_query="SELECT COUNT(personnel.personcd) AS PPCount FROM personnel INNER JOIN office ON personnel.officecd=office.officecd WHERE $clause"; //die(json_encode(array("Status"=>$rule_pp_query)));
 $rule_pp_result=mysqli_query($DBLink,$rule_pp_query) or die(json_encode(array("Status"=>mysqli_error($DBLink))));
 $rule_pp_result=mysqli_fetch_assoc($rule_pp_result)or die(json_encode(array("Status"=>"Error in fetch Record Count")));
 
