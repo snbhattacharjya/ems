@@ -351,11 +351,13 @@
             $("#table_employee tbody tr").addClass('warning');
             $('#table_employee tbody .select-pp').prop('checked',true);
             $('#selected_pp').html(emp.length);
+            selected_pp = emp.length;
         }
         else{
             $("#table_employee tbody tr").removeClass('warning');
             $('#table_employee tbody .select-pp').prop('checked',false);
             $('#selected_pp').html('0');
+            selected_pp = 0;
         }
     });
 

@@ -27,8 +27,8 @@ while($training_schedule_venue_query->fetch())
         <a href="pp_training_attendance/attendance_exemption_summary_print.php?subdiv=<?php echo $subdiv; ?>&training_venue=<?php echo $venue_base_name; ?>&training_date=<?php echo $training_date; ?>&training_time=<?php echo $training_time; ?>" class="btn btn-default btn-md text-red" target="_blank">
         <i class="fa fa-print"></i> Print Presonnel Exempt Summary
       </a>
-      <a href="pp_training_attendance/attendance_personel_range_print.php?subdiv=<?php echo $subdiv; ?>&training_venue=<?php echo $venue_base_name; ?>&training_date=<?php echo $training_date; ?>&training_time=<?php echo $training_time; ?>" class="btn btn-default btn-md text-red" target="_blank">
-      <i class="fa fa-print"></i> Print Presonnel Range
+      <a href="pp_training_attendance/attendance_personnel_range_print.php?subdiv=<?php echo $subdiv; ?>&training_venue=<?php echo $venue_base_name; ?>&training_date=<?php echo $training_date; ?>&training_time=<?php echo $training_time; ?>" class="btn btn-default btn-md text-red" target="_blank">
+      <i class="fa fa-print"></i> Print Personnel Range
     </a>
     <a href="pp_training_attendance/attendance_summary_print.php?subdiv=<?php echo $subdiv; ?>&training_venue=<?php echo $venue_base_name; ?>&training_date=<?php echo $training_date; ?>&training_time=<?php echo $training_time; ?>" class="btn btn-default btn-md text-red" target="_blank">
         <i class="fa fa-print"></i> Print Summary

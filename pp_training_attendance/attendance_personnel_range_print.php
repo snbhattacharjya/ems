@@ -55,36 +55,22 @@ while($training_schedule_venue_query->fetch())
             <td><?php echo $return[$i]['VenueName']; ?></td>
             
               <?php
-                $venuesql="SELECT min(personnel.personcd)AS min_person FROM training_schedule INNER JOIN personnel ON personnel.training1_sch= training_schedule.schedule_code WHERE training_schedule.training_venue= '$Venue_ID' AND training_schedule.training_dt = '$training_date' AND training_schedule.training_time = '$training_time'";
+                $venuesql="SELECT MIN(personnel_training.personcd)AS min_person, MAX(personnel_training.personcd)AS max_person, COUNT(*) AS Count FROM training_schedule INNER JOIN personnel_training ON personnel_training.schedule_code= training_schedule.schedule_code WHERE training_schedule.training_venue= '$Venue_ID' AND training_schedule.training_dt = '$training_date' AND training_schedule.training_time = '$training_time'";
                 $venuequery=mysqli_query($mysqli,$venuesql);
                 while($row=mysqli_fetch_array($venuequery))
                     {
                        $min_personnel= $row['min_person'];
+                       $max_personnel= $row['max_person'];
+                       $Count= $row['Count'];
                    }
                      
             ?>
             <td><?php echo $min_personnel; ?></td>
 
-            <?php
-                $venuesql="SELECT MAX(personnel.personcd)AS max_person FROM training_schedule INNER JOIN personnel ON personnel.training1_sch= training_schedule.schedule_code WHERE training_schedule.training_venue= '$Venue_ID' AND training_schedule.training_dt = '$training_date' AND training_schedule.training_time = '$training_time'";
-                $venuequery=mysqli_query($mysqli,$venuesql);
-                while($row=mysqli_fetch_array($venuequery))
-                    {
-                       $max_personnel= $row['max_person'];
-                   }
-                     
-            ?>
+            
             <td><?php echo $max_personnel ?></td>
             
-            <?php
-                $countsql="SELECT count(*) AS Count FROM training_schedule INNER JOIN personnel ON personnel.training1_sch= training_schedule.schedule_code WHERE training_schedule.training_venue= '$Venue_ID' AND training_schedule.training_dt = '$training_date' AND training_schedule.training_time = '$training_time'";
-                $countquery=mysqli_query($mysqli,$countsql);
-                while($row=mysqli_fetch_array($countquery))
-                    {
-                       $Count= $row['Count'];
-                   }
-                     
-            ?>
+            
             <td><?php echo $Count; ?></td>
             
         </tr>
