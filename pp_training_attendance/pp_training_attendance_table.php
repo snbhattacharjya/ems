@@ -24,15 +24,18 @@ while($training_schedule_venue_query->fetch())
 }
 ?>
 <div class="pull-right margin-bottom">
+        <a href="pp_training_attendance/pp_list_venue_date_print.php?subdiv=<?php echo $subdiv; ?>&venue_name=<?php echo $venue_base_name; ?>&training_date=<?php echo $training_date; ?>" class="btn btn-default btn-md text-red" target="_blank">
+            <i class="fa fa-print"></i> Print Presonnel List By Venue and Date
+        </a>
         <a href="pp_training_attendance/attendance_exemption_summary_print.php?subdiv=<?php echo $subdiv; ?>&training_venue=<?php echo $venue_base_name; ?>&training_date=<?php echo $training_date; ?>&training_time=<?php echo $training_time; ?>" class="btn btn-default btn-md text-red" target="_blank">
-        <i class="fa fa-print"></i> Print Presonnel Exempt Summary
-      </a>
-      <a href="pp_training_attendance/attendance_personnel_range_print.php?subdiv=<?php echo $subdiv; ?>&training_venue=<?php echo $venue_base_name; ?>&training_date=<?php echo $training_date; ?>&training_time=<?php echo $training_time; ?>" class="btn btn-default btn-md text-red" target="_blank">
-      <i class="fa fa-print"></i> Print Personnel Range
-    </a>
-    <a href="pp_training_attendance/attendance_summary_print.php?subdiv=<?php echo $subdiv; ?>&training_venue=<?php echo $venue_base_name; ?>&training_date=<?php echo $training_date; ?>&training_time=<?php echo $training_time; ?>" class="btn btn-default btn-md text-red" target="_blank">
-        <i class="fa fa-print"></i> Print Summary
-    </a>
+            <i class="fa fa-print"></i> Print Presonnel Exempt Summary
+        </a>
+        <a href="pp_training_attendance/attendance_personnel_range_print.php?subdiv=<?php echo $subdiv; ?>&training_venue=<?php echo $venue_base_name; ?>&training_date=<?php echo $training_date; ?>&training_time=<?php echo $training_time; ?>" class="btn btn-default btn-md text-red" target="_blank">
+            <i class="fa fa-print"></i> Print Personnel Range
+        </a>
+        <a href="pp_training_attendance/attendance_summary_print.php?subdiv=<?php echo $subdiv; ?>&training_venue=<?php echo $venue_base_name; ?>&training_date=<?php echo $training_date; ?>&training_time=<?php echo $training_time; ?>" class="btn btn-default btn-md text-red" target="_blank">
+            <i class="fa fa-print"></i> Print Summary
+        </a>
 </div>
 <table id="training_schedule_table" class="table table-bordered table-condensed small">
     <thead>
