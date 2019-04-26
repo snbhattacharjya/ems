@@ -3,8 +3,9 @@
 </title>
 <?php
 session_start();
-if(!isset($_SESSION['UserID']))
+if (!isset($_SESSION['UserID'])) {
     die("Login Expired!. Please Login again to continue");
+}
 require("../config/config.php");
 //include "../phpqrcode/qrlib.php";
 //$type=$_GET['type'];
@@ -55,15 +56,16 @@ for($i = 0;$i < count($pp_data); $i++){*/
 <table width="100%" style="font-family: sans-serif; font-size: 12">
     <tr>
         <th colspan="2">
-            <img src="../pp_training/indian-symbol4.jpg" alt=""/><br>
-            GOVERNMENT OF WEST BENGAL<br>
+            <!-- <img src="../pp_training/indian-symbol4.jpg" alt=""/><br>
+            GOVERNMENT OF WEST BENGAL<br> -->
             Office of the District Election Officer & District Magistrate, Hooghly<br>
             District Polling Personnel Cell<br>
+            Email: ppcell.hooghly@gmail.com<br>
         </th>
     </tr>
     <tr>
         <td width="50%" style="padding-top: 15;">
-            No. /PPCell(Dist)
+            No. xxx/PPCell(Dist)
         </td>
         <td width="50%" align="right" style="padding-top: 15;">
             Date:
@@ -72,44 +74,47 @@ for($i = 0;$i < count($pp_data); $i++){*/
     <tr>
         <th colspan="2" style="padding-top: 15; text-align: left">
             To<br>
+            xxxx<br>
+            xxxxxxx<br>
+            xxxxxxxxxx<br>
 
         </th>
     </tr>
     <tr>
         <th colspan="2" style="padding-top: 15;">
-            Sub: <u>Show Cause Notice</u>
+            Sub: <u>Reminder for Additional hands-on training on EVM and VVPAT</u>
         </th>
     </tr>
     <tr>
         <td colspan="2" style="padding-top: 20; text-align: justify">
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHEREAS, it has been found that in spite of service of 1st order of Appointment for performing duty of <strong> </strong>  to the Assembly General Election, 2016 under this office order no. 65/PPcell/HOOG(24907) dated. 12/03/2016, you have intentionally and deliberately kept yourself absent in the Training Venue - <strong></strong> on <strong></strong> at <strong></strong>.
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHEREAS, it has been found that in spite of service of 1st order of Appointment for performing duty of <strong> PRESIDING OFFICER</strong>  to the Election to the House of People, 2019 vide this office memo no. 61/P.P. Cell Dist dated 13/03/2019, you have kept yourself absent from attending training on <strong>07/04/2019</strong> at <strong>09:00 AM</strong> in <strong>HETC</strong>.
         </td>
     </tr>
     <tr>
         <td colspan="2" style="padding-top: 15; text-align: justify">
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NOW THEREFORE, you are directed to show-cause as to why disciplinary action as per provisions under Section 28A/134 of the Representation of People Act' 1951 will not be taken against you in consultation with your administrative department.
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Whereas, it has been observed that an additional hands-on training will be very much required for effective performance of polling duty as <strong> PRESIDING OFFICER</strong>
         </td>
     </tr>
     <tr>
         <td colspan="2" style="padding-top: 15; text-align: justify">
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Your written reply should reach the undersigned within 03 (three) days from the date of receipt of this letter.
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Hence, you are requested to attend the additional training as per schedule given below:
         </td>
     </tr>
     <tr>
-        <td colspan="2" style="padding-top: 15; text-align: justify">
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;You are further directed to attend Mop-Up training as per training schedule attached, failing which appropriate penal measure will be taken against you without any further correspondence from this end.
-        </td>
+        <th colspan="2" style="padding-top: 15; text-align: justify; border-style:solid; border-width: thin;">
+            TRAINING VENUE NAME AND ADDRESS with TRAINING DATE and TIME
+        </th>
     </tr>
     <tr>
-        <th style="padding-top: 40; text-align: right" colspan="2">
-            <img src="../pp_training/dm-sign1.jpg" alt="" style="padding-right: 30px"/><br>
-            District Election Officer &<br>
+        <th style="padding-top: 20; text-align: right" colspan="2">
+            <img src="../pp_training_rectified/dm_sign.jpg" alt="" style="padding-right: 30px" height="40px" width="60px"/><br>
+            District Election Officer, &<br>
             District Magistrate Hooghly
         </th>
     </tr>
     <tr>
         <td width="50%" style="padding-top: 15;">
-            No. /PPCell(Dist)
+            No. xxx/PPCell(Dist)
         </td>
         <td width="50%" align="right" style="padding-top: 15;">
             Date:
@@ -117,13 +122,13 @@ for($i = 0;$i < count($pp_data); $i++){*/
     </tr>
     <tr>
         <td colspan="2" style="padding-top: 20">
-            1.	The Sponsoring Authority with a request to serve the same to the above mentioned employee and direct him to submit reply within stipulated time and attend mop-up training on the scheduled date and time without fail.
+            1.	The Sponsoring Authority with a request to serve the same to the above mentioned employee and direct him to attend additional training on the scheduled date and time without fail.
         </td>
     </tr>
     <tr>
-        <th style="padding-top: 40; text-align: right" colspan="2">
-            <img src="../pp_training/dm-sign1.jpg" alt="" style="padding-right: 30px"/><br>
-            District Election Officer &<br>
+        <th style="padding-top: 20; text-align: right" colspan="2">
+            <img src="../pp_training_rectified/dm_sign.jpg" alt="" style="padding-right: 30px" height="40px" width="60px"/><br>
+            District Election Officer, &<br>
             District Magistrate Hooghly
         </th>
     </tr>

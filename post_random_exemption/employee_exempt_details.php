@@ -1,26 +1,23 @@
 <?php
 session_start();
 $user_id=$_SESSION['UserID'];
-$block_code=substr($user_id,3,6);
-if(isset($_SESSION['Subdiv']))
-{
+$block_code=substr($user_id, 3, 6);
+if (isset($_SESSION['Subdiv'])) {
     $subdiv=$_SESSION['Subdiv'];
 }
 require("../config/config.php");
 
 $exempt_date=$_POST['exempt_date'];
 
-if($exempt_date == "ALL"){
-$employee_exempt_query="SELECT office.officecd, office.office, personnel.personcd, personnel.officer_name, personnel.off_desg, personnel.mob_no, remarks.remarks, personnel_exempt_post_random.reason FROM ((office INNER JOIN personnel ON office.officecd = personnel.officecd) INNER JOIN remarks ON personnel.remarks = remarks.remarks_cd) INNER JOIN personnel_exempt_post_random ON personnel.personcd = personnel_exempt_post_random.personcd WHERE personnel_exempt_post_random.UserID = '$user_id' ORDER BY office.officecd, personnel.officer_name";
+if ($exempt_date == "ALL") {
+    $employee_exempt_query="SELECT office.officecd, office.office, personnel.personcd, personnel.officer_name, personnel.poststat, personnel.off_desg, personnel.mob_no, remarks.remarks, personnel_exempt_post_random.reason FROM ((office INNER JOIN personnel ON office.officecd = personnel.officecd) INNER JOIN remarks ON personnel.remarks = remarks.remarks_cd) INNER JOIN personnel_exempt_post_random ON personnel.personcd = personnel_exempt_post_random.personcd WHERE personnel_exempt_post_random.UserID = '$user_id' ORDER BY office.officecd, personnel.officer_name";
+} else {
+    $employee_exempt_query="SELECT office.officecd, office.office, personnel.personcd, personnel.officer_name, personnel.poststat, personnel.off_desg, personnel.mob_no, remarks.remarks, personnel_exempt_post_random.reason FROM ((office INNER JOIN personnel ON office.officecd = personnel.officecd) INNER JOIN remarks ON personnel.remarks = remarks.remarks_cd) INNER JOIN personnel_exempt_post_random ON personnel.personcd = personnel_exempt_post_random.personcd WHERE personnel_exempt_post_random.UserID = '$user_id' AND DATE(Modified) = '$exempt_date' ORDER BY office.officecd, personnel.officer_name";
 }
-else{
-    $employee_exempt_query="SELECT office.officecd, office.office, personnel.personcd, personnel.officer_name, personnel.off_desg, personnel.mob_no, remarks.remarks, personnel_exempt_post_random.reason FROM ((office INNER JOIN personnel ON office.officecd = personnel.officecd) INNER JOIN remarks ON personnel.remarks = remarks.remarks_cd) INNER JOIN personnel_exempt_post_random ON personnel.personcd = personnel_exempt_post_random.personcd WHERE personnel_exempt_post_random.UserID = '$user_id' AND DATE(Modified) = '$exempt_date' ORDER BY office.officecd, personnel.officer_name";
-}
-$employee_exempt_result=mysqli_query($DBLink,$employee_exempt_query) or die(mysqli_error($DBLink));
+$employee_exempt_result=mysqli_query($DBLink, $employee_exempt_query) or die(mysqli_error($DBLink));
 $return=array();
-while($row=mysqli_fetch_assoc($employee_exempt_result))
-{
-	$return[]=$row;
+while ($row=mysqli_fetch_assoc($employee_exempt_result)) {
+    $return[]=$row;
 }
 ?>
 <div class="text-center margin-bottom">
@@ -30,7 +27,7 @@ while($row=mysqli_fetch_assoc($employee_exempt_result))
     <table id="employee_exempt_details" class="table table-bordered table-condensed small">
         <thead>
             <tr class="bg-gray">
-                <th colspan="10">
+                <th colspan="11">
                     <input type="text" class="input-sm pull-right" placeholder="Search Employee" id="search-text">
                 </th>
             </tr>
@@ -40,6 +37,7 @@ while($row=mysqli_fetch_assoc($employee_exempt_result))
                 <th>Office Name</th>
                 <th>Employee ID</th>
                 <th>Employee Name</th>
+                <th>Post Status</th>
                 <th>Designation</th>
                 <th>Mobile</th>
                 <th>Remarks</th>
@@ -49,14 +47,15 @@ while($row=mysqli_fetch_assoc($employee_exempt_result))
         </thead>
         <tbody>
             <?php
-            for($i=0; $i<count($return);$i++){
-            ?>
+            for ($i=0; $i<count($return);$i++) {
+                ?>
             <tr>
-                <td><?php echo ($i+1); ?></td>
+                <td><?php echo($i+1); ?></td>
                 <td><?php echo $return[$i]['officecd']; ?></td>
                 <td><?php echo $return[$i]['office']; ?></td>
                 <td class="personcd"><?php echo $return[$i]['personcd']; ?></td>
                 <td><?php echo $return[$i]['officer_name']; ?></td>
+                <td><?php echo $return[$i]['poststat']; ?></td>
                 <td><?php echo $return[$i]['off_desg']; ?></td>
                 <td><?php echo $return[$i]['mob_no']; ?></td>
                 <td><?php echo $return[$i]['remarks']; ?></td>

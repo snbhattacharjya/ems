@@ -10,13 +10,7 @@ require("../config/config.php");
 //include "../phpqrcode/qrlib.php";
 $block_muni_code=$_GET['block_muni_code'];
 
-$env_query=$mysqli->prepare("SELECT environment, distnm_sml, apt1_orderno, apt1_date FROM environment") or die($mysqli->error);
-$env_query->execute() or die($env_query->error);
-$env_query->bind_result($env, $dist, $apt1_order_no, $apt1_date) or die($env_query->error);
-$env_query->fetch() or die($env_query->error);
-$env_query->close();
-
-$first_app_query=$mysqli->prepare("SELECT personcd, officer_name, off_desg, poststatus, mob_no, epic, partno, slno, acno, bank, branch, ifsc, bank_accno, officecd, office, address, block_muni_name, postoffice, subdivision, policestation, district, pin FROM first_rand_table_rectified WHERE block_muni = ? ORDER BY officecd, personcd") or die($mysqli->error);
+$first_app_query=$mysqli->prepare("SELECT personcd, officer_name, off_desg, poststatus, mob_no, epic, partno, slno, acno, bank, branch, ifsc, bank_accno, officecd, office, address, block_muni_name, postoffice, subdivision, policestation, district, pin FROM first_rand_table_adhoc WHERE block_muni = ? ORDER BY officecd, personcd") or die($mysqli->error);
 $first_app_query->bind_param("s", $block_muni_code) or die($first_app_query->error);
 $first_app_query->execute() or die($first_app_query->error);
 $first_app_query->bind_result($personcd, $officer_name, $off_desg, $poststatus, $mob_no, $epic, $partno, $slno, $acno, $bank, $branch, $ifsc, $bank_accno, $officecd, $office, $address, $block_muni_name, $postoffice, $subdivision, $policestation, $district, $pin) or die($first_app_query->error);
@@ -48,11 +42,11 @@ for ($i = 0;$i < count($pp_data); $i++) {
         <th width="20%">&nbsp;</th>
     </tr>
     <tr>
-        <th width="20%">Memo No: 92/PP CELL(Dist)/Elec </th>
+        <th width="20%">Memo No: 99/PP CELL(Dist)/Elec </th>
       <th width="60%">&nbsp;
 
         </th>
-        <th width="20%">Dated: 01/04/2019</th>
+        <th width="20%">Dated: 03/04/2019</th>
     </tr>
     <tr>
         <td colspan="3" style="padding-top: 15; text-align: justify">
@@ -94,7 +88,7 @@ for ($i = 0;$i < count($pp_data); $i++) {
                 </tr>
                 <!-- Loop for Trainings -->
                 <?php
-                    $training_query=$mysqli->prepare("SELECT personnel_training.training_type, training_venue.venuename, training_venue.venueaddress1, training_schedule.training_dt, training_schedule.training_time FROM ((personnel_rectified INNER JOIN personnel_training ON personnel_rectified.personcd = personnel_training.personcd) INNER JOIN training_schedule ON personnel_training.schedule_code = training_schedule.schedule_code) INNER JOIN training_venue ON training_schedule.training_venue = training_venue.venue_cd WHERE personnel_rectified.personcd = ? ORDER BY personnel_training.training_type") or die($mysqli->error);
+                    $training_query=$mysqli->prepare("SELECT personnel_training_adhoc.training_type, training_venue_adhoc.venuename, training_venue_adhoc.venueaddress1, training_schedule_adhoc.training_dt, training_schedule_adhoc.training_time FROM ((personnel_adhoc INNER JOIN personnel_training_adhoc ON personnel_adhoc.personcd = personnel_training_adhoc.personcd) INNER JOIN training_schedule_adhoc ON personnel_training_adhoc.schedule_code = training_schedule_adhoc.schedule_code) INNER JOIN training_venue_adhoc ON training_schedule_adhoc.training_venue = training_venue_adhoc.venue_cd WHERE personnel_adhoc.personcd = ? ORDER BY personnel_training_adhoc.training_type") or die($mysqli->error);
     $training_query->bind_param("s", $pp_data[$i]['personcd']) or die($training_query->error);
     $training_query->execute() or die($training_query->error);
     $training_query->bind_result($training_type, $venuename, $venue_address, $training_date, $training_time) or die($training_query->error);
@@ -140,7 +134,7 @@ for ($i = 0;$i < count($pp_data); $i++) {
         <td style="padding-top: 10; text-align: justify">
             <img src="../pp_training_rectified/dm_sign.jpg" alt=""/><br>
             District Election Officer<br>
-            Date: 15/03/2019
+            Date: 03/04/2019
         </td>
     </tr>
     <tr>
@@ -162,7 +156,7 @@ for ($i = 0;$i < count($pp_data); $i++) {
                     Please fill up the blank identity card sent herewith and paste your recent colour photograph and bring it at training venue for attestation.
                 </li>
                 <li>
-                    Please check your mobile number, electoral data and bank account details given below. If any correction is needed, correct with red ink in the remarks column of attendance sheet, provided at the training venue. <strong><br>
+                    Please check your mobile number, electoral data and bank account details given below minutely. If any correction is needed, correct with red ink in the remarks column of attendance sheet, provided at the training venue. <strong><br>
                     <ol style="list-style-type: lower-alpha;">
                         <li>Mobile Number - <?php echo $pp_data[$i]['mob_no']; ?></li>
                         <li>EPIC N0. - <?php echo $pp_data[$i]['epic']; ?>, Assembly - <?php echo $pp_data[$i]['acno']; ?>, Part No. - <?php echo $pp_data[$i]['partno']; ?>, Sl. No.- <?php echo $pp_data[$i]['slno']; ?></li>

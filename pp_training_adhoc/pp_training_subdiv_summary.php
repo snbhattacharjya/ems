@@ -5,7 +5,7 @@ if (!isset($_SESSION['UserID'])) {
 }
 require("../config/config.php");
 
-$subdiv_query=$mysqli->prepare("SELECT subdivision.subdivisioncd, subdivision.subdivision, COUNT(personnel.personcd) FROM subdivision INNER JOIN personnel ON personnel.subdivisioncd=subdivision.subdivisioncd WHERE subdivision.subdivisioncd != '9999' AND personnel.poststat IN ('PR','P1','P2','P3','PA') AND personnel.booked IN ('P','R') AND personnel.groupid != 0 GROUP BY subdivision.subdivisioncd, subdivision.subdivision ORDER BY subdivision.subdivisioncd") or die($mysqli->error);
+$subdiv_query=$mysqli->prepare("SELECT subdivision.subdivisioncd, subdivision.subdivision, COUNT(personnel_adhoc.personcd) FROM subdivision INNER JOIN personnel_adhoc ON personnel_adhoc.subdivisioncd=subdivision.subdivisioncd WHERE subdivision.subdivisioncd != '9999' AND personnel_adhoc.booked IN ('P','R') GROUP BY subdivision.subdivisioncd, subdivision.subdivision ORDER BY subdivision.subdivisioncd") or die($mysqli->error);
 $subdiv_query->execute() or die($subdiv_query->error);
 $subdiv_query->bind_result($sub_div_code, $sub_div_name, $sub_div_total) or die($subdiv_query->error);
 $subdiv=array();
@@ -14,14 +14,14 @@ while ($subdiv_query->fetch()) {
 }
 $subdiv_query->close();
 
-$poststat_query=$mysqli->prepare("SELECT poststat.post_stat, poststat.poststatus, COUNT(personnel.personcd) FROM poststat INNER JOIN personnel ON poststat.post_stat=personnel.poststat WHERE personnel.poststat IN ('PR','P1','P2','P3','PA') AND personnel.booked IN ('P','R') AND personnel.groupid != 0 GROUP BY poststat.post_stat, poststat.poststatus ORDER BY poststat.poststat_order, poststat.poststatus") or die($mysqli->error);
+$poststat_query=$mysqli->prepare("SELECT poststat.post_stat, poststat.poststatus, COUNT(personnel_adhoc.personcd) FROM poststat INNER JOIN personnel_adhoc ON poststat.post_stat=personnel_adhoc.poststat WHERE personnel_adhoc.booked IN ('P','R') GROUP BY poststat.post_stat, poststat.poststatus ORDER BY poststat.poststat_order, poststat.poststatus") or die($mysqli->error);
 
 $poststat_query->execute() or die($poststat_query->error);
 $poststat_query->bind_result($post_stat_code, $post_stat_name, $post_stat_total) or die($poststat_query->error);
 $poststat=array();
 ?>
 <div class="text-center margin-bottom">
-    <a class="btn btn-md btn-flat btn-default text-red" href="pp_training_2/pp_training_subdiv_summary_print.php" target="_blank"><i class="fa fa-print"></i> Print</a>
+    <a class="btn btn-md btn-flat btn-default text-red" href="pp_training_adhoc/pp_training_subdiv_summary_print.php" target="_blank"><i class="fa fa-print"></i> Print</a>
 </div>
 <table id="subdiv_booked_summary" class="table table-bordered table-condensed table-hover small">
     <thead>
@@ -36,12 +36,12 @@ $poststat=array();
             $poststat_query->close();
             ?>
             <th>Total</th>
-            <th>2nd Appointment Letter</th>
+            <th>1st Appointment Letter</th>
         </tr>
     </thead>
     <tbody>
         <?php
-        $subdiv_booked_query=$mysqli->prepare("SELECT subdivision.subdivisioncd, personnel.poststat, COUNT(personnel.personcd) FROM subdivision INNER JOIN personnel ON subdivision.subdivisioncd=personnel.subdivisioncd WHERE personnel.poststat IN ('PR','P1','P2','P3','PA') AND personnel.booked IN ('P','R') AND personnel.groupid != 0 GROUP BY subdivision.subdivisioncd, personnel.poststat ORDER BY subdivision.subdivisioncd, personnel.poststat") or die($mysqli->error);
+        $subdiv_booked_query=$mysqli->prepare("SELECT subdivision.subdivisioncd, personnel_adhoc.poststat, COUNT(personnel_adhoc.personcd) FROM subdivision INNER JOIN personnel_adhoc ON subdivision.subdivisioncd=personnel_adhoc.subdivisioncd WHERE personnel_adhoc.booked IN ('P','R') GROUP BY subdivision.subdivisioncd, personnel_adhoc.poststat ORDER BY subdivision.subdivisioncd, personnel_adhoc.poststat") or die($mysqli->error);
         $subdiv_booked_query->execute() or die($subdiv_booked_query->error);
         $subdiv_booked_query->bind_result($sub_div_code, $post_stat_code, $pp_count) or die($subdiv_booked_query->error);
 
@@ -67,7 +67,7 @@ $poststat=array();
                 }
             } ?>
             <td><?php echo $subdiv[$i]['SubdivTotal']; ?></td>
-            <td class="text-center"><a href="pp_training_2/second_appointment_letter.php?opt=SUBDIVISION&subdiv_code=<?php echo $subdiv[$i]['SubdivCode']; ?>" class="text-red" target="_blank"><i class="fa fa-print"></i> Print</a></td>
+            <td class="text-center"><a href="pp_training_adhoc/first_appointment_letter_subdiv.php?subdiv_code=<?php echo $subdiv[$i]['SubdivCode']; ?>" class="text-red" target="_blank"><i class="fa fa-print"></i> Print</a></td>
         </tr>
         <?php
     }
@@ -108,7 +108,7 @@ $poststat=array();
         $('.ajax-loader').show();
         $.ajax({
                 mimeType: 'text/html; charset=utf-8', // ! Need set mimeType only when run from local file
-                url: "pp_training_2/pp_training_blockmuni_summary.php",
+                url: "pp_training_adhoc/pp_training_blockmuni_summary.php",
                 type: "POST",
                 data: {
                     subdiv: subdiv

@@ -9,10 +9,10 @@ require("../config/config.php");
 $exempt_date=$_GET['exempt_date'];
 
 if($exempt_date == "ALL"){
-$employee_exempt_query="SELECT office.officecd, office.office, personnel.personcd, personnel.officer_name, personnel.off_desg, personnel.mob_no, remarks.remarks, personnel_exempt_post_random.reason FROM ((office INNER JOIN personnel ON office.officecd = personnel.officecd) INNER JOIN remarks ON personnel.remarks = remarks.remarks_cd) INNER JOIN personnel_exempt_post_random ON personnel.personcd = personnel_exempt_post_random.personcd WHERE personnel_exempt_post_random.UserID = '$user_id' ORDER BY office.officecd, personnel.officer_name";
+$employee_exempt_query="SELECT office.officecd, office.office, personnel.personcd, personnel.officer_name, personnel.poststat, personnel.off_desg, personnel.mob_no, remarks.remarks, personnel_exempt_post_random.reason FROM ((office INNER JOIN personnel ON office.officecd = personnel.officecd) INNER JOIN remarks ON personnel.remarks = remarks.remarks_cd) INNER JOIN personnel_exempt_post_random ON personnel.personcd = personnel_exempt_post_random.personcd WHERE personnel_exempt_post_random.UserID = '$user_id' ORDER BY office.officecd, personnel.officer_name";
 }
 else{
-    $employee_exempt_query="SELECT office.officecd, office.office, personnel.personcd, personnel.officer_name, personnel.off_desg, personnel.mob_no, remarks.remarks, personnel_exempt_post_random.reason FROM ((office INNER JOIN personnel ON office.officecd = personnel.officecd) INNER JOIN remarks ON personnel.remarks = remarks.remarks_cd) INNER JOIN personnel_exempt_post_random ON personnel.personcd = personnel_exempt_post_random.personcd WHERE personnel_exempt_post_random.UserID = '$user_id' AND DATE(Modified) = '$exempt_date' ORDER BY office.officecd, personnel.officer_name";
+    $employee_exempt_query="SELECT office.officecd, office.office, personnel.personcd, personnel.officer_name, personnel.poststat, personnel.off_desg, personnel.mob_no, remarks.remarks, personnel_exempt_post_random.reason FROM ((office INNER JOIN personnel ON office.officecd = personnel.officecd) INNER JOIN remarks ON personnel.remarks = remarks.remarks_cd) INNER JOIN personnel_exempt_post_random ON personnel.personcd = personnel_exempt_post_random.personcd WHERE personnel_exempt_post_random.UserID = '$user_id' AND DATE(Modified) = '$exempt_date' ORDER BY office.officecd, personnel.officer_name";
 }
 
 $employee_exempt_result=mysqli_query($DBLink,$employee_exempt_query) or die(mysqli_error($DBLink));
@@ -33,7 +33,7 @@ while($row=mysqli_fetch_assoc($employee_exempt_result))
                 if($exempt_date != "ALL"){
                 ?>
                 <tr>
-                    <th colspan="9">
+                    <th colspan="10">
                         Exemptions Processed on <?php echo date_format(date_create($exempt_date),"d-M-Y"); ?>
                     </th>
                 </tr>
@@ -42,7 +42,7 @@ while($row=mysqli_fetch_assoc($employee_exempt_result))
                 else{
                 ?>
                 <tr>
-                    <th colspan="9">
+                    <th colspan="10">
                         Total Exemptions Processed as on <?php echo date("d-M-Y"); ?>
                     </th>
                 </tr>
@@ -55,6 +55,7 @@ while($row=mysqli_fetch_assoc($employee_exempt_result))
                     <th>Office Name</th>
                     <th>Employee ID</th>
                     <th>Employee Name</th>
+                    <th>Post Status</th>
                     <th>Designation</th>
                     <th>Mobile</th>
                     <th>Remarks</th>
@@ -71,6 +72,7 @@ while($row=mysqli_fetch_assoc($employee_exempt_result))
                     <td><?php echo $return[$i]['office']; ?></td>
                     <td><?php echo $return[$i]['personcd']; ?></td>
                     <td><?php echo $return[$i]['officer_name']; ?></td>
+                    <td><?php echo $return[$i]['poststat']; ?></td>
                     <td><?php echo $return[$i]['off_desg']; ?></td>
                     <td><?php echo $return[$i]['mob_no']; ?></td>
                     <td><?php echo $return[$i]['remarks']; ?></td>

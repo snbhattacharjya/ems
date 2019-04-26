@@ -1,58 +1,57 @@
 <title>
-    Block/Municipality wise - 1st Appointment Letter
+    Office wise - 1st Appointment Letter
 </title>
 <?php
 session_start();
-if (!isset($_SESSION['UserID'])) {
+if(!isset($_SESSION['UserID']))
     die("Login Expired!. Please Login again to continue");
-}
 require("../config/config.php");
 //include "../phpqrcode/qrlib.php";
-$block_muni_code=$_GET['block_muni_code'];
+$office_code=$_GET['office_code'];
 
 $env_query=$mysqli->prepare("SELECT environment, distnm_sml, apt1_orderno, apt1_date FROM environment") or die($mysqli->error);
 $env_query->execute() or die($env_query->error);
-$env_query->bind_result($env, $dist, $apt1_order_no, $apt1_date) or die($env_query->error);
+$env_query->bind_result($env,$dist,$apt1_order_no,$apt1_date) or die($env_query->error);
 $env_query->fetch() or die($env_query->error);
 $env_query->close();
 
-$first_app_query=$mysqli->prepare("SELECT personcd, officer_name, off_desg, poststatus, mob_no, epic, partno, slno, acno, bank, branch, ifsc, bank_accno, officecd, office, address, block_muni_name, postoffice, subdivision, policestation, district, pin FROM first_rand_table_rectified WHERE block_muni = ? ORDER BY officecd, personcd") or die($mysqli->error);
-$first_app_query->bind_param("s", $block_muni_code) or die($first_app_query->error);
+$first_app_query=$mysqli->prepare("SELECT personcd, officer_name, off_desg, poststatus, mob_no, epic, partno, slno, acno, bank, branch, ifsc, bank_accno, officecd, office, address, block_muni_name, postoffice, subdivision, policestation, district, pin, training_desc, venuename, venueaddress, training_dt, training_time FROM first_rand_table WHERE officecd = ? ORDER BY officecd, personcd") or die($mysqli->error);
+$first_app_query->bind_param("s",$office_code) or die($first_app_query->error);
 $first_app_query->execute() or die($first_app_query->error);
-$first_app_query->bind_result($personcd, $officer_name, $off_desg, $poststatus, $mob_no, $epic, $partno, $slno, $acno, $bank, $branch, $ifsc, $bank_accno, $officecd, $office, $address, $block_muni_name, $postoffice, $subdivision, $policestation, $district, $pin) or die($first_app_query->error);
+$first_app_query->bind_result($personcd, $officer_name, $off_desg, $poststatus, $mob_no, $epic, $partno, $slno, $acno, $bank, $branch, $ifsc, $bank_accno, $officecd, $office, $address, $block_muni_name, $postoffice, $subdivision, $policestation, $district, $pin, $training_desc, $venuename, $venueaddress, $training_dt, $training_time) or die($first_app_query->error);
 
 $pp_data=array();
-while ($first_app_query->fetch()) {
-    $pp_data[]=array("personcd"=>$personcd, "officer_name"=>$officer_name, "off_desg"=>$off_desg, "poststatus"=>$poststatus, "mob_no"=>$mob_no, "epic"=>$epic, "partno"=>$partno, "slno"=>$slno, "acno"=>$acno, "bank"=>$bank, "branch"=>$branch, "ifsc"=>$ifsc, "bank_accno"=>$bank_accno, "officecd"=>$officecd, "office"=>$office, "address"=>$address, "block_muni_name"=>$block_muni_name, "postoffice"=>$postoffice, "subdivision"=>$subdivision, "policestation"=>$policestation, "district"=>$district, "pin"=>$pin);
+while($first_app_query->fetch()){
+    $pp_data[]=array("personcd"=>$personcd, "officer_name"=>$officer_name, "off_desg"=>$off_desg, "poststatus"=>$poststatus, "mob_no"=>$mob_no, "epic"=>$epic, "partno"=>$partno, "slno"=>$slno, "acno"=>$acno, "bank"=>$bank, "branch"=>$branch, "ifsc"=>$ifsc, "bank_accno"=>$bank_accno, "officecd"=>$officecd, "office"=>$office, "address"=>$address, "block_muni_name"=>$block_muni_name, "postoffice"=>$postoffice, "subdivision"=>$subdivision, "policestation"=>$policestation, "district"=>$district, "pin"=>$pin, "training_desc"=>$training_desc, "venuename"=>$venuename, "venueaddress"=>$venueaddress, "training_dt"=>$training_dt, "training_time"=>$training_time);
 }
 $first_app_query->close();
 //$filepath='../pp_training/qr_img/';
 //$filename=$filepath.'emp.png';
-for ($i = 0;$i < count($pp_data); $i++) {
+for($i = 0;$i < count($pp_data); $i++){
     //QRcode::png($pp_data[$i]['personcd'], $filename, 'H', 2, 2);
     //$newfile=$filepath.'emp_'.$pp_data[$i]['personcd'].'.png';
-    //rename($filename,$newfile);
+    //rename($filename,$newfile) or die('Error in rename');
 ?>
 <table width="100%" style="font-family: sans-serif; font-size: 11">
     <tr>
         <th width="20%">
-            <!-- <img src="../img/ECI-Logo-LMI.jpg" alt="" height="50" width="50"/><br> -->
+            <img src="../img/ECI-Logo-LMI.jpg" alt="" height="50" width="50"/><br>
             Election Urgent
         </th>
         <th width="60%">
-            <!-- <img src="../pp_training/indian-symbol4.jpg" alt=""/><br> -->
+            <img src="../pp_training/indian-symbol4.jpg" alt=""/><br>
             ORDER OF APPOINTMENT FOR TRAINING<br>
-            <?php //echo $env.", ".$dist;?>
+            <?php //echo $env.", ".$dist; ?>
             GENERAL ELECTION TO THE HOUSE OF PEOPLE, 2019
         </th>
         <th width="20%">&nbsp;</th>
     </tr>
     <tr>
-        <th width="20%">Memo No: 92/PP CELL(Dist)/Elec </th>
+        <th width="20%">Memo No: 65/PP CELL Dist(711) </th>
       <th width="60%">&nbsp;
 
         </th>
-        <th width="20%">Dated: 01/04/2019</th>
+        <th width="20%">Dated: 15/03/2019</th>
     </tr>
     <tr>
         <td colspan="3" style="padding-top: 15; text-align: justify">
@@ -76,7 +75,7 @@ for ($i = 0;$i < count($pp_data); $i++) {
     </tr>
     <tr>
         <td colspan="3" style="padding-top: 10;">
-            The Officer should report for Training as per following schedule:
+            The Officer should report for Training as per following Schedule:
         </td>
     </tr>
     <tr>
@@ -94,36 +93,27 @@ for ($i = 0;$i < count($pp_data); $i++) {
                 </tr>
                 <!-- Loop for Trainings -->
                 <?php
-                    $training_query=$mysqli->prepare("SELECT personnel_training.training_type, training_venue.venuename, training_venue.venueaddress1, training_schedule.training_dt, training_schedule.training_time FROM ((personnel_rectified INNER JOIN personnel_training ON personnel_rectified.personcd = personnel_training.personcd) INNER JOIN training_schedule ON personnel_training.schedule_code = training_schedule.schedule_code) INNER JOIN training_venue ON training_schedule.training_venue = training_venue.venue_cd WHERE personnel_rectified.personcd = ? ORDER BY personnel_training.training_type") or die($mysqli->error);
-    $training_query->bind_param("s", $pp_data[$i]['personcd']) or die($training_query->error);
-    $training_query->execute() or die($training_query->error);
-    $training_query->bind_result($training_type, $venuename, $venue_address, $training_date, $training_time) or die($training_query->error);
+                    $training_query=$mysqli->prepare("SELECT personnel_training.training_type, training_venue.venuename, training_venue.venueaddress1, training_schedule.training_dt, training_schedule.training_time FROM ((personnel_rectified INNER JOIN personnel_training ON personnel_rectified.personcd = personnel_training.personcd) INNER JOIN training_schedule ON personnel_training.schedule_code = training_schedule.schedule_code) INNER JOIN training_venue ON training_schedule.training_venue = training_venue.venue_cd WHERE personnel_rectified.personcd = ?") or die($mysqli->error);
+                    $training_query->bind_param("s",$pp_data[$i]['personcd']) or die($training_query->error);
+                    $training_query->execute() or die($training_query->error);
+                    $training_query->bind_result($training_type, $venuename, $venue_address, $training_date, $training_time) or die($training_query->error);
 
-    $training_data=array();
-    while ($training_query->fetch()) {
-        $training_data[]=array("training_type"=>$training_type, "venue_name" => $venuename, "venue_address" => $venue_address, "training_date"=> $training_date, "training_time" => $training_time);
-    }
-    $training_query->close();
+                    $training_data=array();
+                    while($training_query->fetch()){
+                        $training_data[]=array("training_type"=>$training_type, "venue_name" => $venuename, "venue_address" => $venue_address, "training_date"=> $training_date, "training_time" => $training_time);
+                    }
+                    $training_query->close();
 
-    for ($j = 0;$j < count($training_data); $j++) {
-        ?>
+                    for($j = 0;$j < count($training_data); $j++){ 
+                ?>
                 <tr>
-                        <?php if ($j > 0) {
-            ?>
-                    <th align="center" style="font-style: italic; font-size: 12;"><?php echo $training_data[$j]['training_type'] == '01' ? 'First Training (General)' : 'Second Training (General)'; ?></th>
-                    <th align="left" style="font-style: italic; font-size: 12;"><?php echo $training_data[$j]['venue_name'].", ".$training_data[$j]['venue_address']; ?></th>
-                    <th align="center" style="font-style: italic; font-size: 12;"><?php echo date_format(date_create_from_format("Y-m-d H:i:s", $training_data[$j]['training_date']), "d/m/Y").", ".$training_data[$j]['training_time']; ?></th>
-                        <?php
-        } else {
-            ?>
-                    <td align="center"><?php echo $training_data[$j]['training_type'] == '01' ? 'First Training (General)' : 'Second Training (General)'; ?></td>
-                    <td align="left"><?php echo $training_data[$j]['venue_name'].", ".$training_data[$j]['venue_address']; ?></td>
-                    <td align="center"><?php echo date_format(date_create_from_format("Y-m-d H:i:s", $training_data[$j]['training_date']), "d/m/Y").", ".$training_data[$j]['training_time']; ?></td>
-                        <?php
-        } ?>
+                    <th align="center"><?php echo $training_data[$j]['training_type'] == '01' ? 'First Training (General)' : 'Second Training (General)'; ?></th>
+                    <th align="left"><?php echo $training_data[$j]['venue_name'].", ".$training_data[$j]['venue_address']; ?></th>
+                    <th align="center"><?php echo date_format(date_create_from_format("Y-m-d H:i:s",$training_data[$j]['training_date']),"d/m/Y").", ".$training_data[$j]['training_time']; ?></th>
                 </tr>
                 <?php
-    } ?>
+                    }
+                ?>
                 <!-- End Loop for Trainings -->
             </table>
         </td>
@@ -213,6 +203,8 @@ for ($i = 0;$i < count($pp_data); $i++) {
 </table>
 <p style="page-break-after: always"></p>
 <?php
-//rename($newfile,$filename);
-}
+}/*
+for($i = 0; $i < count($pp_data); $i++){
+    unlink('../pp_training/emp_'.$pp_data[$i]['personcd'].'.png');
+}*/
 ?>
