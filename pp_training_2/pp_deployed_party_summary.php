@@ -6,7 +6,7 @@ if (!isset($_SESSION['UserID'])) {
 require("../config/config.php");
 
 
-$assembly_query=$mysqli->prepare("SELECT assembly.assemblycd, assembly.assemblyname, MAX(CASE WHEN personnel.poststat != 'MO' THEN personnel.groupid END), MAX(CASE WHEN personnel.poststat = 'MO' THEN personnel.groupid END) FROM assembly INNER JOIN personnel ON assembly.assemblycd = personnel.forassembly WHERE personnel.poststat IN ('MO','PR','P1','P2','P3','PA') AND personnel.booked = 'P' AND personnel.forassembly != '' AND personnel.groupid != 0 GROUP BY assembly.assemblycd, assembly.assemblyname ORDER BY assembly.assemblycd, assembly.assemblyname") or die($mysqli->error);
+$assembly_query=$mysqli->prepare("SELECT assembly.assemblycd, assembly.assemblyname, MAX(CASE WHEN personnel.poststat != 'MO' THEN personnel.groupid END), COUNT(CASE WHEN personnel.poststat = 'MO' AND personnel.status = 'Y' THEN 1 END) FROM assembly INNER JOIN personnel ON assembly.assemblycd = personnel.forassembly WHERE personnel.poststat IN ('MO','PR','P1','P2','P3','PA') AND personnel.booked = 'P' AND personnel.forassembly != '' AND personnel.groupid != 0 GROUP BY assembly.assemblycd, assembly.assemblyname ORDER BY assembly.assemblycd, assembly.assemblyname") or die($mysqli->error);
 //$assembly_query->bind_param("s",$subdiv_param) or die($assembly_query->error);
 $assembly_query->execute() or die($assembly_query->error);
 $assembly_query->bind_result($assembly_code, $assembly_name, $party_total, $mo_total) or die($assembly_query->error);
@@ -31,7 +31,8 @@ $assembly_query->close();
             <th>Party Total</th>
             <th>MO Total</th>
             <th>Appointment</th>
-            <th>Attendance</th>
+            <th>PP Attendance</th>
+            <th>MO Attendance</th>
         </tr>
     </thead>
     <tbody>
@@ -47,6 +48,7 @@ $assembly_query->close();
             <td><?php echo $assembly_party[$i]['MOTotal']; ?></td>
             <td class="text-center"><a href="pp_training_2/second_appointment_letter.php?opt=ASSEMBLY_PARTY&AssemblyCode=<?php echo $assembly_party[$i]['AssemblyCode']; ?>" class="text-red" target="_blank"><i class="fa fa-print"></i> Print</a></td>
             <td class="text-center"><a href="pp_training_2/deployed_party_attendance_print.php?AssemblyCode=<?php echo $assembly_party[$i]['AssemblyCode']; ?>" class="text-red" target="_blank"><i class="fa fa-print"></i> Print</a></td>
+            <td class="text-center"><a href="pp_training_2/deployed_mo_party_attendance_print.php?AssemblyCode=<?php echo $assembly_party[$i]['AssemblyCode']; ?>" class="text-red" target="_blank"><i class="fa fa-print"></i> Print</a></td>
         </tr>
         <?php
           $dist_mo_total += $assembly_party[$i]['MOTotal'];
@@ -61,9 +63,10 @@ $assembly_query->close();
             <th><?php echo $dist_mo_total; ?></th>
             <th>&nbsp;</th>
             <th>&nbsp;</th>
+            <th>&nbsp;</th>
         </tr>
         <tr class="danger">
-            <th colspan="6">
+            <th colspan="7">
                 <?php
                     date_default_timezone_set("Asia/Kolkata");
                     echo "<i class='fa fa-info-circle'></i> Report Compiled as on: ".date("d-M-Y H:i:s A");
