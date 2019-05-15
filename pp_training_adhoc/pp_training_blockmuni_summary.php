@@ -79,7 +79,7 @@ $poststat=array();
                 }
             } ?>
             <td><?php echo $blockmuni[$i]['BlockMuniTotal']; ?></td>
-            <td class="text-center"><a href="pp_training_adhoc/first_appointment_letter_blockmuni_mo_appt2.php?block_muni_code=<?php echo $blockmuni[$i]['BlockMuniCode']; ?>" class="text-red" target="_blank"><i class="fa fa-print"></i> Print</a></td>
+            <td class="text-center"><a href="pp_training_adhoc/first_appointment_letter_counting_mo_blockmuni.php?block_muni_code=<?php echo $blockmuni[$i]['BlockMuniCode']; ?>" class="text-red" target="_blank"><i class="fa fa-print"></i> Print</a></td>
         </tr>
         <?php
     }
