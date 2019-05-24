@@ -39,10 +39,10 @@ for ($i = 0;$i < count($pp_data); $i++) {
     </tr>
     <tr>
         <td width="50%" style="padding-top: 15;">
-            Memo No. 199/PP Cell (Dist)/Elec.
+            Memo No. 218/PP Cell (Dist)/Elec.
         </td>
         <td width="50%" align="right" style="padding-top: 15;">
-            Date: 14.05.2019
+            Date: 24.05.2019
         </td>
     </tr>
     <tr>
@@ -54,29 +54,33 @@ for ($i = 0;$i < count($pp_data); $i++) {
     </tr>
     <tr>
         <th colspan="2" style="padding-top: 15;">
-            Sub: <u>Show Cause Notice</u>
+            Sub: <u>Clarification regarding non attending DC</u>
         </th>
     </tr>
     <tr>
         <td colspan="2" style="padding-top: 20; text-align: justify">
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHEREAS, it has been found that in spite of service of 2nd order of Appointment for performing duty of <strong><?php echo $pp_data[$i]['poststatus']; ?></strong>  to the Election to the House of People, 2019, you have kept yourself absent from attending the poll duty at Distribution Centre on 5th May 2019.
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;In connection with Parliament Election 2019, it has been found that in spite of service of 2nd order of Appointment for performing duty of <strong><?php echo $pp_data[$i]['poststatus']; ?></strong>, you have kept yourself absent from attending the poll duty at Distribution Centre on 5th May 2019.
         </td>
     </tr>
     <tr>
         <td colspan="2" style="padding-top: 15; text-align: justify">
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NOW THEREFORE, you are further directed to refund the remuneration which was credited to your bank account for performing poll duty in the below mentioned bank account details with a clarification for not attending Distribution Centre. In this regards, an intimation must be sent to this end within 17/05/2019.
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NOW THEREFORE, you are further directed to refund the remuneration which was credited to your bank account for performing poll duty in the below mentioned bank account details with a clarification for not attending Distribution Centre. An intimation letter regarding submission of fund must be sent to the end of the undersigned. Written clarification and intimation letter must be sent by 31.05.19.
         </td>
     </tr>
     
     <tr>
         <th colspan="2" style="padding-top: 15; text-align: justify; border-style:solid; border-width: thin;">
-            BANK ACCOUNT DETAILS
+            <p>Name of the Bank: Punjab National Bank, Chinsurah Branch</p>
+            <p>Name of the A/C: M/S DM ELECTION ACCOUNT</p>
+            <p>A/C No. : 1421000109135526</p>
+            <p>IFSC: PUNB0142100</p>
+</p>
         </th>
     </tr>
 
     <tr>
         <td colspan="2" style="padding-top: 15; text-align: justify">
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Failing either of the action mentioned above, appropriate action will be taken by the undersigned without any further corrospondence.
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Failing either of the action mentioned above, appropriate action will be taken by the undersigned.
         </td>
     </tr>
     <tr>
@@ -93,17 +97,18 @@ for ($i = 0;$i < count($pp_data); $i++) {
     </tr>
     <tr>
         <td width="50%" style="padding-top: 15;">
-            Memo No. 199/PP Cell (Dist)/Elec.
+            Memo No. 218/PP Cell (Dist)/Elec.
         </td>
         <td width="50%" align="right" style="padding-top: 15;">
-            Date: 14.05.2019
+            Date: 24.05.2019
         </td>
     </tr>
     <tr>
         <td colspan="2" style="padding-top: 20">
           Copy forwarded for information to:<br>
-          1. The Sponsoring Authority with a request to serve the same to the above mentioned employee and direct him to attend additional training on the scheduled date and time without fail.<br>
-          2. The Sub-divisional Officer, Arambagh/ Chandannagore/ Serampore/ Sadar for information and taking necessary action.
+          1. The Sponsoring Authority with a request to serve the same to the above mentioned employee and direct him to act accordingly.<br>
+          2. The Sub-divisional Officer, Arambagh/ Chandannagore/ Serampore/ Sadar for information and taking necessary action.<br>
+          3. BDO(ALL) for information and taking necessary action.
         </td>
     </tr>
     <tr>
@@ -120,10 +125,10 @@ for ($i = 0;$i < count($pp_data); $i++) {
     </tr>
     <tr>
         <td width="50%" style="padding-top: 15;">
-            Received Memo No. 199/PP Cell (Dist)/Elec.
+            Received Memo No. 218/PP Cell (Dist)/Elec.
         </td>
         <td width="50%" align="right" style="padding-top: 15;">
-            Date: 14.05.2019
+            Date: 24.05.2019
         </td>
     </tr>
     <tr>
